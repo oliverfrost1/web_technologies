@@ -19,5 +19,5 @@ Route::get('/', function () {
 
 
 Route::get('/forms', function () {
-    return view('forms');
+    return view('forms', ["testing" => "æksadjnfækjsdngækjsdnfgækjsdækjn"]);
 });
