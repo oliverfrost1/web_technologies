@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 
 Route::get('/forms', function () {
-    return view('forms', ["testing" => "Please enter your name", "sigurd" => "er sød"]);
+    return view('TodoListMainPage', ["todos" => ["fsdfs", "2", "3", "4"]]);
 })->name('forms');
 
 
