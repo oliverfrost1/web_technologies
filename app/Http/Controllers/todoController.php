@@ -32,12 +32,11 @@ class todoController extends Controller
         // gets the enitre todolist from the database
 
 
-        // Add id and name
+        // Create dummy todo
         $todoList = [new TodoElement("testing", "id", false)];
         array_push($todoList, new TodoElement("testing2", "id2", false));
         array_push($todoList, new TodoElement("testing3", "id3", false));
         array_push($todoList, new TodoElement("testing4", "id4", false));
-
         return $todoList;
     }
 
