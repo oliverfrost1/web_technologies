@@ -6,6 +6,7 @@
 
 <HEAD>
     <TITLE>Example App</TITLE>
+    <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </HEAD>
 <body>
   <form method="post" action="{{route("SaveItem")}}" accept-charset="UTF-8">

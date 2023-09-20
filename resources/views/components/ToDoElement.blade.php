@@ -1,4 +1,5 @@
-<div>
+<div class="todo-element">
+    <div>
     {{$title}}
-    <!-- Very little is needed to make a happy life. - Marcus Aurelius -->
+    </div>
 </div>
