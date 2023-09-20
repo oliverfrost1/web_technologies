@@ -1,0 +1,31 @@
+
+    .todo-item {
+      background-color: #f4f4f4;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .todo-text {
+      font-size: 18px;
+    }
+    .todo-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .todo-button {
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .edit {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .delete {
+      background-color: #f44336;
+      color: white;
+    }
