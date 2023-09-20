@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\testController;
+use App\Http\Controllers\todocontroller;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,14 +14,10 @@ use App\Http\Controllers\testController;
 |
 */
 
+
 Route::get('/', function () {
-    return view('welcome');
-});
-
-
-Route::get('/forms', function () {
     return view('TodoListMainPage', ["todos" => ["fsdfs", "2", "3", "4"]]);
 })->name('forms');
 
 
-Route::post("/SaveItem", [testController::class, "store"])->name("SaveItem");
+Route::post("/SaveItem", [todocontroller::class, "store"])->name("SaveItem");
