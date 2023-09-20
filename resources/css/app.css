@@ -1,13 +1,4 @@
 
-    .todo-item {
-      background-color: #f4f4f4;
-      border-radius: 8px;
-      padding: 12px;
-      margin: 8px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
     .todo-text {
       font-size: 18px;
     }
@@ -29,3 +20,13 @@
       background-color: #f44336;
       color: white;
     }
+
+
+.todo-element {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}

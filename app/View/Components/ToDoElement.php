@@ -24,6 +24,6 @@ class ToDoElement extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.to-do-element');
+        return view('components.ToDoElement');
     }
 }

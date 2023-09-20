@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\testController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,8 @@ Route::get('/', function () {
 
 
 Route::get('/forms', function () {
-    return view('forms', ["testing" => "æksadjnfækjsdngækjsdnfgækjsdækjn"]);
-});
+    return view('forms', ["testing" => "Please enter your name", "sigurd" => "er sød"]);
+})->name('forms');
+
+
+Route::post("/SaveItem", [testController::class, "store"])->name("SaveItem");
