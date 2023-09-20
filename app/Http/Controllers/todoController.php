@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TodoElement;
 
 class todoController extends Controller
 {
@@ -26,9 +27,18 @@ class todoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function getTodo()
     {
-        //
+        // gets the enitre todolist from the database
+
+
+        // Add id and name
+        $todoList = [new TodoElement("testing", "id", false)];
+        array_push($todoList, new TodoElement("testing2", "id2", false));
+        array_push($todoList, new TodoElement("testing3", "id3", false));
+        array_push($todoList, new TodoElement("testing4", "id4", false));
+
+        return $todoList;
     }
 
     /**

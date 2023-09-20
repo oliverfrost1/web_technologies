@@ -4,6 +4,10 @@
       <title>Example App</title>
       <link rel="stylesheet" href="{{ asset('css/app.css') }}">
       <script src="{{ asset('js/app.js') }}" defer></script>
+      @php
+          // Log todos
+
+      @endphp
   </head>
   <body>
     <div class="center-page">
@@ -15,7 +19,7 @@
       </form>
       <br/>
       @foreach ($todos as $todo)
-        <x-ToDoElement :title="$todo" :id="$todo" />
+        <x-ToDoElement :title="$todo->title" :id="$todo->id" />
       @endforeach
     </div>
   </body>

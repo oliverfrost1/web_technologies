@@ -1,23 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\todocontroller;
+use App\Http\Controllers\todoController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+// Create instance of todoController
+$todoController = new todoController();
 
-
-Route::get('/', function () {
-    return view('TodoListMainPage', ["todos" => ["fsdfs", "2", "3", "4"]]);
+Route::get('/', function () use ($todoController) {
+    return view('TodoListMainPage', ["todos" => $todoController->getTodo()]);
 })->name('forms');
 
-
-Route::post("/SaveItem", [todocontroller::class, "store"])->name("SaveItem");
+Route::post("/SaveItem", function () use ($todoController) {
+    return $todoController->store(request());
+})->name("SaveItem");

@@ -21,7 +21,7 @@
 }
 
 .todo-element {
-  border: 2px solid black;
+  border: 2px solid white;
   border-radius: 5px;
   padding: 5px;
   display:flex;
@@ -30,10 +30,15 @@
   margin-bottom: 4px;
   width: 250px;
   height: fit-content;
+  background-color: greenyellow;
+}
+.todo-title {
+  color: white;
+  font-family: monaco;
 }
 
 .todo-element-checkbox {
-  border-right: 2px solid black;
+  border-right: 2px solid white;
   padding-right: 5px;
   margin-right: 5px;
   height: 100%;
@@ -54,4 +59,8 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
+}
+
+body {
+  background-color: #313339;
 }
