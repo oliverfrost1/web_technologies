@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\TodoElement;
+use App\Models\Todo;
 
 class todoController extends Controller
 {
@@ -16,11 +16,13 @@ class todoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created todo in the database.
      */
     public function store(Request $request)
     {
-        \Log::info(json_encode($request->all()));
+        Todo::create([
+            "title" => $request->title,
+        ]);
         return redirect()->route("forms");
     }
 
@@ -30,14 +32,7 @@ class todoController extends Controller
     public function getTodo()
     {
         // gets the enitre todolist from the database
-
-
-        // Create dummy todo
-        $todoList = [new TodoElement("testing", "id", false)];
-        array_push($todoList, new TodoElement("testing2", "id2", false));
-        array_push($todoList, new TodoElement("testing3", "id3", false));
-        array_push($todoList, new TodoElement("testing4", "id4", false));
-        return $todoList;
+        return Todo::all();
     }
 
     /**
@@ -45,7 +40,15 @@ class todoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+    }
+
+    public function markAsCompleted(Request $request, string $id)
+    {
+        $todo = Todo::find($id);
+        $todo->completed = true;
+        $todo->save();
+        return redirect()->route("forms");
     }
 
     /**

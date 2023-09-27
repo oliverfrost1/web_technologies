@@ -30,11 +30,10 @@
   margin-bottom: 4px;
   width: 250px;
   height: fit-content;
-  background-color: greenyellow;
+  background-color:  #4A55A2;
 }
 .todo-title {
   color: white;
-  font-family: monaco;
 }
 
 .todo-element-checkbox {
@@ -54,7 +53,9 @@
 .header1 {
   font-family: monaco;
   font-size: 35px;
-  font-weight: 600;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   background-image: linear-gradient(to right, #4A55A2, #7895CB);
   color: transparent;
   background-clip: text;
