@@ -7,7 +7,7 @@ use App\Http\Controllers\todoController;
 $todoController = new todoController();
 
 Route::get('/', function () use ($todoController) {
-    return view('TodoListMainPage', ["todos" => $todoController->getTodo()]);
+    return View::make('TodoListMainPage')->with("todos", $todoController->getTodo());
 })->name('forms');
 
 Route::post("/SaveItem", function () use ($todoController) {
