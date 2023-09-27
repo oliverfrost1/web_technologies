@@ -10,6 +10,5 @@ Route::get('/', function () use ($todoController) {
     return View::make('TodoListMainPage')->with("todos", $todoController->getTodo());
 })->name('forms');
 
-Route::post("/SaveItem", function () use ($todoController) {
-    return $todoController->store(request());
-})->name("SaveItem");
+Route::post("/SaveItem", todoController::class . '@store')->name("SaveItem");
+Route::post("/changeCompletionStatus", todoController::class . '@changeCompletionStatus')->name("changeCompletionStatus");
