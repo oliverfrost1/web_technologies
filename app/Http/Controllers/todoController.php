@@ -43,10 +43,17 @@ class todoController extends Controller
 
     }
 
-    public function markAsCompleted(Request $request, string $id)
+    public function changeCompletionStatus(Request $request)
     {
-        $todo = Todo::find($id);
-        $todo->completed = true;
+        # log the request
+        \Log::info($request->todo_id);
+        $todo = Todo::find($request->todo_id);
+        \Log::info($todo);
+        if ($todo->completed === 1) {
+            $todo->completed = 0;
+        } else {
+            $todo->completed = 1;
+        }
         $todo->save();
         return redirect()->route("forms");
     }
