@@ -64,11 +64,11 @@ class todoController extends Controller
 
     }
 
-    public function changeCompletionStatus(Request $request)
+    public function changeCompletionStatus($id)
     {
         # log the request
-        \Log::info($request);
-        $todo = Todo::find($request->todo_id);
+        \Log::info($id);
+        $todo = Todo::find($id);
         \Log::info($todo);
         # TODO: Maybe change this.
         if ($todo->completed === 1) {
@@ -83,11 +83,11 @@ class todoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function deleteTodoElement(Request $request)
+    public function deleteTodoElement($id)
     {
         # log the request
-        \Log::info($request);
-        $todo = Todo::find($request->todo_id);
+        \Log::info($id);
+        $todo = Todo::find($id);
         $todo->delete();
         \Log::info($todo);
         return redirect()->route("forms");

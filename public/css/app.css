@@ -32,8 +32,20 @@
   height: fit-content;
   background-color:  #4A55A2;
 }
+
+.todo-element-complete {
+    background-color:  #171d48;
+}
+
 .todo-title {
   color: white;
+  margin-right:auto;
+}
+
+.todo-title-complete {
+  color: rgb(180, 180, 180);
+  text-decoration: line-through;
+
 }
 
 .todo-element-checkbox {
