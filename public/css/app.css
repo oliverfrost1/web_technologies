@@ -61,6 +61,15 @@
   background-clip: text;
   -webkit-background-clip: text;
 }
+.button-header{
+    display: flex;
+    margin: 10px;
+    justify-content: center;
+}
+.sort-button{
+    margin-left: 10px;
+    margin-right: 10px;
+}
 
 body {
   background-color: #313339;

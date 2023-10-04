@@ -13,7 +13,22 @@ class todoController extends Controller
      */
     public function showTodoList()
     {
-        return View::make('TodoListMainPage')->with("todos", $this->getTodo());
+        $data = [
+            "todos" => $this->getTodo(),
+            "isSorted" => 0,
+        ];
+        return View::make('TodoListMainPage',[
+            "todos" => $this->getTodo(),
+            "isSorted" => 0,
+        ]);
+    }
+
+    public function showSortedTodoList()
+    {
+        return View::make('TodoListMainPage',[
+            "todos" => $this->getSortTodo(),
+            "isSorted" => 1,
+        ]);
     }
 
     /**
@@ -34,6 +49,11 @@ class todoController extends Controller
     {
         // gets the enitre todolist from the database
         return Todo::all();
+    }
+    public function getSortTodo()
+    {
+        // gets the enitre todolist from the database
+        return Todo::where('completed',0)->get();
     }
 
     /**
