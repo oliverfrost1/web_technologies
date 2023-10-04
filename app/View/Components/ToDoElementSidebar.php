@@ -11,16 +11,10 @@ class ToDoElementSidebar extends Component
     /**
      * Create a new component instance.
      */
-    public $title;
-    public $id;
-    public $completed;
-    public $duedate;
-    public function __construct($title, $id, $completed, $duedate)
+    public $todo;
+    public function __construct($todo)
     {
-        $this->title = $title;
-        $this->id = $id;
-        $this->completed = $completed;
-        $this->duedate = $duedate;
+        $this->todo = $todo;
     }
 
     /**
