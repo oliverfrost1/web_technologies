@@ -9,7 +9,7 @@
             <input type="submit" value="Add Todo">
         </form>
         <br />
-        @foreach ($todos as $todo)
+        @foreach ($todos->sortBy('completed') as $todo)
             <x-ToDoElement :title="$todo->title" :id="$todo->id" :completed="$todo->completed" />
         @endforeach
     </div>
