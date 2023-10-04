@@ -11,29 +11,38 @@ class todoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    //static to ensure persistency (alternatively use cookies)
-    public static $isSorted = 1;
+
     public function showTodoList()
     {
-        self::$isSorted = self::$isSorted ? 0 : 1;
-        \Log::info(self::$isSorted);
+        $isSorted = session()->get('isSorted');
         return View::make('TodoListMainPage', [
-            "todos" => self::$isSorted ? $this->getTodo() : $this->getSortTodo(),
-            "isSorted" => self::$isSorted ? 0 : 1,
+            "todos" => $isSorted ? $this->getTodo() : $this->getFilteredTodo(),
+            "isSorted" => $isSorted,
             "openedId" => request()->id,
         ]);
     }
+
+    public function changeSort(){
+        $isSorted = session()->get('isSorted');
+        $isSorted = $isSorted ? 0 : 1;
+        session()->put('isSorted', $isSorted);
+        return redirect()->route("Main");
+    }
+
 
     /**
      * Store a newly created todo in the database.
      */
     public function store(Request $request)
     {
+        if(!$request->title){
+            return redirect()->route("Main");
+        }
         Todo::create([
             "title" => $request->title,
             "due_date" => $request->duedate,
         ]);
-        return redirect()->route("forms");
+        return redirect()->route("Main");
     }
 
     /**
@@ -44,7 +53,7 @@ class todoController extends Controller
         // gets the enitre todolist from the database
         return Todo::all();
     }
-    public function getSortTodo()
+    public function getFilteredTodo()
     {
         // gets the enitre todolist from the database
         return Todo::where('completed', 0)->get();
@@ -71,7 +80,7 @@ class todoController extends Controller
             $todo->completed = 1;
         }
         $todo->save();
-        return redirect()->route("forms");
+        return redirect()->route("Main");
     }
 
     /**
@@ -84,6 +93,6 @@ class todoController extends Controller
         $todo = Todo::find($id);
         $todo->delete();
         \Log::info($todo);
-        return redirect()->route("forms");
+        return redirect()->route("Main");
     }
 }

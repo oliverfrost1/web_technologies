@@ -1,5 +1,6 @@
 .todo-text {
-  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
 }
 
 .todo-page-layout {
@@ -9,24 +10,13 @@
     margin:0px;
     padding:0px;
     min-width: 100%;
-    min-height:100%;
+    min-height: 100%;
 }
 
-.sidebar-holder {
-    display:flex;
-    flex-grow: 1;
-    flex-basis: 0;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    min-height:100%;
-    height:100%;
-    background-color: #414246;
-}
 
 .center-page {
     display: flex;
-    flex-grow:5;
+    flex-grow: 5;
     flex-basis: 0;
     flex-direction: column;
     justify-content: flex-start;
@@ -58,15 +48,6 @@ button.todo-title {
     cursor:pointer;
 }
 
-.edit {
-  background-color: #4CAF50;
-  color: white;
-}
-.delete {
-  background-color: #f44336;
-  color: white;
-}
-
 .todo-element {
   border: 2px solid white;
   border-radius: 5px;
@@ -75,13 +56,23 @@ button.todo-title {
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 4px;
-  width: 300px;
+  width: 100%;
   height: fit-content;
-  background-color:  #4A55A2;
+  background-color:  #f89100;
+  box-shadow:  2px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.todolist-holder {
+  width:50%;
+}
+
+.todo-element:hover {
+    transition: 0.2s;
+    transform: scale(1.02);
 }
 
 .todo-element-complete {
-    background-color:  #171d48;
+    background-color:  #6e4000;
 }
 
 .todo-title {
@@ -102,6 +93,7 @@ button.todo-title {
 
 .todo-due-date {
   color: white;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   border-right: 2px solid white;
   padding-right: 5px;
@@ -111,24 +103,20 @@ button.todo-title {
 .todo-due-date-complete {
   color: rgb(180, 180, 180);
   text-decoration: line-through;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   border-right: 2px solid white;
   padding-right: 5px;
   margin-right: 5px;
 }
 
-
-
-.header1 {
-  font-family: monaco;
+.title {
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 35px;
   font-weight: bold;
   letter-spacing: 2px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  background-image: linear-gradient(to right, #4A55A2, #7895CB);
-  color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: #f89100;
 }
 .button-header{
     display: flex;
@@ -140,8 +128,92 @@ button.todo-title {
     margin-right: 10px;
 }
 
+.add-todo-button {
+    background-color:#f89100;
+    padding:8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff;
+    border:none;
+    border-radius:5px;
+    box-shadow:  2px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.add-todo-button:hover {
+    transition: 0.2s;
+    cursor: pointer;
+    transform: scale(1.06);
+}
+
+
+
+::-webkit-calendar-picker-indicator:hover{
+    transition: 0.2s;
+    transform: scale(1.2);
+}
+
+::-webkit-calendar-picker-indicator{
+    background-color: white;
+    padding: 3px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.center-children-in-parent {
+  display:flex;
+  width: 100% ;
+  justify-content: space-evenly;
+}
+
+.todo-title-and-date-holder {
+  display:"flex";
+  flex-direction: "row";
+  flex-wrap: nowrap;
+}
+
+.add-todo-date-picker {
+  background-color: #f89100;
+  padding: 6px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  font-size: 12px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  height: 100%;
+  min-width: 60px;
+}
+
+.add-todo-title {
+  height: 20px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  text-align: left;
+  position: relative;
+  background-color: transparent;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  padding:5px;
+  justify-content: space-between;
+  border-radius: 5px;
+}
+
+.toggle-completed {
+    cursor: pointer;
+}
+
 body {
-  background-color: #313339;
+  background-color: #333333;
   height:100%;
   width:100%;
 }
