@@ -3,6 +3,12 @@
 @section('content')
     <div class="center-page">
         <h1 class="header1">TODO LIST</h1>
+        <div class="button-header">
+            <form class="sort-button" method="get" accept-charset="UTF-8">
+                <input class="sort-button" type="submit" value="{{$isSorted ? "Show All" : "Hide Completed"}}" formaction="{{$isSorted ? '/' : 'SortItems'}}">
+            </form>
+        </div>
+
         <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">
             @csrf
             <input type="text" id="title" name="title" placeholder="Title">
