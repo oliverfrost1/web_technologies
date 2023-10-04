@@ -8,22 +8,21 @@ use Illuminate\Support\Facades\View;
 
 class todoController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
-    public function showTodoList()
+    public function showTodoList($isSorted = 2)
     {
-        return View::make('TodoListMainPage',[
-            "todos" => $this->getTodo(),
-            "isSorted" => 0,
-        ]);
-    }
+        if ($isSorted != 2) {
+            $isSorted = $isSorted ? 0 : 1;
+        }
 
-    public function showSortedTodoList()
-    {
-        return View::make('TodoListMainPage',[
-            "todos" => $this->getSortTodo(),
-            "isSorted" => 1,
+        \Log::info(request());
+        return View::make('TodoListMainPage', [
+            "todos" => $isSorted ? $this->getTodo() : $this->getSortTodo(),
+            "isSorted" => $isSorted,
+            "openedId" => request()->id,
         ]);
     }
 
@@ -32,9 +31,10 @@ class todoController extends Controller
      */
     public function store(Request $request)
     {
+
         Todo::create([
             "title" => $request->title,
-            "duedate" => $request->duedate,
+            "due_date" => $request->duedate,
         ]);
         return redirect()->route("forms");
     }
@@ -50,7 +50,7 @@ class todoController extends Controller
     public function getSortTodo()
     {
         // gets the enitre todolist from the database
-        return Todo::where('completed',0)->get();
+        return Todo::where('completed', 0)->get();
     }
 
     /**

@@ -7,26 +7,18 @@
                 onchange="this.form.submit()" />
         </form>
     </div>
-    <div class="todo-due-date {{ $completed ? 'todo-due-date-complete' : '' }}">
-        <label id="dueDate">{{ $duedate }}</label>
-    </div>
-    <script>
-        console.log({{ $id }})
-    </script>
+
+    @if ($duedate)
+        <div class="todo-due-date {{ $completed ? 'todo-due-date-complete' : '' }}">
+            <label>{{ $duedate }}</label>
+        </div>
+    @endif
+
     <form method="get" class="todo-text" action="{{ route('forms') }}" accept-charset="UTF-8"
         id="openSelectedWindow{{ $id }}">
-        <input type="hidden" name="tisse" value="{{ $id }}">
-        <div class="todo-title {{ $completed ? 'todo-title-complete' : '' }}"
-            onclick="document.getElementById('openSelectedWindow{{ $id }}').submit()">
+        <input type="hidden" name="id" value="{{ $id }}">
+        <button type="submit" class="todo-title {{ $completed ? 'todo-title-complete' : '' }}">
             {{ $title }}
-        </div>
-    </form>
-
-
-
-    <form method="post" action="{{ route('deleteTodoElement', $id) }}" accept-charset="UTF-8" id="deleteTodoElement">
-        @csrf
-        <input type="hidden" name="todo_id" value="{{ $id }}" />
-        <button type="submit" id="todoCheckbox">Slet</button>
+        </button>
     </form>
 </div>
