@@ -8,15 +8,16 @@
         </form>
     </div>
     <div class="todo-due-date {{ $completed ? 'todo-due-date-complete' : '' }}">
-        <label id="dueDate">04/10</label>
+        <label id="dueDate">{{ $duedate }}</label>
     </div>
     <script>
         console.log({{ $id }})
     </script>
-    <form method="get" class="todo-text" action="{{ route('forms') }}" accept-charset="UTF-8" id="openSelectedWindow">
+    <form method="get" class="todo-text" action="{{ route('forms') }}" accept-charset="UTF-8"
+        id="openSelectedWindow{{ $id }}">
         <input type="hidden" name="tisse" value="{{ $id }}">
         <div class="todo-title {{ $completed ? 'todo-title-complete' : '' }}"
-            onclick="document.getElementById('openSelectedWindow').submit()">
+            onclick="document.getElementById('openSelectedWindow{{ $id }}').submit()">
             {{ $title }}
         </div>
     </form>

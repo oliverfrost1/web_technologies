@@ -24,6 +24,7 @@ class todoController extends Controller
     {
         Todo::create([
             "title" => $request->title,
+            "duedate" => $request->duedate,
         ]);
         return redirect()->route("forms");
     }
