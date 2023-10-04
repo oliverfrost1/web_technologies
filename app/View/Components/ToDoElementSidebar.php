@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ToDoElement extends Component
+class ToDoElementSidebar extends Component
 {
     /**
      * Create a new component instance.
@@ -28,6 +28,6 @@ class ToDoElement extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.ToDoElement');
+        return view('components.TodoElementSidebar');
     }
 }

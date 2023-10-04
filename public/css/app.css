@@ -1,6 +1,48 @@
 .todo-text {
-  font-size: 18px;
+  font-size: 14px;
 }
+
+.todo-page-layout {
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin:0px;
+    padding:0px;
+    min-width: 100%;
+    min-height:100%;
+}
+
+.sidebar-holder {
+    display:flex;
+    flex-grow: 1;
+    flex-basis: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height:100%;
+    height:100%;
+    background-color: #414246;
+}
+
+.center-page {
+    display: flex;
+    flex-grow:5;
+    flex-basis: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+button.todo-title {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+}
+
 .todo-actions {
   display: flex;
   gap: 8px;
@@ -11,6 +53,11 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.todo-text {
+    cursor:pointer;
+}
+
 .edit {
   background-color: #4CAF50;
   color: white;
@@ -28,12 +75,22 @@
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 4px;
-  width: 250px;
+  width: 300px;
   height: fit-content;
   background-color:  #4A55A2;
 }
+
+.todo-element-complete {
+    background-color:  #171d48;
+}
+
 .todo-title {
   color: white;
+}
+
+.todo-title-complete {
+  color: rgb(180, 180, 180);
+  text-decoration: line-through;
 }
 
 .todo-element-checkbox {
@@ -43,12 +100,24 @@
   height: 100%;
 }
 
-.center-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+.todo-due-date {
+  color: white;
+  font-size: 12px;
+  border-right: 2px solid white;
+  padding-right: 5px;
+  margin-right: 5px;
 }
+
+.todo-due-date-complete {
+  color: rgb(180, 180, 180);
+  text-decoration: line-through;
+  font-size: 12px;
+  border-right: 2px solid white;
+  padding-right: 5px;
+  margin-right: 5px;
+}
+
+
 
 .header1 {
   font-family: monaco;
@@ -61,7 +130,18 @@
   background-clip: text;
   -webkit-background-clip: text;
 }
+.button-header{
+    display: flex;
+    margin: 10px;
+    justify-content: center;
+}
+.sort-button{
+    margin-left: 10px;
+    margin-right: 10px;
+}
 
 body {
   background-color: #313339;
+  height:100%;
+  width:100%;
 }

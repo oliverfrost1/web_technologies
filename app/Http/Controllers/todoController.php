@@ -4,15 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use Illuminate\Support\Facades\View;
 
 class todoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    //static to ensure persistency (alternatively use cookies)
+    public static $isSorted = 1;
+    public function showTodoList()
     {
-        //
+        self::$isSorted = self::$isSorted ? 0 : 1;
+        \Log::info(self::$isSorted);
+        return View::make('TodoListMainPage', [
+            "todos" => self::$isSorted ? $this->getTodo() : $this->getSortTodo(),
+            "isSorted" => self::$isSorted ? 0 : 1,
+            "openedId" => request()->id,
+        ]);
     }
 
     /**
@@ -22,6 +31,7 @@ class todoController extends Controller
     {
         Todo::create([
             "title" => $request->title,
+            "due_date" => $request->duedate,
         ]);
         return redirect()->route("forms");
     }
@@ -34,6 +44,11 @@ class todoController extends Controller
         // gets the enitre todolist from the database
         return Todo::all();
     }
+    public function getSortTodo()
+    {
+        // gets the enitre todolist from the database
+        return Todo::where('completed', 0)->get();
+    }
 
     /**
      * Update the specified resource in storage.
@@ -43,12 +58,13 @@ class todoController extends Controller
 
     }
 
-    public function changeCompletionStatus(Request $request)
+    public function changeCompletionStatus($id)
     {
         # log the request
-        \Log::info($request->todo_id);
-        $todo = Todo::find($request->todo_id);
+        \Log::info($id);
+        $todo = Todo::find($id);
         \Log::info($todo);
+        # TODO: Maybe change this.
         if ($todo->completed === 1) {
             $todo->completed = 0;
         } else {
@@ -61,8 +77,13 @@ class todoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function deleteTodoElement($id)
     {
-        //
+        # log the request
+        \Log::info($id);
+        $todo = Todo::find($id);
+        $todo->delete();
+        \Log::info($todo);
+        return redirect()->route("forms");
     }
 }
