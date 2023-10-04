@@ -65,6 +65,11 @@ class todoController extends Controller
      */
     public function deleteTodoElement(Request $request)
     {
-        //
+        # log the request
+        \Log::info($request);
+        $todo = Todo::find($request->todo_id);
+        $todo->delete();
+        \Log::info($todo);
+        return redirect()->route("forms");
     }
 }
