@@ -2,6 +2,37 @@
   font-size: 14px;
 }
 
+.todo-page-layout {
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin:0px;
+    padding:0px;
+    min-width: 100%;
+    min-height:100%;
+}
+
+.sidebar-holder {
+    display:flex;
+    flex-grow: 1;
+    flex-basis: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height:100%;
+    height:100%;
+    background-color: #414246;
+}
+
+.center-page {
+    display: flex;
+    flex-grow:5;
+    flex-basis: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
 button.todo-title {
     background: none;
     border: none;
@@ -86,12 +117,7 @@ button.todo-title {
   margin-right: 5px;
 }
 
-.center-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
+
 
 .header1 {
   font-family: monaco;
@@ -116,4 +142,6 @@ button.todo-title {
 
 body {
   background-color: #313339;
+  height:100%;
+  width:100%;
 }

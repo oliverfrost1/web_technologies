@@ -8,20 +8,18 @@ use Illuminate\Support\Facades\View;
 
 class todoController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
-    public function showTodoList($isSorted = 2)
+    //static to ensure persis
+    public static $isSorted = 1;
+    public function showTodoList()
     {
-        if ($isSorted != 2) {
-            $isSorted = $isSorted ? 0 : 1;
-        }
-
-        \Log::info(request());
+        self::$isSorted = self::$isSorted ? 0 : 1;
+        \Log::info(self::$isSorted);
         return View::make('TodoListMainPage', [
-            "todos" => $isSorted ? $this->getTodo() : $this->getSortTodo(),
-            "isSorted" => $isSorted,
+            "todos" => self::$isSorted ? $this->getTodo() : $this->getSortTodo(),
+            "isSorted" => self::$isSorted ? 0 : 1,
             "openedId" => request()->id,
         ]);
     }
@@ -31,7 +29,6 @@ class todoController extends Controller
      */
     public function store(Request $request)
     {
-
         Todo::create([
             "title" => $request->title,
             "due_date" => $request->duedate,
