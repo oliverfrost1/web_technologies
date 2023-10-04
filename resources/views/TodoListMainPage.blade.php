@@ -12,10 +12,11 @@
         <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">
             @csrf
             <input type="text" id="title" name="title" placeholder="Title">
+            <input type="date" id="duedate" name="duedate">
             <input type="submit" value="Add Todo">
         </form>
         <br />
-        @foreach ($todos->sortBy('completed') as $todo)
+        @foreach ($todos->sortBy('duedate')->sortBy('completed') as $todo)
             <x-ToDoElement :title="$todo->title" :id="$todo->id" :completed="$todo->completed" :duedate="$todo->due_date" />
         @endforeach
     </div>
