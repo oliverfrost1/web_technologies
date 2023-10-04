@@ -10,8 +10,11 @@
     <div class="todo-due-date {{ $completed ? 'todo-due-date-complete' : '' }}">
         <label id="dueDate">04/10</label>
     </div>
-    <form method="get" class="todo-text" action="{{ route('forms', [], ['id' => $id]) }}" accept-charset="UTF-8"
-        id="openSelectedWindow">
+    <script>
+        console.log({{ $id }})
+    </script>
+    <form method="get" class="todo-text" action="{{ route('forms') }}" accept-charset="UTF-8" id="openSelectedWindow">
+        <input type="hidden" name="tisse" value="{{ $id }}">
         <div class="todo-title {{ $completed ? 'todo-title-complete' : '' }}"
             onclick="document.getElementById('openSelectedWindow').submit()">
             {{ $title }}
