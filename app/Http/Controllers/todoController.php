@@ -11,7 +11,7 @@ class todoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function showTodoList()
+    public function showTodoList(Request $request)
     {
         $data = [
             "todos" => $this->getTodo(),

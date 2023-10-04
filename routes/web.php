@@ -9,6 +9,7 @@ $todoController = new todoController();
 Route::get('/', todoController::class . '@showTodoList')->name('forms');
 Route::get("/SortItems", todoController::class . '@showSortedTodoList')->name("SortItems");
 
+
 Route::post("/SaveItem", todoController::class . '@store')->name("SaveItem");
 
 Route::post("/changeCompletionStatus/{id}", [todoController::class, 'changeCompletionStatus'])->name("changeCompletionStatus");
