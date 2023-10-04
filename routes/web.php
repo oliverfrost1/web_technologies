@@ -6,7 +6,7 @@ use App\Http\Controllers\todoController;
 // Create instance of todoController
 $todoController = new todoController();
 
-Route::get('/', todoController::class . '@showTodoList')->name('forms');
+Route::get('/', todoController::class . '@showTodoList')->name('Main');
 Route::get("/SortItems", todoController::class . '@showSortedTodoList')->name("SortItems");
 
 

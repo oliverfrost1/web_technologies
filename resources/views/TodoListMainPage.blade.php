@@ -5,12 +5,12 @@
         <div class="center-page">
             <h1 class="header1">TODO LIST</h1>
             <div class="button-header">
-                <form class="sort-button" method="get" action="{{ route('forms', $isSorted) }}" accept-charset="UTF-8">
+                <form class="sort-button" method="get" action="{{ route('Main') }}" accept-charset="UTF-8">
                     <input class="sort-button" type="submit" value="{{ $isSorted ? 'Show All' : 'Hide Completed' }}">
+                    <?php
+                        Cookie::queue(Cookie::make('isSorted',$isSorted))
+                    ?>
                 </form>
-                <script>
-                    console.log({{ $isSorted }});
-                </script>
             </div>
 
             <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">

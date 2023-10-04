@@ -11,15 +11,13 @@ class todoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    //static to ensure persistency (alternatively use cookies)
-    public static $isSorted = 1;
+
     public function showTodoList()
     {
-        self::$isSorted = self::$isSorted ? 0 : 1;
-        \Log::info(self::$isSorted);
+        $isSorted = request()->cookie('isSorted');
         return View::make('TodoListMainPage', [
-            "todos" => self::$isSorted ? $this->getTodo() : $this->getSortTodo(),
-            "isSorted" => self::$isSorted ? 0 : 1,
+            "todos" => $isSorted ? $this->getTodo() : $this->getSortTodo(),
+            "isSorted" => $isSorted ? 0 : 1,
             "openedId" => request()->id,
         ]);
     }
