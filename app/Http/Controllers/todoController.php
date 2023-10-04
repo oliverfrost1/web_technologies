@@ -11,7 +11,7 @@ class todoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    //static to ensure persis
+    //static to ensure persistency (alternatively use cookies)
     public static $isSorted = 1;
     public function showTodoList()
     {
