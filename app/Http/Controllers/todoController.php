@@ -11,12 +11,8 @@ class todoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function showTodoList(Request $request)
+    public function showTodoList()
     {
-        $data = [
-            "todos" => $this->getTodo(),
-            "isSorted" => 0,
-        ];
         return View::make('TodoListMainPage',[
             "todos" => $this->getTodo(),
             "isSorted" => 0,

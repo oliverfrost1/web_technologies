@@ -5,7 +5,7 @@
         <h1 class="header1">TODO LIST</h1>
         <div class="button-header">
             <form class="sort-button" method="get" accept-charset="UTF-8">
-                <input type="submit" formaction="{{$isSorted ? 'SortItems' : '/'}}">
+                <input class="sort-button" type="submit" value="{{$isSorted ? "Show All" : "Hide Completed"}}" formaction="{{$isSorted ? '/' : 'SortItems'}}">
             </form>
         </div>
 
