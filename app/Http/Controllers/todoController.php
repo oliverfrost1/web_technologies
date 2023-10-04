@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use Illuminate\Support\Facades\View;
 
 class todoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function showTodoList()
     {
-        //
+        return View::make('TodoListMainPage')->with("todos", $this->getTodo());
     }
 
     /**
@@ -46,9 +47,10 @@ class todoController extends Controller
     public function changeCompletionStatus(Request $request)
     {
         # log the request
-        \Log::info($request->todo_id);
+        \Log::info($request);
         $todo = Todo::find($request->todo_id);
         \Log::info($todo);
+        # TODO: Maybe change this.
         if ($todo->completed === 1) {
             $todo->completed = 0;
         } else {
@@ -61,7 +63,7 @@ class todoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function deleteTodoElement(Request $request)
     {
         //
     }
