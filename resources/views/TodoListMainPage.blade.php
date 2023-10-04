@@ -5,7 +5,6 @@
         <div class="center-page">
             <h1 class="title">Todo List</h1>
 
-
             <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">
                 @csrf
                 <div class="todo-title-and-date-holder">

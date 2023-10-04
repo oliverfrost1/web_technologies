@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('tag_todo', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable(false);
+            $table->unsignedBigInteger('tag_id');
+            $table->unsignedBigInteger('todo_id');
             $table->timestamps();
+
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreign('todo_id')->references('id')->on('todos')->onDelete('cascade');
         });
     }
 
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('tag_todo');
     }
 };

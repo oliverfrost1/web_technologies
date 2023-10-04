@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use App\Models\Tag;
+use App\Models\TodoTag;
+
+
 use Illuminate\Support\Facades\View;
 
 class todoController extends Controller
@@ -29,7 +33,28 @@ class todoController extends Controller
         return redirect()->route("Main");
     }
 
+    //TMP----------------------------
+    public function addTag() {
+        Tag::Create(["name" => "test"]);
+        return redirect()->route("Main");
+    }
+    public function addTodoTag(Request $request){
+        Tag::Create(["name" => "test"]);
 
+        $todo = Todo::find( $request->todoid);
+        $tags = Tag::find( $request->tagid);
+        $todo->tags()->attach($tags);
+        return redirect()->route("Main");
+    }
+    /*
+    public function getTagsAssociatedWithTodo(){
+        $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
+            $query->where('todos.id', $todoId);
+        })->get();
+
+
+    }
+*/
     /**
      * Store a newly created todo in the database.
      */

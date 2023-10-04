@@ -7,6 +7,12 @@
             <input type="checkbox" class="toggle-completed" id="todoCheckbox"
                 @if ($completed === 1) checked @endif onchange="this.form.submit()" />
         </form>
+        <form method="post" action="{{route('test')}}" accept-charset="UTF-8">
+            @csrf
+            <input type="hidden" name="todoid" value="{{ $id }}">
+            <input type="hidden" name="tagid[]" value="{{ 1 }}">
+            <input type="submit" value="Test">
+        </form>
     </div>
 
     @if ($duedate)
