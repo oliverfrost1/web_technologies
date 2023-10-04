@@ -1,5 +1,7 @@
+.body
+
 .todo-text {
-  font-size: 18px;
+  font-size: 14px;
 }
 .todo-actions {
   display: flex;
@@ -11,6 +13,11 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.todo-text {
+    cursor:pointer;
+}
+
 .edit {
   background-color: #4CAF50;
   color: white;
@@ -28,7 +35,7 @@
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 4px;
-  width: 250px;
+  width: 300px;
   height: fit-content;
   background-color:  #4A55A2;
 }
@@ -39,13 +46,11 @@
 
 .todo-title {
   color: white;
-  margin-right:auto;
 }
 
 .todo-title-complete {
   color: rgb(180, 180, 180);
   text-decoration: line-through;
-
 }
 
 .todo-element-checkbox {
@@ -53,6 +58,23 @@
   padding-right: 5px;
   margin-right: 5px;
   height: 100%;
+}
+
+.todo-due-date {
+  color: white;
+  font-size: 12px;
+  border-right: 2px solid white;
+  padding-right: 5px;
+  margin-right: 5px;
+}
+
+.todo-due-date-complete {
+  color: rgb(180, 180, 180);
+  text-decoration: line-through;
+  font-size: 12px;
+  border-right: 2px solid white;
+  padding-right: 5px;
+  margin-right: 5px;
 }
 
 .center-page {

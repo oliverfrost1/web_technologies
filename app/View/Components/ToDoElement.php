@@ -14,11 +14,13 @@ class ToDoElement extends Component
     public $title;
     public $id;
     public $completed;
-    public function __construct($title, $id, $completed)
+    public $duedate;
+    public function __construct($title, $id, $completed, $duedate)
     {
         $this->title = $title;
         $this->id = $id;
         $this->completed = $completed;
+        $this->duedate = $duedate;
     }
 
     /**

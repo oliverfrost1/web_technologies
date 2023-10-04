@@ -7,7 +7,19 @@
                 onchange="this.form.submit()" />
         </form>
     </div>
-    <div class="todo-title {{ $completed ? 'todo-title-complete' : '' }}"> {{ $title }} </div>
+    <div class="todo-due-date {{ $completed ? 'todo-due-date-complete' : '' }}">
+        <label id="dueDate">04/10</label>
+    </div>
+    <form method="get" class="todo-text" action="{{ route('forms', [], ['id' => $id]) }}" accept-charset="UTF-8"
+        id="openSelectedWindow">
+        <div class="todo-title {{ $completed ? 'todo-title-complete' : '' }}"
+            onclick="document.getElementById('openSelectedWindow').submit()">
+            {{ $title }}
+        </div>
+    </form>
+
+
+
     <form method="post" action="{{ route('deleteTodoElement', $id) }}" accept-charset="UTF-8" id="deleteTodoElement">
         @csrf
         <input type="hidden" name="todo_id" value="{{ $id }}" />

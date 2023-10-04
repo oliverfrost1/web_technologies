@@ -10,7 +10,7 @@
         </form>
         <br />
         @foreach ($todos->sortBy('completed') as $todo)
-            <x-ToDoElement :title="$todo->title" :id="$todo->id" :completed="$todo->completed" />
+            <x-ToDoElement :title="$todo->title" :id="$todo->id" :completed="$todo->completed" :duedate="$todo->due_date" />
         @endforeach
     </div>
 @stop
