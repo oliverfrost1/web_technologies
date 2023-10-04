@@ -17,7 +17,9 @@ class TodoTag extends Model
     }
 }
 
+//one user is capable of owning multiple tags, many tags can be used by many todos
 /*
+Select using:
 $todoTags = TodoTags::join('todos','todo_tags.todo_id','todos.id')
     -> join('tags','todo_tags.tag_id', 'tags.id')
     ->select('todo_tags.id','tags.id','todos.id')->get();
