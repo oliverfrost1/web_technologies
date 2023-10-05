@@ -7,8 +7,6 @@
     display:flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin:0px;
-    padding:0px;
     min-width: 100%;
     min-height: 100%;
 }
@@ -51,7 +49,7 @@ button.todo-title {
 .todo-element {
   border: 2px solid white;
   border-radius: 5px;
-  padding: 5px;
+  padding:5px;
   display:flex;
   justify-content: flex-start;
   align-items: center;
@@ -68,7 +66,6 @@ button.todo-title {
 
 .todo-element:hover {
     transition: 0.2s;
-    transform: scale(1.02);
 }
 
 .todo-element-complete {
@@ -80,12 +77,12 @@ button.todo-title {
 }
 
 .todo-title-complete {
-  color: rgb(180, 180, 180);
+  opacity: 50%;
   text-decoration: line-through;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .todo-element-checkbox {
-  border-right: 2px solid white;
   padding-right: 5px;
   margin-right: 5px;
   height: 100%;
@@ -95,17 +92,23 @@ button.todo-title {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
+  font-weight: bold;
+  border-left: 2px solid white;
   border-right: 2px solid white;
+  padding-left: 5px;
   padding-right: 5px;
   margin-right: 5px;
 }
 
 .todo-due-date-complete {
-  color: rgb(180, 180, 180);
+  opacity: 50%;
   text-decoration: line-through;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
+  font-weight: bold;
+  border-left: 2px solid white;
   border-right: 2px solid white;
+  padding-left: 5px;
   padding-right: 5px;
   margin-right: 5px;
 }
@@ -129,6 +132,7 @@ button.todo-title {
 }
 
 .add-todo-button {
+    transition: transform 0.2s;
     background-color:#f89100;
     padding:8px;
     margin-top: 5px;
@@ -146,7 +150,9 @@ button.todo-title {
     transform: scale(1.06);
 }
 
-
+::-webkit-calendar-picker-indicator{
+    transition: 0.2s;
+}
 
 ::-webkit-calendar-picker-indicator:hover{
     transition: 0.2s;
@@ -170,6 +176,7 @@ button.todo-title {
   display:"flex";
   flex-direction: "row";
   flex-wrap: nowrap;
+  box-shadow:  2px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .add-todo-date-picker {
@@ -197,6 +204,15 @@ button.todo-title {
   background-color: transparent;
 }
 
+.add-todo-title:focus::placeholder {
+    transition: 0.3s;
+    color: transparent;
+}
+
+.add-todo-title:not(:focus)::placeholder {
+    transition: 0.3s;
+}
+
 .input-container {
   display: flex;
   align-items: center;
@@ -209,11 +225,25 @@ button.todo-title {
 }
 
 .toggle-completed {
+    transition: transform 0.2s;
     cursor: pointer;
+    width:20px;
+    height:20px;
+}
+
+.toggle-completed:hover {
+  transform: scale(1.2);
+  transition: 0.2s;
+}
+
+.toggle-completed:checked {
+    opacity: 50%;
+    accent-color: transparent;
 }
 
 body {
   background-color: #333333;
   height:100%;
   width:100%;
+  margin:8px;
 }

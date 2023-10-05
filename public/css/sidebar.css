@@ -1,0 +1,58 @@
+.sidebar-holder {
+  flex-grow: 1;
+  flex-basis: 0;
+  padding:15px;
+  margin-right:16px;
+  border-radius: 5px;
+  background-color: #f89100;
+  border: 2px solid #ccc;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-form {
+  display:flex;
+  flex-direction:column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  row-gap: 5px;
+}
+
+.sidebar-form-row {
+  display:flex;
+  flex-direction:column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.sidebar-form label {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: rgb(32, 32, 32);
+}
+
+.sidebar-form input {
+  min-height: 20px;
+  font-size: 1.1rem;
+  border: none;
+  outline: none;
+  text-align: left;
+  position: relative;
+  border-radius: 5px;
+  padding:5px;
+}
+
+.sidebar-button {
+  background-color:white;
+  font-weight: bold;
+  padding: 5px;
+  cursor: pointer;
+  border:none;
+  border-radius:5px;
+  box-shadow:  2px 4px 4px rgba(0, 0, 0, 0.2);
+  font-size: 1.1rem;
+}
+
+.sidebar-button:hover {
+  transition: 0.2s;
+  transform: scale(1.06);
+}
