@@ -34,27 +34,25 @@ class todoController extends Controller
     }
 
     //TMP----------------------------
-    public function addTag() {
-        Tag::Create(["name" => "test"]);
-        return redirect()->route("Main");
+    //Creates a new tag and associates it with the provided tag (should just call
+    // attachTagToTodo)
+    public function addNewTagToTodo(Request $request) {
+        $tag = Tag::Create(["name" => $request->tagName]);
+        return $this->attachTagToTodo($request);
     }
-    public function addTodoTag(Request $request){
-        Tag::Create(["name" => "test"]);
-
+    //creates new association between an existing tag and a todo
+    public function attachTagToTodo(Request $request){
         $todo = Todo::find( $request->todoid);
-        $tags = Tag::find( $request->tagid);
-        $todo->tags()->attach($tags);
+        $tag = Tag::find( $request->tagid);
+        $todo->tags()->attach($tag);
         return redirect()->route("Main");
     }
-    /*
+    //Gets all tags associated with the provided todo id.
     public function getTagsAssociatedWithTodo(){
         $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
             $query->where('todos.id', $todoId);
         })->get();
-
-
     }
-*/
     /**
      * Store a newly created todo in the database.
      */
