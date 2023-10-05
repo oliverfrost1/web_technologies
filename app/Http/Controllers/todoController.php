@@ -75,6 +75,13 @@ class todoController extends Controller
             $query->where('tags.id', $tagId);
         })->exists();
     }
+    public function getTagsAssociatedWithTodo($todoId){
+        $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
+            $query->where('todos.id', $todoId);
+        })->get();
+
+        return $tags;
+    }
     /**
      * Store a newly created todo in the database.
      */

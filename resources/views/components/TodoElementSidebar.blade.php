@@ -1,4 +1,4 @@
-@props(['todo', 'tags']);
+@props(['todo', 'tags'])
 
 <div class="sidebar-holder" id="sidebar-holder">
     <a href="{{ route('Main') }}">X</a>
