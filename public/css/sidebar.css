@@ -11,6 +11,22 @@
 .sidebar-tag{
     display: flex;
 }
+.tag-button{
+    position: relative;
+    padding-right: 30px;
+}
+.remove-icon {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.tag-button:hover .remove-icon {
+    opacity: 1;
+}
+
 .sidebar-form {
   display:flex;
   flex-direction:column;

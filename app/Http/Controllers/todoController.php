@@ -54,7 +54,6 @@ class todoController extends Controller
     }
     //creates new association between an existing tag and a todo
     public function attachTagToTodo(Request $request){
-        \Log::info($request);
         $todo = Todo::find( $request->todoid);
         $tag = Tag::find( $request->tagid);
         $todo->tags()->attach($tag);
@@ -67,6 +66,13 @@ class todoController extends Controller
         })->get();
 
         return $tags;
+    }
+    public function removeTagAssociation(Request $request){
+        \Log::info($request);
+
+        $todo = Todo::find($request->todoid);
+        $todo->tags()->detach($request->tagid);
+        return redirect()->route("Main")->with('id',$request->todoid);
     }
     /**
      * Store a newly created todo in the database.

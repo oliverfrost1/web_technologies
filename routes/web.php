@@ -11,6 +11,8 @@ Route::get("/FilterTodos", todoController::class . '@changeSort')->name("FilterT
 
 Route::post('/addNewTag', todoController::class. '@addNewTagToTodo')->name("addNewTag");
 Route::post('/attachTag', todoController::class. '@attachTagToTodo')->name("attachTag");
+Route::post('/removeTag', todoController::class. '@removeTagAssociation')->name("removeTag");
+
 
 Route::post("/SaveItem", todoController::class . '@store')->name("SaveItem");
 
