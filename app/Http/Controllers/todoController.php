@@ -59,20 +59,21 @@ class todoController extends Controller
         $todo->tags()->attach($tag);
         return redirect()->route("Main")->with('id',$request->todoid);
     }
-    //Gets all tags associated with the provided todo id.
-    public function getTagsAssociatedWithTodo($todoId){
-        $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
-            $query->where('todos.id', $todoId);
-        })->get();
-
-        return $tags;
-    }
     public function removeTagAssociation(Request $request){
-        \Log::info($request);
-
+        $tagId = $request->tagid;
         $todo = Todo::find($request->todoid);
-        $todo->tags()->detach($request->tagid);
+        $todo->tags()->detach($tagId);
+        //checks if any todos use this tag, if not delete it
+        if(!$this->todoHasAssociationsWithTag($tagId)){
+            Tag::destroy($tagId);
+        }
         return redirect()->route("Main")->with('id',$request->todoid);
+    }
+    private function todoHasAssociationsWithTag($tagId)
+    {
+        return Todo::whereHas('tags', function ($query) use ($tagId) {
+            $query->where('tags.id', $tagId);
+        })->exists();
     }
     /**
      * Store a newly created todo in the database.
