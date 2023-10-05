@@ -18,11 +18,18 @@ class todoController extends Controller
 
     public function showTodoList()
     {
+        $todoId = request()->id;
+        $tags = null;
+        if($todoId){
+            //Main page has been loaded with a todo selected
+            $tags = $this -> getTagsAssociatedWithTodo($todoId);
+        }
         $isSorted = session()->get('isSorted');
         return View::make('TodoListMainPage', [
             "todos" => $isSorted ? $this->getTodo() : $this->getFilteredTodo(),
             "isSorted" => $isSorted,
-            "openedId" => request()->id,
+            "openedId" => $todoId,
+            "tags" => $tags,
         ]);
     }
 
@@ -37,21 +44,29 @@ class todoController extends Controller
     //Creates a new tag and associates it with the provided tag (should just call
     // attachTagToTodo)
     public function addNewTagToTodo(Request $request) {
+        if(!$request->tagName){
+            return redirect()->route("Main")->with('id',$request->todoid);
+        }
         $tag = Tag::Create(["name" => $request->tagName]);
+        $tagid = $tag->id;
+        $request->merge(['tagid'=>$tagid]);
         return $this->attachTagToTodo($request);
     }
     //creates new association between an existing tag and a todo
     public function attachTagToTodo(Request $request){
+        \Log::info($request);
         $todo = Todo::find( $request->todoid);
         $tag = Tag::find( $request->tagid);
         $todo->tags()->attach($tag);
-        return redirect()->route("Main");
+        return redirect()->route("Main")->with('id',$request->todoid);
     }
     //Gets all tags associated with the provided todo id.
-    public function getTagsAssociatedWithTodo(){
+    public function getTagsAssociatedWithTodo($todoId){
         $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
             $query->where('todos.id', $todoId);
         })->get();
+
+        return $tags;
     }
     /**
      * Store a newly created todo in the database.

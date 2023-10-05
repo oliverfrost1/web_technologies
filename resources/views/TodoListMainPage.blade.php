@@ -38,7 +38,7 @@
 
         @foreach ($todos as $todo)
             @if ($todo->id == $openedId)
-                <x-TodoElementSidebar :todo="$todo" />
+                <x-TodoElementSidebar :todo="$todo" :tags="$tags" />
             @break
         @endif
     @endforeach

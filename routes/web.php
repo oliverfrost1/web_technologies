@@ -8,7 +8,9 @@ $todoController = new todoController();
 
 Route::get('/', todoController::class . '@showTodoList')->name('Main');
 Route::get("/FilterTodos", todoController::class . '@changeSort')->name("FilterTodos");
-Route::post('/test', todoController::class. '@addTodoTag')->name("test");
+
+Route::post('/addNewTag', todoController::class. '@addNewTagToTodo')->name("addNewTag");
+Route::post('/attachTag', todoController::class. '@attachTagToTodo')->name("attachTag");
 
 Route::post("/SaveItem", todoController::class . '@store')->name("SaveItem");
 
