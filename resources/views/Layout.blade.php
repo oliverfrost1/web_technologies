@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
-
-<body>
-    @yield('content')
-</body>
-
+    <body>
+        <x-top-bar />
+        @yield('content')
+    </body>
 </html>
