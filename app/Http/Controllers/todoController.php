@@ -114,7 +114,7 @@ class todoController extends Controller
 
     public function updateTodoFields()
     {
-        \Log::info("req", request()->all());
+
         $request = request();
         $user = auth()->user();
         if ($user) {
@@ -122,11 +122,7 @@ class todoController extends Controller
             if ($todo && $todo->user_id === $user->id) {
                 // Extract all fields except _token
                 $request["completed"] = $request->completed === "on" ? true : false;
-
                 $updateData = $request->except('_token');
-
-
-                \Log::info("updateData", $updateData);
                 // Update the Todo
                 $todo->update($updateData);
                 return back();

@@ -1,5 +1,5 @@
 <div class="sidebar-holder" id="sidebar-holder">
-    <a href="{{ route('Main') }}">X</a>
+    <a href="{{ route('Main') }}"><i class="fa-regular fa-circle-xmark" style="color: #ffffff;"></i></a>
     <form class="sidebar-form" method="post" accept-charset="UTF-8" action="{{ route('updateTodoFields') }}">
         @csrf
         <div class="sidebar-form-row">
@@ -24,8 +24,6 @@
         <div class="sidebar-form-row">
             <input type="submit" class="sidebar-button" value="Update todo">
         </div>
-    </form>
-    <form method="POST" action="{{ route('deleteTodoElement', $todo->id) }}">@csrf
-        <input type="submit" class="sidebar-button" value="Delete todo">
+
     </form>
 </div>
