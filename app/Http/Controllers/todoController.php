@@ -53,9 +53,11 @@ class todoController extends Controller
         if($tag){
             $tagid = $tag->id;
             $request->merge(['tagid'=>$tagid]);
-        }
-        if($this->todoHasAssociationsWithTag($tag)){
-            return $this->attachTagToTodo($request);
+            if(!$this->todoHasAssociationsWithTag($tag)){
+                return $this->attachTagToTodo($request);
+            }
+            //This tag already exists on the todo
+            return back();
         }
         $tag = Tag::Create(["name" => $request->tagName]);
         $tagid = $tag->id;
@@ -77,7 +79,7 @@ class todoController extends Controller
         if(!$this->todoHasAssociationsWithTag($tagId)){
             Tag::destroy($tagId);
         }
-        return redirect()->route("Main")->with('id',$request->todoid);
+        return back();
     }
     private function todoHasAssociationsWithTag($tagId)
     {
@@ -93,7 +95,7 @@ class todoController extends Controller
         return $unselectedTags;
     }
     private function getTagFromName($tagName){
-        $tag = Tag::where('name', $tagName)->get();
+        $tag = Tag::where('name', $tagName)->first();
         return $tag;
     }
 
