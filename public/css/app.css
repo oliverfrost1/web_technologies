@@ -1,5 +1,4 @@
 .todo-text {
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
 }
 
@@ -78,7 +77,6 @@ button.todo-title {
 .todo-title-complete {
     opacity: 50%;
     text-decoration: line-through;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .todo-element-checkbox {
@@ -89,7 +87,6 @@ button.todo-title {
 
 .todo-due-date {
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     font-weight: bold;
     border-left: 2px solid white;
@@ -109,7 +106,6 @@ button.todo-title {
 }
 
 .title {
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 35px;
     font-weight: bold;
     letter-spacing: 2px;
@@ -179,7 +175,6 @@ button.todo-title {
 .add-todo-date-picker {
     background-color: #f89100;
     padding: 6px;
-    font-family: Arial, Helvetica, sans-serif;
     color: white;
     font-size: 12px;
     border: none;
@@ -239,15 +234,15 @@ button.todo-title {
 }
 
 body {
+    font-family: Arial, Helvetica, sans-serif;
     background-color: #333333;
     height: 100%;
     width: 100%;
-    margin: 8px;
+    margin: 0px;
 }
 
 .top-body {
     margin: 0;
-    font-family: Arial, sans-serif;
 }
 
 .topbar {
@@ -266,8 +261,6 @@ body {
 .top-left a.button {
     color: white;
     text-decoration: none;
-    padding: 5px 20px;
-    border-radius: 5px;
     transition: background-color 0.3s;
 }
 
