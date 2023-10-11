@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <form method="get" class="todo-text" action="{{ route('Main') }}" accept-charset="UTF-8"
+    <form method="" class="todo-text" action="{{ route('Main') }}" accept-charset="UTF-8"
         id="openSelectedWindow{{ $id }}">
         <input type="hidden" name="id" value="{{ $id }}">
         <button type="submit" class="todo-title {{ $completed ? 'todo-title-complete' : '' }}">

@@ -22,11 +22,12 @@ class todoController extends Controller
         ]);
     }
 
-    public function changeSort(){
+    public function changeSort()
+    {
         $isSorted = session()->get('isSorted');
         $isSorted = $isSorted ? 0 : 1;
         session()->put('isSorted', $isSorted);
-        return redirect()->route("Main");
+        return back();
     }
 
 
@@ -35,7 +36,7 @@ class todoController extends Controller
      */
     public function store(Request $request)
     {
-        if(!$request->title){
+        if (!$request->title) {
             return redirect()->route("Main");
         }
 
@@ -45,7 +46,7 @@ class todoController extends Controller
                 "due_date" => $request->duedate,
                 "user_id" => auth()->user()->id,
             ]);
-            return redirect()->route("Main");
+            return back();
         }
 
         return back()->withErrors([
@@ -88,7 +89,7 @@ class todoController extends Controller
             $todo->completed = 1;
         }
         $todo->save();
-        return redirect()->route("Main");
+        return back();
     }
 
     /**
@@ -96,11 +97,39 @@ class todoController extends Controller
      */
     public function deleteTodoElement($id)
     {
-        # log the request
-        \Log::info($id);
-        $todo = Todo::find($id);
-        $todo->delete();
-        \Log::info($todo);
-        return redirect()->route("Main");
+        $user = auth()->user();
+        if ($user) {
+            $todo = Todo::find($id);
+            if ($todo->user_id === $user->id) {
+                $todo->delete();
+                return back();
+            }
+        }
+        return back()->withErrors([
+            'createError' => 'You need to log in to delete this todo.',
+        ])->onlyInput('createError');
+
     }
+
+    public function updateTodoFields()
+    {
+
+        $request = request();
+        $user = auth()->user();
+        if ($user) {
+            $todo = Todo::find($request->id);
+            if ($todo && $todo->user_id === $user->id) {
+                // Extract all fields except _token
+                $request["completed"] = $request->completed === "on" ? true : false;
+                $updateData = $request->except('_token');
+                // Update the Todo
+                $todo->update($updateData);
+                return back();
+            }
+        }
+        return back()->withErrors([
+            'createError' => 'You need to log in to update this todo.',
+        ])->onlyInput('createError');
+    }
+
 }
