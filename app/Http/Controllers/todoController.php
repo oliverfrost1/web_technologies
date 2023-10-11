@@ -20,9 +20,11 @@ class todoController extends Controller
     {
         $todoId = request()->id;
         $tags = null;
+        $unselectedTags = null;
         if($todoId){
             //Main page has been loaded with a todo selected
             $tags = $this -> getTagsAssociatedWithTodo($todoId);
+            $unselectedTags = $this -> getTagsNotAssociatedWithTodo($todoId);
         }
         $isSorted = session()->get('isSorted');
         return View::make('TodoListMainPage', [
@@ -30,6 +32,7 @@ class todoController extends Controller
             "isSorted" => $isSorted,
             "openedId" => $todoId,
             "tags" => $tags,
+            "unselectedTags" => $unselectedTags,
         ]);
     }
 
@@ -40,12 +43,19 @@ class todoController extends Controller
         return redirect()->route("Main");
     }
 
-    //TMP----------------------------
-    //Creates a new tag and associates it with the provided tag (should just call
-    // attachTagToTodo)
+    //Creates a new tag and associates todo with the provided tag
+    //Checks if a tag already exists with the name and uses that instead
     public function addNewTagToTodo(Request $request) {
         if(!$request->tagName){
-            return redirect()->route("Main")->with('id',$request->todoid);
+            return redirect()->route("Main")->with('id', $request->todoid);
+        }
+        $tag = $this->getTagFromName($request->tagName);
+        if($tag){
+            $tagid = $tag->id;
+            $request->merge(['tagid'=>$tagid]);
+        }
+        if($this->todoHasAssociationsWithTag($tag)){
+            return $this->attachTagToTodo($request);
         }
         $tag = Tag::Create(["name" => $request->tagName]);
         $tagid = $tag->id;
@@ -57,7 +67,7 @@ class todoController extends Controller
         $todo = Todo::find( $request->todoid);
         $tag = Tag::find( $request->tagid);
         $todo->tags()->attach($tag);
-        return redirect()->route("Main")->with('id',$request->todoid);
+        return back();
     }
     public function removeTagAssociation(Request $request){
         $tagId = $request->tagid;
@@ -75,11 +85,22 @@ class todoController extends Controller
             $query->where('tags.id', $tagId);
         })->exists();
     }
+    private function getTagsNotAssociatedWithTodo($todoId){
+        $tags = $this-> getTagsAssociatedWithTodo($todoId);
+        $tag_ids = $tags->pluck('id')->toArray();
+        //TODO: Add where userid
+        $unselectedTags = Tag::whereNotIn('id', $tag_ids)->get();
+        return $unselectedTags;
+    }
+    private function getTagFromName($tagName){
+        $tag = Tag::where('name', $tagName)->get();
+        return $tag;
+    }
+
     public function getTagsAssociatedWithTodo($todoId){
         $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
             $query->where('todos.id', $todoId);
         })->get();
-
         return $tags;
     }
     /**

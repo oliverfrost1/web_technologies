@@ -16,7 +16,6 @@
                 </div>
 
                 <div class="center-children-in-parent">
-
                     <input type="submit" class="add-todo-button" value="Add Todo">
                 </div>
             </form>
@@ -38,7 +37,7 @@
 
         @foreach ($todos as $todo)
             @if ($todo->id == $openedId)
-                <x-TodoElementSidebar :todo="$todo" :tags="$tags" />
+                <x-TodoElementSidebar :todo="$todo" :tags="$tags" :unselectedTags="$unselectedTags" />
             @break
         @endif
     @endforeach

@@ -1,4 +1,4 @@
-@props(['todo', 'tags'])
+@props(['todo', 'tags', 'unselectedTags'])
 
 <div class="sidebar-holder" id="sidebar-holder">
     <a href="{{ route('Main') }}">X</a>
@@ -39,26 +39,27 @@
 
                 </form>
             @endforeach
-
-            <button id="toggle-tag-input">Add Tag</button>
             <form id="add-tag-form" action="{{ route('addNewTag') }}" method="post">
                 @csrf
-                <input type="text" name="tagName" id="tag-input-field" placeholder="Enter Tag Name" style="display: none;">
+                <input list="tag-choices" id="tagName" name="tagName" autocomplete="off" required/>
+                <datalist id="tag-choices">
+                    @foreach ($unselectedTags as $unselectedTag)
+                        <option value="{{$unselectedTag->name}}"></option>
+                    @endforeach
+                </datalist>
                 <input type="hidden" name="todoid" value="{{ $todo->id }}">
             </form>
         </div>
 
-        <!-- JavaScript to toggle the visibility of the button and input field -->
         <script>
             const toggleButton = document.getElementById('toggle-tag-input');
-            const tagInput = document.getElementById('tag-input-field');
+            const tagInput = document.getElementById('tag-choices');
             const addTagForm = document.getElementById('add-tag-form');
 
             tagInput.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter' && tagInput.value.trim() !== '') {
                     // Prevent the default Enter key behavior (e.g., new line in textarea)
                     event.preventDefault();
-
                     addTagForm.submit();
                 }
             });
@@ -75,6 +76,7 @@
                     tagInput.style.display = 'none';
                 }
             });
+
         </script>
     </div>
     <form><input type="submit" class="sidebar-button" value="Delete todo"></form>
