@@ -10,7 +10,14 @@
     </div>
 
     @if ($duedate)
-        <div class="todo-due-date {{ $completed ? 'todo-due-date-complete' : '' }}">
+        @php
+            $duedateTimestamp = strtotime($duedate);
+            $isDue = !empty($duedateTimestamp);
+            $isComplete = $completed ? 'todo-due-date-complete' : '';
+            $isOverdue = $isDue && !$completed ? 'todo-due-date-overdue' : '';
+        @endphp
+
+        <div class="todo-due-date {{ $isComplete }} {{ $isOverdue }}">
             <label>{{ $duedate }}</label>
         </div>
     @endif
