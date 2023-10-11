@@ -47,7 +47,7 @@ class todoController extends Controller
     //Checks if a tag already exists with the name and uses that instead
     public function addNewTagToTodo(Request $request) {
         if(!$request->tagName){
-            return redirect()->route("Main")->with('id', $request->todoid);
+            return back();
         }
         $tag = $this->getTagFromName($request->tagName);
         if($tag){
