@@ -38,11 +38,19 @@ class todoController extends Controller
         if(!$request->title){
             return redirect()->route("Main");
         }
-        Todo::create([
-            "title" => $request->title,
-            "due_date" => $request->duedate,
-        ]);
-        return redirect()->route("Main");
+
+        if (auth()->user()) {
+            Todo::create([
+                "title" => $request->title,
+                "due_date" => $request->duedate,
+                "user_id" => auth()->user()->id,
+            ]);
+            return redirect()->route("Main");
+        }
+
+        return back()->withErrors([
+            'createError' => 'You need to log in to create a todo.',
+        ])->onlyInput('createError');
     }
 
     /**
