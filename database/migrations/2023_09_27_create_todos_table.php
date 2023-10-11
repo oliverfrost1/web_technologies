@@ -14,8 +14,9 @@ return new class extends Migration {
       $table->id();
       $table->string('title')->nullable(false);
       $table->text('description')->nullable(true);
+      $table->unsignedBigInteger('user_id')->nullable(true);
       $table->boolean('completed')->default(false);
-      // $table->foreign('id', "user_id")->references('id')->on('users')->onDelete('cascade')->nullable(true);
+      $table->foreign("user_id")->references('id')->on('users')->onDelete('cascade')->nullable(false);
       $table->date('due_date')->nullable(true);
       $table->timestamps();
     });
