@@ -99,7 +99,6 @@ class todoController extends Controller
     {
         $user = auth()->user();
         if ($user) {
-            # log the request
             $todo = Todo::find($id);
             if ($todo->user_id === $user->id) {
                 $todo->delete();
