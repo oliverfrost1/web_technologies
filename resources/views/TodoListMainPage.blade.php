@@ -14,6 +14,9 @@
                         <input type="date" class="add-todo-date-picker" id="duedate" name="duedate" title="Due date">
                     </div>
                 </div>
+                @error('createError')
+                    <p style="color:red;">{{ $message }}</p>
+                @enderror
 
                 <div class="center-children-in-parent">
                     <input type="submit" class="add-todo-button" value="Add Todo">

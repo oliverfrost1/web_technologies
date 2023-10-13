@@ -10,12 +10,19 @@
     </div>
 
     @if ($duedate)
-        <div class="todo-due-date {{ $completed ? 'todo-due-date-complete' : '' }}">
+        @php
+            $duedateTimestamp = strtotime($duedate);
+            $isDue = !empty($duedateTimestamp);
+            $isComplete = $completed ? 'todo-due-date-complete' : '';
+            $isOverdue = $isDue && !$completed ? 'todo-due-date-overdue' : '';
+        @endphp
+
+        <div class="todo-due-date {{ $isComplete }} {{ $isOverdue }}">
             <label>{{ $duedate }}</label>
         </div>
     @endif
 
-    <form method="get" class="todo-text" action="{{ route('Main') }}" accept-charset="UTF-8"
+    <form method="" class="todo-text" action="{{ route('Main') }}" accept-charset="UTF-8"
         id="openSelectedWindow{{ $id }}">
         <input type="hidden" name="id" value="{{ $id }}">
         <button type="submit" class="todo-title {{ $completed ? 'todo-title-complete' : '' }}">

@@ -30,4 +30,4 @@ Route::post("/SaveItem", todoController::class . '@store')->name("SaveItem");
 
 Route::post("/changeCompletionStatus/{id}", [todoController::class, 'changeCompletionStatus'])->name("changeCompletionStatus");
 Route::post("/deleteTodoElement/{id}", [todoController::class, 'deleteTodoElement'])->name("deleteTodoElement");
-
+Route::post("/updateTodoFields", [todoController::class, 'updateTodoFields'])->name("updateTodoFields");
