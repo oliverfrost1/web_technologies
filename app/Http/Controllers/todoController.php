@@ -154,26 +154,35 @@ class todoController extends Controller
         }
         $tag = $this->getTagFromName($request->tagName);
         if($tag){
+            //tag exists
             $tagid = $tag->id;
             $request->merge(['tagid'=>$tagid]);
             if(!$this->todoHasAssociationsWithTag($tag)){
                 return $this->attachTagToTodo($request);
             }
-            //This tag already exists on the todo
+            //This tag already exists on the current todo
             return back();
         }
-        $tag = Tag::Create(["name" => $request->tagName]);
-        $tagid = $tag->id;
-        $request->merge(['tagid'=>$tagid]);
-        return $this->attachTagToTodo($request);
+        //create new tag
+        $user = auth()->user();
+        if ($user) {
+            $tag = Tag::Create(["name" => $request->tagName,"user_id" => $user->id]);
+            $tagid = $tag->id;
+            $request->merge(['tagid'=>$tagid]);
+            return $this->attachTagToTodo($request);
+        }
     }
+
     //creates new association between an existing tag and a todo
     public function attachTagToTodo(Request $request){
         $todo = Todo::find( $request->todoid);
         $tag = Tag::find( $request->tagid);
-        $todo->tags()->attach($tag);
+        if($todo && $tag){
+            $todo->tags()->attach($tag);
+        }
         return back();
     }
+
     public function removeTagAssociation(Request $request){
         $tagId = $request->tagid;
         $todo = Todo::find($request->todoid);
@@ -184,19 +193,24 @@ class todoController extends Controller
         }
         return back();
     }
+
     private function todoHasAssociationsWithTag($tagId)
     {
         return Todo::whereHas('tags', function ($query) use ($tagId) {
             $query->where('tags.id', $tagId);
         })->exists();
     }
+
     private function getTagsNotAssociatedWithTodo($todoId){
         $tags = $this-> getTagsAssociatedWithTodo($todoId);
         $tag_ids = $tags->pluck('id')->toArray();
-        //TODO: Add where userid
-        $unselectedTags = Tag::whereNotIn('id', $tag_ids)->get();
+        $user = auth()->user();
+        if ($user) {
+            $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
+        }
         return $unselectedTags;
     }
+
     private function getTagFromName($tagName){
         $tag = Tag::where('name', $tagName)->first();
         return $tag;

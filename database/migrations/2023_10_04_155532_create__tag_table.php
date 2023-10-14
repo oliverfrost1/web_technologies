@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable(false);
+            $table->unsignedBigInteger('user_id')->nullable(true);
+            $table->foreign("user_id")->references('id')->on('users')->onDelete('cascade')->nullable(false);
             $table->timestamps();
         });
     }
