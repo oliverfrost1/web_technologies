@@ -205,6 +205,7 @@ class todoController extends Controller
         $tags = $this-> getTagsAssociatedWithTodo($todoId);
         $tag_ids = $tags->pluck('id')->toArray();
         $user = auth()->user();
+        $unselectedTags = []; //Instantiation as todos are currently visible without loggin in
         if ($user) {
             $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
         }
