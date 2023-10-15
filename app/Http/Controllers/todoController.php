@@ -94,17 +94,18 @@ class todoController extends Controller
     public function getTodo($isSorted)
     {
         $tags = session()->get('selectedTags');
+        $todos = Todo::all();
         if($tags){
             $todos = $this->getTodosAssociatedWithTag($tags);
-            return $todos;
+
         }
         // gets the entire todolist from the database
-        return Todo::all();
-    }
-    public function getFilteredTodo()
-    {
-        // gets the enitre todolist from the database
-        return Todo::where('completed', 0)->get();
+        if($isSorted){
+            $todos = $todos->filter(function($todo){
+                return $todo->completed === 0;
+            });
+        }
+        return $todos;
     }
 
     /**
