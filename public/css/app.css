@@ -246,9 +246,10 @@ button.todo-title {
     cursor: pointer;
     transform: scale(1.2);
     transition: 0.2s;
+    color: red;
 }
 
-.todo-thrash-can-complete {
+.todo-trash-can-complete {
     opacity: 50%;
 }
 
