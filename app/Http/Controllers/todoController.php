@@ -220,17 +220,24 @@ class todoController extends Controller
         $tagId = $request->tagid;
         $todo = Todo::find($request->todoid);
         $todo->tags()->detach($tagId);
-        //checks if any todos use this tag, if not delete it
-        if(!$this->anyTodoHasAssociationsWithTag($tagId)){
-            $selectedTags = session()->get('selectedTags');
-            $tagIndex = array_search($tagId,(array)$selectedTags);
-            if($tagIndex!==false){
-                unset($selectedTags[$tagIndex]);
-                $selectedTags = array_values($selectedTags);
-            }
-            session()->put('selectedTags',$selectedTags);
-            Tag::destroy($tagId);
+        return back();
+    }
+
+    public function removeTag(Request $request){
+        $tagId = $request->id;
+        \Log::info($tagId);
+        $todos = $this->getTodosAssociatedWithTag((array)$tagId);
+        foreach($todos as $todo){
+            $todo->tags()->detach($tagId);
         }
+        $selectedTags = session()->get('selectedTags');
+        $tagIndex = array_search($tagId,(array)$selectedTags);
+        if($tagIndex!==false){
+            unset($selectedTags[$tagIndex]);
+            $selectedTags = array_values($selectedTags);
+        }
+        session()->put('selectedTags',$selectedTags);
+        Tag::destroy($tagId);
         return back();
     }
 

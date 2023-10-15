@@ -16,7 +16,6 @@ Route::get("/Login", AuthController::class . '@show')->name("Login");
 Route::post('/Login', [AuthController::class, 'authenticate'])->name('Login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get("/filterByTags", todoController::class . '@changeSelectedTags')->name("filterByTags");
 
 Route::get('/Profile', function () {
     // Only authenticated users may access this route.
@@ -25,7 +24,10 @@ Route::get('/Profile', function () {
 
 Route::post('/addNewTag', todoController::class. '@addNewTagToTodo')->name("addNewTag");
 Route::post('/attachTag', todoController::class. '@attachTagToTodo')->name("attachTag");
-Route::post('/removeTag', todoController::class. '@removeTagAssociation')->name("removeTag");
+Route::post('/removeTagFromTodo', todoController::class. '@removeTagAssociation')->name("removeTagFromTodo");
+Route::post('/removeTag', todoController::class. '@removeTag')->name("removeTag");
+
+Route::get("/filterByTags", todoController::class . '@changeSelectedTags')->name("filterByTags");
 
 
 Route::post("/SaveItem", todoController::class . '@store')->name("SaveItem");

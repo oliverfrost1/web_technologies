@@ -31,7 +31,7 @@
         <div class="sidebar-form-row">
             <label class="sidebar-label" for="tag">Tag</label>
             @foreach ($tags as $tag)
-                <form class="sidebar-form" action="{{route('removeTag')}}" method="POST">
+                <form class="sidebar-form" action="{{route('removeTagFromTodo')}}" method="POST">
                     @csrf
                     <button class="add-todo-button tag-button">{{ $tag->name }} <span class="remove-icon">X</span></button>
                     <input type="hidden" name="tagid" value="{{ $tag->id }}">

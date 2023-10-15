@@ -84,3 +84,14 @@
   transition: 0.2s;
   transform: scale(1.06);
 }
+
+.tag-element{
+    display: flex;
+}
+
+.tag-delete{
+    margin-left: 5px;
+    font-size: 0.8rem;
+    padding: 3px;
+
+}
