@@ -3,7 +3,7 @@
 <div class="sidebar-holder" id="sidebar-holder">
     <a href="{{ route('Main') }}"><i class="fa-regular fa-circle-xmark" style="color: #ffffff;"></i></a>
     <div class="sidebar-tag">
-        <form class="sidebar-form" method="post" accept-charset="UTF-8" action="{{ route('updateTodoFields') }}">
+        <form class="sidebar-form">
             <div class="sidebar-form-row">
                 <label for="title">Title</label>
                 <input type="text" name="title" value="{{ $todo->title }}" placeholder="title">
@@ -13,7 +13,6 @@
                 <input type="text" multiple name="description" value="{{ $todo->description }}"
                     placeholder="description">
             </div>
-
             <div class="sidebar-form-row">
                 <label for="completed">Completed</label>
                 <input type="checkbox" class="toggle-completed" name="completed" value="{{ $todo->completed }}">
@@ -76,5 +75,5 @@
                 }
             });
         </script>
-    </form>
+    </div>
 </div>
