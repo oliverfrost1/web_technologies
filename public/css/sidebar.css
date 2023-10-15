@@ -14,6 +14,10 @@
 .tag-button{
     position: relative;
     padding-right: 30px;
+    border-style: solid;
+    border-width: 2px;
+    color: black;
+    border-color: black;
 }
 .remove-icon {
     position: absolute;
@@ -36,6 +40,8 @@
 }
 
 .sidebar-form-row {
+  margin-left: 5px;
+  margin-right: 5px;
   display:flex;
   flex-direction:column;
   justify-content: flex-start;
@@ -46,6 +52,11 @@
   font-weight: bold;
   font-size: 1.1em;
   color: rgb(32, 32, 32);
+}
+.sidebar-label {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: rgb(32, 32, 32);
 }
 
 .sidebar-form input {

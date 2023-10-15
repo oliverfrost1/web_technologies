@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="todo-page-layout">
+        <x-TagSidebar :allTags="$allTags" :filterTags="$filterTags"  />
         <div class="center-page">
             <h1 class="title">Todo List</h1>
-
             <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">
                 @csrf
                 <div class="todo-title-and-date-holder">
@@ -25,7 +25,7 @@
 
             <div class="button-header">
                 <form class="sort-button" method="get" action="{{ route('FilterTodos') }}" accept-charset="UTF-8">
-                    <input class="sort-button" type="submit" value="{{ $isSorted ? 'Hide Completed' : 'Show All' }}">
+                    <input class="add-todo-button" type="submit" value="{{ $isSorted ? 'Hide Completed' : 'Show All' }}">
                 </form>
             </div>
 

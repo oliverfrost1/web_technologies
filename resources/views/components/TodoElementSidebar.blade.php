@@ -28,18 +28,18 @@
             </div>
         </form>
         <div class="sidebar-form-row">
-            <label for="tag">Tag</label>
-
+            <label class="sidebar-label" for="tag">Tag</label>
             @foreach ($tags as $tag)
-                <form action="{{route('removeTag')}}" method="POST">
+                <form class="sidebar-form" action="{{route('removeTag')}}" method="POST">
+
                     @csrf
-                    <button class="tag-button">{{ $tag->name }} <span class="remove-icon">X</span></button>
+                    <button class="add-todo-button tag-button">{{ $tag->name }} <span class="remove-icon">X</span></button>
                     <input type="hidden" name="tagid" value="{{ $tag->id }}">
                     <input type="hidden" name="todoid" value="{{ $todo->id }}">
 
                 </form>
             @endforeach
-            <form id="add-tag-form" action="{{ route('addNewTag') }}" method="post">
+            <form class="sidebar-form" id="add-tag-form" action="{{ route('addNewTag') }}" method="post">
                 @csrf
                 <input list="tag-choices" id="tagName" name="tagName" autocomplete="off" required/>
                 <datalist id="tag-choices">
