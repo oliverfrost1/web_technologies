@@ -52,7 +52,11 @@ class todoController extends Controller
     }
 
     public function changeSelectedTags(Request $request){
-        $selectedTags = session()->get('selectedTags',[]);
+        if(session()->has('selectedTags')){
+            $selectedTags = session()->get('selectedTags',[]);
+        } else{
+            $selectedTags = [];
+        }
         $curTag = $request->tag;
         $tagIndex = array_search($curTag,$selectedTags);
         if($tagIndex!==false){
