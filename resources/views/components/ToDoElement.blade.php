@@ -29,4 +29,13 @@
             {{ $title }}
         </button>
     </form>
+
+    <form method="post" class="todo-trash-can {{ $completed ? 'todo-trash-can-complete' : '' }}"
+        action="{{ route('deleteTodoElement', $id) }}" accept-charset="UTF-8" id="deleteTodoForm-{{ $id }}">
+        @csrf
+        <input type="hidden" name="id" value="{{ $id }}">
+        <i class="fa-solid fa-trash-can"
+            onclick="document.getElementById('deleteTodoForm-{{ $id }}').submit()"></i>
+    </form>
+
 </div>
