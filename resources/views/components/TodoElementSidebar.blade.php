@@ -1,9 +1,9 @@
 @props(['todo', 'tags', 'unselectedTags'])
 
 <div class="sidebar-holder" id="sidebar-holder">
-    <a href="{{ route('Main') }}">X</a>
+    <a href="{{ route('Main') }}"><i class="fa-regular fa-circle-xmark" style="color: #ffffff;"></i></a>
     <div class="sidebar-tag">
-        <form class="sidebar-form">
+        <form class="sidebar-form" method="post" accept-charset="UTF-8" action="{{ route('updateTodoFields') }}">
             <div class="sidebar-form-row">
                 <label for="title">Title</label>
                 <input type="text" name="title" value="{{ $todo->title }}" placeholder="title">

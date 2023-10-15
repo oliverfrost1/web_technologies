@@ -18,7 +18,6 @@ class todoController extends Controller
 
     public function showTodoList()
     {
-        //session()->flush();
         $todoId = request()->id;
         $tagsOnSelectedTodo = null;
         $allTags = $this->getAllTagsOnUser();
@@ -180,24 +179,20 @@ class todoController extends Controller
         }
         return $tags;
     }
-    //Creates a new tag and associates todo with the provided tag
-    //Checks if a tag already exists with the name and uses that instead
+
     public function addNewTagToTodo(Request $request) {
         if(!$request->tagName){
             return back();
         }
         $tag = $this->getTagFromName($request->tagName);
         if($tag){
-            //tag exists
             $tagid = $tag->id;
             $request->merge(['tagid'=>$tagid]);
             if(!$this->anyTodoHasAssociationsWithTag($tag)){
                 return $this->attachTagToTodo($request);
             }
-            //This tag already exists on the current todo
             return back();
         }
-        //create new tag
         $user = auth()->user();
         if ($user) {
             $tag = Tag::Create(["name" => $request->tagName,"user_id" => $user->id]);
@@ -235,7 +230,7 @@ class todoController extends Controller
         return back();
     }
 
-    private function anyTodoHasAssociationsWithTag($tagId) //could be redundant
+    private function anyTodoHasAssociationsWithTag($tagId) //could be redundant, kept for now
     {
         return Todo::whereHas('tags', function ($query) use ($tagId) {
             $query->where('tags.id', $tagId);
@@ -253,7 +248,7 @@ class todoController extends Controller
         $tags = $this-> getTagsAssociatedWithTodo($todoId);
         $tag_ids = $tags->pluck('id')->toArray();
         $user = auth()->user();
-        $unselectedTags = []; //Instantiation as todos are currently visible without loggin in
+        $unselectedTags = [];
         if ($user) {
             $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
         }
