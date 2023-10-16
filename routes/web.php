@@ -16,10 +16,18 @@ Route::get("/Login", AuthController::class . '@show')->name("Login");
 Route::post('/Login', [AuthController::class, 'authenticate'])->name('Login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+
 Route::get('/Profile', function () {
     // Only authenticated users may access this route.
     return view('Profile');
 })->middleware('auth.basic')->name('profile');
+
+Route::post('/addNewTag', todoController::class. '@addNewTagToTodo')->name("addNewTag");
+Route::post('/attachTag', todoController::class. '@attachTagToTodo')->name("attachTag");
+Route::post('/removeTagFromTodo', todoController::class. '@removeTagAssociation')->name("removeTagFromTodo");
+Route::post('/removeTag', todoController::class. '@removeTag')->name("removeTag");
+
+Route::get("/filterByTags", todoController::class . '@changeSelectedTags')->name("filterByTags");
 
 
 Route::post("/SaveItem", todoController::class . '@store')->name("SaveItem");

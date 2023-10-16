@@ -1,17 +1,14 @@
 <?php
 
 namespace App\Models;
+use App\Models\Todo;
 
-use App\Models\User;
-use App\Models\Tag;
-
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Todo extends Model
+class Tag extends Model
 {
-
     use HasFactory;
 
     /**
@@ -20,23 +17,20 @@ class Todo extends Model
      * @var array
      */
     protected $fillable = [
-        'title',
-        'description',
-        'completed',
+        'name',
         'user_id',
-        'due_date',
         'created_at',
         'updated_at'
     ];
 
-    /**
-     * Get the user that owns the todo.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function tags(){
-        return $this->belongsToMany(Tag::class);
+    public function todos(){
+        //BelongsToMany should auto create tag_todo table
+        //Had to create migration table manually.
+        return $this->belongsToMany(Todo::class);
     }
+
 }

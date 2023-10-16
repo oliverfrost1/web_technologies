@@ -8,6 +8,27 @@
   border: 2px solid #ccc;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
 }
+.sidebar-tag{
+    display: flex;
+    margin-top: 5px;
+}
+.tag-button{
+    position: relative;
+    padding-right: 30px;
+    background-color: white;
+    color: black;
+}
+.remove-icon {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.tag-button:hover .remove-icon {
+    opacity: 1;
+}
 
 .sidebar-form {
   display:flex;
@@ -18,6 +39,8 @@
 }
 
 .sidebar-form-row {
+  margin-left: 5px;
+  margin-right: 5px;
   display:flex;
   flex-direction:column;
   justify-content: flex-start;
@@ -28,6 +51,11 @@
   font-weight: bold;
   font-size: 1.1em;
   color: rgb(32, 32, 32);
+}
+.sidebar-label {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: rgb(32, 32, 32);
 }
 
 .sidebar-form input {
@@ -55,4 +83,15 @@
 .sidebar-button:hover {
   transition: 0.2s;
   transform: scale(1.06);
+}
+
+.tag-element{
+    display: flex;
+}
+
+.tag-delete{
+    margin-left: 5px;
+    font-size: 0.8rem;
+    padding: 3px;
+
 }
