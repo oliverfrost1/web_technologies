@@ -52,31 +52,5 @@
                 <input type="hidden" name="todoid" value="{{ $todo->id }}">
             </form>
         </div>
-        <script>
-            const toggleButton = document.getElementById('toggle-tag-input');
-            const tagInput = document.getElementById('tag-choices');
-            const addTagForm = document.getElementById('add-tag-form');
-
-            tagInput.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter' && tagInput.value.trim() !== '') {
-                    // Prevent the default Enter key behavior (e.g., new line in textarea)
-                    event.preventDefault();
-                    addTagForm.submit();
-                }
-            });
-
-            toggleButton.addEventListener('click', function() {
-                toggleButton.style.display = 'none';
-                tagInput.style.display = 'block';
-                tagInput.focus();
-            });
-
-            tagInput.addEventListener('blur', function() {
-                if (tagInput.value === '') {
-                    toggleButton.style.display = 'block';
-                    tagInput.style.display = 'none';
-                }
-            });
-        </script>
     </div>
 </div>
