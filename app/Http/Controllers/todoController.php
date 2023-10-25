@@ -203,6 +203,10 @@ class todoController extends Controller
             $tagid = $tag->id;
             $request->merge(['tagid'=>$tagid]);
             return $this->attachTagToTodo($request);
+        } else{
+            //give warning that user needs to be logged in to add tag
+            //should never be called as todos aren't visible if not logged in.
+            return back();
         }
     }
 
