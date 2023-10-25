@@ -9,7 +9,7 @@
             <span>{{ Auth::user()->name }}</span> <!-- Display user name -->
             <a href="Profile" class="button">Profile</a>
             <a href="#" class="button"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log out</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
             </form>

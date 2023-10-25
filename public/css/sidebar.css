@@ -7,6 +7,9 @@
   background-color: #f89100;
   border: 2px solid #ccc;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+
+  min-width:300px;
+  max-Width:300px;
 }
 .sidebar-tag{
     display: flex;

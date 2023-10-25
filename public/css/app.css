@@ -8,6 +8,8 @@
     align-items: flex-start;
     min-width: 100%;
     min-height: 100%;
+    flex-wrap: wrap;
+
 }
 
 .center-page {
@@ -282,6 +284,13 @@ body {
     color: white;
     text-decoration: none;
     transition: background-color 0.3s;
+}
+
+
+.top-right  {
+    display:flex;
+    flex-wrap:wrap;
+    align-items: center;
 }
 
 .top-right a.button {
