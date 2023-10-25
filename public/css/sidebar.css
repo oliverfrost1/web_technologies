@@ -100,3 +100,10 @@
     padding: 3px;
 
 }
+
+
+.tag-holder {
+    display:flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
