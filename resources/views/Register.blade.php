@@ -2,6 +2,7 @@
 @extends('Layout')
 @section('content')
     <div class="container center-page">
+        <h2>Register</h2>
         <form method="POST" action="{{ route('register') }}">
             @csrf
 

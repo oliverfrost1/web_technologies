@@ -1,25 +1,29 @@
 @extends('Layout')
 
 @section('content')
-<div class="container center-page">
+    <div class="container center-page">
 
-    <h2>Login</h2>
-    <form action="{{ route('Login') }}" method="POST">
-        @csrf
+        <h2>Login</h2>
+        <form action="{{ route('Login') }}" method="POST">
+            @csrf
+            <div class="auth-row">
+                <label for="email">Email:</label>
+                <input type="email" name="email" required class="input-container">
+            </div>
+            @error('email')
+                <p style="color:red;">{{ $message }}</p>
+            @enderror
+            <div class="auth-row">
+                <label for="password">Password:</label>
+                <input type="password" name="password" required class="input-container">
+            </div>
+            @error('password')
+                <p style="color:red;">{{ $message }}</p>
+            @enderror
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
-        @error('email')
-        <p style="color:red;">{{ $message }}</p>
-        @enderror
-
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-        @error('password')
-        <p style="color:red;">{{ $message }}</p>
-        @enderror
-
-        <button type="submit">Login</button>
-    </form>
-</div>
+            <div class="center-children-in-parent">
+                <button type="submit" class="todo-button">Login</button>
+            </div>
+        </form>
+    </div>
 @stop
