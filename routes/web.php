@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\todoController;
+use App\Http\Controllers\ProfileController;
 
 // Create instance of todoController
 $todoController = new todoController();
@@ -15,6 +16,8 @@ Route::post('/Register', [RegisterController::class, 'register'])->name('registe
 Route::get("/Login", AuthController::class . '@show')->name("Login");
 Route::post('/Login', [AuthController::class, 'authenticate'])->name('Login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
 
 
 Route::get('/Profile', function () {
