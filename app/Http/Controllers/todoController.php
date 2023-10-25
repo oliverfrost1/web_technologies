@@ -98,7 +98,7 @@ class todoController extends Controller
      */
     public function getTodo($isSorted)
     {
-        $userId = auth()->id(); // gets the id of the user
+        $userId = auth()->id();
         $tags = session()->get('selectedTags');
 
         $todos = Todo::where('user_id', $userId)->get(); // gets the entire todolist from the database with the user id
