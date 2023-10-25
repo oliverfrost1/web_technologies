@@ -37,7 +37,7 @@ const dueDateButton = document.getElementById('dueDateButton');
 function showDueDate() {
     // Change the input type to "date"
     dueDate.type = "date";
-    dueDateButton.type = "hidden";
+    dueDateButton.style.display = "none";
     console.log("called")
 }
 

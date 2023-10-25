@@ -14,7 +14,7 @@
                                 placeholder="Take the thrash out" required autofocus>
                             <input type="hidden" class="add-todo-date-picker" id="duedate" name="duedate"
                                 title="Due date">
-                            <input type="button" class="todo-button" value="Add due date" id="dueDateButton">
+                            <i id="dueDateButton" class="fa-regular fa-clock todo-button icon"></i>
                             <i class="fa-solid fa-plus todo-button icon"
                                 onclick="document.getElementById('addItemToTodo').submit()"></i>
 
