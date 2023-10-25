@@ -16,20 +16,15 @@
             <div class="auth-row">
                 <label for="email">Email Address</label>
                 <input type="email" name="email" value="{{ old('email') }}" class="input-container" required>
-
-
             </div>
             <div class="auth-row">
                 <label for="password">Password</label>
                 <input type="password" name="password" class="input-container" required>
-
             </div>
-
             <div class="auth-row">
                 <label for="password_confirmation">Confirm Password</label>
                 <input type="password" name="password_confirmation" class="input-container" required>
             </div>
-
             <div class="center-children-in-parent">
                 <button type="submit" class="todo-button">Register</button>
             </div>
