@@ -25,3 +25,20 @@ const checkWrapAndJustify = () => {
 
 window.addEventListener('resize', checkWrapAndJustify);
 checkWrapAndJustify(); // Initial check
+
+
+/**
+ * This hides the due date until "Add due date" is clicked
+ */
+const dueDate = document.getElementById('duedate');
+const dueDateButton = document.getElementById('dueDateButton');
+
+// This add makes the due date selector visible
+function showDueDate() {
+    // Change the input type to "date"
+    dueDate.type = "date";
+    dueDateButton.type = "hidden";
+    console.log("called")
+}
+
+dueDateButton.addEventListener('click', showDueDate);

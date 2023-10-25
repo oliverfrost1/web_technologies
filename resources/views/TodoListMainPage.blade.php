@@ -2,30 +2,34 @@
 
 @section('content')
     <div class="todo-page-layout">
-        <x-TagSidebar :allTags="$allTags" :filterTags="$filterTags"  />
+        <x-TagSidebar :allTags="$allTags" :filterTags="$filterTags" />
         <div class="center-page">
-            <h1 class="title">Todo List</h1>
+
             <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">
                 @csrf
-                <div class="todo-title-and-date-holder">
-                    <div class="input-container">
-                        <input type="text" class="add-todo-title" id="title" name="title"
-                            placeholder="Take the thrash out" required autofocus>
-                        <input type="date" class="add-todo-date-picker" id="duedate" name="duedate" title="Due date">
-                    </div>
-                </div>
-                @error('createError')
-                    <p style="color:red;">{{ $message }}</p>
-                @enderror
+                <div class="todo-adder-form-layout">
+                    <div class="todo-title-and-date-holder">
+                        <div class="input-container">
+                            <input type="text" class="add-todo-title" id="title" name="title"
+                                placeholder="Take the thrash out" required autofocus>
+                            <input type="hidden" class="add-todo-date-picker" id="duedate" name="duedate"
+                                title="Due date">
+                            <input type="button" class="todo-button" value="Add due date" id="dueDateButton">
+                            <i class="fa-solid fa-plus todo-button icon"
+                                onclick="document.getElementById('addItemToTodo').submit()"></i>
 
-                <div class="center-children-in-parent">
-                    <input type="submit" class="add-todo-button" value="Add Todo">
+                        </div>
+                    </div>
+                    @error('createError')
+                        <p style="color:red;">{{ $message }}</p>
+                    @enderror
                 </div>
             </form>
 
             <div class="button-header">
                 <form class="sort-button" method="get" action="{{ route('FilterTodos') }}" accept-charset="UTF-8">
-                    <input class="add-todo-button" type="submit" value="{{ $isSorted ? 'Show All' : 'Hide Completed' }}">
+                    <input class="todo-button" type="submit"
+                        value="{{ $isSorted ? 'Show Completed Todos' : 'Hide Completed Todos' }}">
                 </form>
             </div>
 
