@@ -53,12 +53,12 @@
 .sidebar-form label {
   font-weight: bold;
   font-size: 1.1em;
-  color: rgb(32, 32, 32);
+  color: white
 }
 .sidebar-label {
     font-weight: bold;
     font-size: 1.1em;
-    color: rgb(32, 32, 32);
+    color: white;
 }
 
 .sidebar-form input {
@@ -88,8 +88,10 @@
   transform: scale(1.06);
 }
 
-.tag-element{
+
+.center-vertically-flex {
     display: flex;
+    align-items: center;
 }
 
 .tag-delete{
