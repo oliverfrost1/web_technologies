@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\todoController;
 use App\Http\Controllers\ProfileController;
 
-// Create instance of todoController
-$todoController = new todoController();
-
 Route::get('/', todoController::class . '@showTodoList')->name('Main');
 Route::get("/FilterTodos", todoController::class . '@changeSort')->name("FilterTodos");
 Route::get('/Register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
