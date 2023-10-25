@@ -41,10 +41,6 @@
             <div class="info-message">{{ session('info') }}</div>
         @endif
 
-        @if (session('error'))
-            <div class="error-message">{{ session('error') }}</div>
-        @endif
-
         @if ($errors->any())
             <div class="error-message">{{ $errors->first() }}</div>
         @endif

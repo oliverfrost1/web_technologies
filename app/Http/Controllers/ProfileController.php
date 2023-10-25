@@ -39,16 +39,19 @@ class ProfileController extends Controller
         }
 
         if (!$dataChanged) {
-            return redirect()->back()->with('info', 'Nothing to update');
+            return back()->with('info', 'Nothing to update');
         }
 
         if ($request->filled('current_password') && !Hash::check($request->input('current_password'), $user->password)) {
-            return redirect()->back()->with('error', 'Current password is incorrect');
+            return back()->withErrors([
+                'current_password' => 'Current password is incorrect',
+            ]);
         }
 
         $user->save();
 
-        return redirect()->back()->with('success', 'Profile updated successfully');
+        return back()->with('success', 'Profile updated successfully');
+
     }
 
 

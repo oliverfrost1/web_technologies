@@ -1,7 +1,7 @@
 <div class="topbar">
     <div class="top-left">
         <h1>
-            <a href="/" class="button"> Todo List</a>
+            <a href="/" class="button"> <i class="fa-solid fa-house-circle-check"></i> Todo List </a>
         </h1>
     </div>
     <div class="top-right">
