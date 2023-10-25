@@ -17,7 +17,7 @@ class ProfileController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'current_password' => 'nullable|min:8',
-            'new_password' => 'nullable|same:confirm_new_password|min:8',
+            'new_password' => 'nullable|min:8',
             'confirm_new_password' => 'nullable|same:new_password',
         ]);
 
