@@ -255,31 +255,25 @@ body {
     margin: 10px 0;
 }
 
-.error-message {
-    padding-top: 8px;
-    padding-bottom: 5px;
-    font-style: italic;
-    color: red;
-}
-
-h2 {
-    color: white;
-}
-
+h2,
 h4 {
     color: white;
 }
 
-.success-message {
+.feedback-message {
     padding-top: 8px;
     padding-bottom: 5px;
     font-style: italic;
+}
+
+.success-message {
     color: #2cd632;
 }
 
 .info-message {
-    padding-top: 8px;
-    padding-bottom: 5px;
-    font-style: italic;
     color: rgb(211, 211, 211);
+}
+
+.error-message {
+    color: red;
 }

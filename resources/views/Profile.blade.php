@@ -34,15 +34,15 @@
         </form>
 
         @if (session('success'))
-            <div class="success-message">{{ session('success') }}</div>
+            <div class="feedback-message success-message">{{ session('success') }}</div>
         @endif
 
         @if (session('info'))
-            <div class="info-message">{{ session('info') }}</div>
+            <div class="feedback-message info-message">{{ session('info') }}</div>
         @endif
 
         @if ($errors->any())
-            <div class="error-message">{{ $errors->first() }}</div>
+            <div class="feedback-message error-message">{{ $errors->first() }}</div>
         @endif
 
     </div>
