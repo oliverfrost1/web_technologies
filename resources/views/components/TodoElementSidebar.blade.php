@@ -1,7 +1,7 @@
 @props(['todo', 'tags', 'unselectedTags'])
 
 <div class="sidebar-holder" id="sidebar-holder">
-    <a href="{{ route('Main') }}"><i class="fa-regular fa-circle-xmark" style="color: #ffffff;"></i></a>
+    <a href="{{ route('Main') }}"><i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i></a>
     <form class="sidebar-form" method="post" accept-charset="UTF-8" action="{{ route('updateTodoFields') }}">
         @csrf
         <div class="sidebar-form-row">
