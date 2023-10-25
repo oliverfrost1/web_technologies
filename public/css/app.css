@@ -22,36 +22,14 @@
     padding-top: 30px;
 }
 
-button.todo-title {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    text-align: left;
-    font: inherit;
-    cursor: pointer;
-}
-
 .todo-actions {
     display: flex;
     gap: 8px;
 }
 
 
-
-
 .todolist-holder {
     width: 50%;
-}
-
-
-.todo-title {
-    color: white;
-}
-
-.todo-title-complete {
-    opacity: 50%;
-    text-decoration: line-through;
 }
 
 .todo-adder-form-layout {
