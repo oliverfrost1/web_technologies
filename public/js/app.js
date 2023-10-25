@@ -36,7 +36,6 @@ function showDueDate() {
     // Change the input type to "date"
     dueDate.type = "date";
     dueDateButton.style.display = "none";
-    console.log("called");
 }
 
 dueDateButton.addEventListener("click", showDueDate);
@@ -67,11 +66,4 @@ tagInput.addEventListener("blur", function () {
         toggleButton.style.display = "block";
         tagInput.style.display = "none";
     }
-});
-
-$(document).ready(function () {
-    // Your code here
-    setTimeout(function () {
-        $(".fade-message").fadeOut();
-    }, 3000); // Adjust the duration as needed (in milliseconds)
 });
