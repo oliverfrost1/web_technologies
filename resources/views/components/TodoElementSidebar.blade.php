@@ -29,21 +29,24 @@
     </form>
     <div class="sidebar-tag">
         <div class="sidebar-form-row">
-            <label class="sidebar-label" for="tag">Tag</label>
-            @foreach ($tags as $tag)
-                <form class="sidebar-form" action="{{route('removeTagFromTodo')}}" method="POST">
-                    @csrf
-                    <button class="add-todo-button tag-button">{{ $tag->name }} <span class="remove-icon">X</span></button>
-                    <input type="hidden" name="tagid" value="{{ $tag->id }}">
-                    <input type="hidden" name="todoid" value="{{ $todo->id }}">
-                </form>
-            @endforeach
+            <label class="sidebar-label" for="tag">Manage Tags</label>
+            <div class="tag-holder">
+                @foreach ($tags as $tag)
+                    <form class="sidebar-form" action="{{ route('removeTagFromTodo') }}" method="POST">
+                        @csrf
+                        <button class="todo-button tag-button">{{ $tag->name }} <span
+                                class="remove-icon">X</span></button>
+                        <input type="hidden" name="tagid" value="{{ $tag->id }}">
+                        <input type="hidden" name="todoid" value="{{ $todo->id }}">
+                    </form>
+                @endforeach
+            </div>
             <form class="sidebar-form" id="add-tag-form" action="{{ route('addNewTag') }}" method="post">
                 @csrf
-                <input list="tag-choices" id="tagName" name="tagName" autocomplete="off" required/>
+                <input list="tag-choices" id="tagName" name="tagName" autocomplete="off" required />
                 <datalist id="tag-choices">
                     @foreach ($unselectedTags as $unselectedTag)
-                        <option value="{{$unselectedTag->name}}"></option>
+                        <option value="{{ $unselectedTag->name }}"></option>
                     @endforeach
                 </datalist>
                 <input type="hidden" name="todoid" value="{{ $todo->id }}">
@@ -54,7 +57,7 @@
             const tagInput = document.getElementById('tag-choices');
             const addTagForm = document.getElementById('add-tag-form');
 
-            tagInput.addEventListener('keydown', function (event) {
+            tagInput.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter' && tagInput.value.trim() !== '') {
                     // Prevent the default Enter key behavior (e.g., new line in textarea)
                     event.preventDefault();
@@ -62,13 +65,13 @@
                 }
             });
 
-            toggleButton.addEventListener('click', function () {
+            toggleButton.addEventListener('click', function() {
                 toggleButton.style.display = 'none';
                 tagInput.style.display = 'block';
                 tagInput.focus();
             });
 
-            tagInput.addEventListener('blur', function () {
+            tagInput.addEventListener('blur', function() {
                 if (tagInput.value === '') {
                     toggleButton.style.display = 'block';
                     tagInput.style.display = 'none';

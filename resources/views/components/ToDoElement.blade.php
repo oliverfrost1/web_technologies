@@ -21,21 +21,27 @@
             <label>{{ $duedate }}</label>
         </div>
     @endif
-
-    <form method="" class="todo-text" action="{{ route('Main') }}" accept-charset="UTF-8"
-        id="openSelectedWindow{{ $id }}">
-        <input type="hidden" name="id" value="{{ $id }}">
-        <button type="submit" class="todo-title {{ $completed ? 'todo-title-complete' : '' }}">
+    <div class="todo-element-text-and-icon-holder">
+        <div class="todo-element-text {{ $completed ? 'todo-title-complete' : '' }}">
             {{ $title }}
-        </button>
-    </form>
+        </div>
+        <div class="todo-element-icon-container">
+            <form method="" action="{{ route('Main') }}" accept-charset="UTF-8" class="todo-element-icon"
+                id="openSelectedWindow{{ $id }}">
+                <input type="hidden" name="id" value="{{ $id }}">
+                <i class="fa-solid fa-pen-to-square " style="color:white"
+                    onclick="document.getElementById('openSelectedWindow{{ $id }}').submit()"></i>
+            </form>
 
-    <form method="post" class="todo-trash-can {{ $completed ? 'todo-trash-can-complete' : '' }}"
-        action="{{ route('deleteTodoElement', $id) }}" accept-charset="UTF-8" id="deleteTodoForm-{{ $id }}">
-        @csrf
-        <input type="hidden" name="id" value="{{ $id }}">
-        <i class="fa-solid fa-trash-can"
-            onclick="document.getElementById('deleteTodoForm-{{ $id }}').submit()"></i>
-    </form>
+            <form method="post" class="todo-element-icon {{ $completed ? 'todo-trash-can-complete' : '' }}"
+                action="{{ route('deleteTodoElement', $id) }}" accept-charset="UTF-8"
+                id="deleteTodoForm-{{ $id }}">
+                @csrf
+                <input type="hidden" name="id" value="{{ $id }}">
+                <i class="fa-solid fa-trash-can"
+                    onclick="document.getElementById('deleteTodoForm-{{ $id }}').submit()"></i>
+            </form>
+        </div>
+    </div>
 
 </div>
