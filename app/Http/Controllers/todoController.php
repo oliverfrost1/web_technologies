@@ -98,10 +98,10 @@ class todoController extends Controller
      */
     public function getTodo($isSorted)
     {
-        $userId = auth()->id(); // Assuming you are using Laravel's built-in authentication
+        $userId = auth()->id(); // gets the id of the user
         $tags = session()->get('selectedTags');
 
-        $todos = Todo::where('user_id', $userId)->get();
+        $todos = Todo::where('user_id', $userId)->get(); // gets the entire todolist from the database with the user id
         if ($tags) {
             $todos = $this->getTodosAssociatedWithTag($tags);
 
