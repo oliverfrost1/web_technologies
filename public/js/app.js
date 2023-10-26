@@ -38,7 +38,6 @@ function showDueDate() {
     // Change the input type to "date"
     dueDate.type = "date";
     dueDateButton.style.display = "none";
-    console.log("called")
 }
 
 dueDateButton.addEventListener('click', showDueDate);

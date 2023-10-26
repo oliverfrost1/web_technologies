@@ -224,7 +224,6 @@ body {
     transition: background-color 0.3s;
 }
 
-
 .top-right  {
     display:flex;
     flex-wrap:wrap;
@@ -255,4 +254,15 @@ body {
     justify-content: space-between;
     align-items: center;
     margin: 10px 0;
+}
+
+.element-icon{
+    color: white;
+    cursor: pointer;
+}
+
+.element-icon:hover {
+    transition: transform 0.2s;
+    transform: scale(1.2);
+    transition: 0.2s;
 }
