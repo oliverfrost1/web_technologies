@@ -53,11 +53,6 @@ tagInput.addEventListener("keydown", function (event) {
     }
 });
 
-toggleButton.addEventListener("click", function () {
-    toggleButton.style.display = "none";
-    tagInput.style.display = "block";
-    tagInput.focus();
-});
 
 tagInput.addEventListener("blur", function () {
     if (tagInput.value === "") {
@@ -69,7 +64,16 @@ tagInput.addEventListener("blur", function () {
 /*
 * Change tag edit icon to input field
 */
+let prevTagIds = [];
 function enableEditField(tagId) {
+    if(prevTagIds.length > 0){
+        prevTagIds.forEach(tagId => {
+            disableEditField(tagId);
+        });
+    }
+    console.log(1);
+    prevTagIds = [];
+    prevTagIds.push(tagId);
     let tagLabel = document.getElementById('tagLabel-' + tagId);
     tagLabel.style.display = 'none';
     document.getElementById('editField-' + tagId).style.display = 'inline';
@@ -83,7 +87,6 @@ function enableEditField(tagId) {
 }
 function disableEditField(tagId) {
     document.getElementById('editField-' + tagId).style.display = 'none';
-    document.getElementById('tagLabel-' + tagId).innerText = tagName;
     document.getElementById('tagLabel-' + tagId).style.display = 'inline';
 }
 
