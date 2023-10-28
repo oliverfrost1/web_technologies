@@ -31,9 +31,8 @@ checkWrapAndJustify(); // Initial check
 const dueDate = document.getElementById("duedate");
 const dueDateButton = document.getElementById("dueDateButton");
 
-// This add makes the due date selector visible
+// This makes the due date selector visible
 function showDueDate() {
-    // Change the input type to "date"
     dueDate.type = "date";
     dueDateButton.style.display = "none";
 }
@@ -49,7 +48,6 @@ const addTagForm = document.getElementById("add-tag-form");
 
 tagInput.addEventListener("keydown", function (event) {
     if (event.key === "Enter" && tagInput.value.trim() !== "") {
-        // Prevent the default Enter key behavior (e.g., new line in textarea)
         event.preventDefault();
         addTagForm.submit();
     }
@@ -67,3 +65,25 @@ tagInput.addEventListener("blur", function () {
         tagInput.style.display = "none";
     }
 });
+
+/*
+* Change tag edit icon to input field
+*/
+function enableEditField(tagId) {
+    let tagLabel = document.getElementById('tagLabel-' + tagId);
+    tagLabel.style.display = 'none';
+    document.getElementById('editField-' + tagId).style.display = 'inline';
+    tagLabel.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && tagInput.value.trim() !== "") {
+            event.preventDefault();
+            disableEditField(tagId);
+            addTagForm.submit();
+        }
+    });
+}
+function disableEditField(tagId) {
+    document.getElementById('editField-' + tagId).style.display = 'none';
+    document.getElementById('tagLabel-' + tagId).innerText = tagName;
+    document.getElementById('tagLabel-' + tagId).style.display = 'inline';
+}
+

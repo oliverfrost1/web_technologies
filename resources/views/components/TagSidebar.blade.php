@@ -9,10 +9,12 @@
                     id="tag_{{ $tag->id }}" @if (in_array($tag->id, (array) $filterTags)) checked @endif
                     onchange="this.form.submit()">
             </form>
-            <form method="post" action="" accept-charset="UTF-8" class="center-vertically-flex" id="editTag-{{ $tag->id }}">
-                <label class="sidebar-label"> {{ $tag->name }} </label>
-                <i class="fa-solid fa-pen-to-square " style="color:white"
-                    onclick="document.getElementById('editTag-{{ $tag->id }}').submit()"></i>
+            <form method="post" action={{ route('updateTag') }} accept-charset="UTF-8" class="center-vertically-flex" id="editTag-{{ $tag->id }}">
+                @csrf
+                <label class="sidebar-label" id="tagLabel-{{ $tag->id }}">{{ $tag->name }}</label>
+                <input type="hidden" name="tagId" value="{{ $tag->id }}">
+                <input type="text" name="tagName" class="input-container add-todo-title" id="editField-{{ $tag->id }}" style="display: none;" value="{{ $tag->name }}">
+                <i class="fa-solid fa-pen-to-square element-icon" style="color:white" onclick="enableEditField('{{ $tag->id }}')"></i>
             </form>
             <form method="post" action={{ route('removeTag') }} accept-charset="UTF-8"  class="center-vertically-flex element-icon" id="removeTag-{{ $tag->id }}">
                 @csrf

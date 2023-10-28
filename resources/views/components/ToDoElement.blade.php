@@ -34,8 +34,6 @@
                 <i class="fa-solid fa-pen-to-square " style="color:white"
                     onclick="document.getElementById('openSelectedWindow{{ $id }}').submit()"></i>
             </form>
-
-
             <form method="post" class="element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"
                 action="{{ route('deleteTodoElement', $id) }}" accept-charset="UTF-8"
                 id="deleteTodoForm-{{ $id }}">
