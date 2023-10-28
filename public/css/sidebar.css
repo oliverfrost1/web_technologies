@@ -88,10 +88,10 @@
   transform: scale(1.06);
 }
 
-
 .center-vertically-flex {
     display: flex;
     align-items: center;
+    column-gap: 5px;
 }
 
 .tag-delete{
@@ -100,7 +100,6 @@
     padding: 3px;
 
 }
-
 
 .tag-holder {
     display:flex;

@@ -25,16 +25,16 @@
         <div class="todo-element-text {{ $completed ? 'todo-title-complete' : '' }}">
             {{ $title }}
         </div>
-        <div class="todo-element-icon-container">
+
+        <div class="element-icon-container">
             <form method="get" action="{{ route('Main') }}" accept-charset="UTF-8"
-                class="todo-element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"
+                class="element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"
                 id="openSelectedWindow{{ $id }}">
                 <input type="hidden" name="id" value="{{ $id }}">
                 <i class="fa-solid fa-pen-to-square " style="color:white"
                     onclick="document.getElementById('openSelectedWindow{{ $id }}').submit()"></i>
             </form>
-
-            <form method="post" class="todo-element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"
+            <form method="post" class="element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"
                 action="{{ route('deleteTodoElement', $id) }}" accept-charset="UTF-8"
                 id="deleteTodoForm-{{ $id }}">
                 @csrf

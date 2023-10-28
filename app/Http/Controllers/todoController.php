@@ -160,7 +160,6 @@ class todoController extends Controller
 
     public function updateTodoFields()
     {
-
         $request = request();
         $user = auth()->user();
         if ($user) {
@@ -209,6 +208,10 @@ class todoController extends Controller
             $tagid = $tag->id;
             $request->merge(['tagid' => $tagid]);
             return $this->attachTagToTodo($request);
+        } else{
+            return back()->withErrors([
+                'createError' => 'You need to log in to add this tag to todo.',
+            ])->onlyInput('createError');
         }
     }
 
@@ -234,7 +237,6 @@ class todoController extends Controller
     public function removeTag(Request $request)
     {
         $tagId = $request->id;
-        \Log::info($tagId);
         $todos = $this->getTodosAssociatedWithTag((array) $tagId);
         foreach ($todos as $todo) {
             $todo->tags()->detach($tagId);
@@ -289,5 +291,22 @@ class todoController extends Controller
             $query->where('todos.id', $todoId);
         })->get();
         return $tags;
+    }
+
+    public function updateTag(Request $request){
+        $tagId = $request->tagId;
+        $tagName = $request->tagName;
+        $user = auth()->user();
+        if ($user) {
+            $tag = Tag::find($tagId);
+            if ($tag && $tag->user_id === $user->id) {
+                $tag->name = $tagName;
+                $tag->save();
+                return back();
+            }
+        }
+        return back()->withErrors([
+            'createError' => 'You need to log in to update this tag.',
+        ])->onlyInput('createError');
     }
 }
