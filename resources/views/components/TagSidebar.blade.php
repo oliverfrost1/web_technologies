@@ -1,6 +1,6 @@
 @props(['allTags', 'filterTags'])
 <div class="sidebar-holder">
-    <label class="sidebar-label" for="tags">Tags</label>
+    <label class="sidebar-label" for="tags"><i class="fa-solid fa-tags"></i> Tags</label>
     @foreach ($allTags as $tag)
         <div class="center-vertically-flex">
             <form method="get" action="{{ route('filterByTags') }}" accept-charset="UTF-8" class="center-vertically-flex">

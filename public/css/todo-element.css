@@ -1,5 +1,3 @@
-
-
 .todo-element-text {
     color: white;
     font-size: 16px;
@@ -34,14 +32,11 @@
 }
 
 
-
-
-
 .fa-trash-can:hover {
     color: red;
 }
 
-.todo-trash-can-complete {
+.todo-element-icon-complete {
     opacity: 50%;
 }
 
@@ -55,7 +50,7 @@
 }
 
 .todo-element-text-and-icon-holder {
-    display:flex;
+    display: flex;
     justify-content: space-between;
     width: 100%;
 }
