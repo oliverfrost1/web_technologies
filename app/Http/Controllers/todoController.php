@@ -98,6 +98,10 @@ class todoController extends Controller
      */
     public function getTodo($isSorted)
     {
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            return Todo::all();
+        }
+
         $userId = auth()->id();
         $tags = session()->get('selectedTags');
 
