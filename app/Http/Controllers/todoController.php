@@ -149,9 +149,9 @@ class todoController extends Controller
     public function deleteTodoElement($id)
     {
         $user = auth()->user();
-        if ($user) {
+        if ($user || $user->isAdmin()) {
             $todo = Todo::find($id);
-            if ($todo->user_id === $user->id) {
+            if ($todo->user_id === $user->id || $user->isAdmin()) {
                 $todo->delete();
                 return back();
             }
@@ -168,7 +168,7 @@ class todoController extends Controller
         $user = auth()->user();
         if ($user) {
             $todo = Todo::find($request->id);
-            if ($todo && $todo->user_id === $user->id) {
+            if ($todo && ($todo->user_id === $user->id || $user->isAdmin())) {
                 // Extract all fields except _token
                 $request["completed"] = $request->completed === "on" ? true : false;
                 $updateData = $request->except('_token');
@@ -187,7 +187,12 @@ class todoController extends Controller
         $user = auth()->user();
         $tags = []; //Instantiation as todos are currently visible without loggin in
         if ($user) {
-            $tags = Tag::where('user_id', $user->id)->get();
+            if ($user->isAdmin()) {
+                $tags = Tag::all();
+            } 
+            else {
+                $tags = Tag::where('user_id', $user->id)->get();
+            }
         }
         return $tags;
     }
