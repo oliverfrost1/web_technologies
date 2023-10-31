@@ -11,7 +11,7 @@
                     <div class="todo-title-and-date-holder">
                         <div class="input-container">
                             <input type="text" class="add-todo-title" id="title" name="title"
-                                placeholder="Take the thrash out" required autofocus>
+                                placeholder="Take the trash out" required autofocus>
                             <input type="hidden" class="add-todo-date-picker" id="duedate" name="duedate"
                                 title="Due date">
                             <i id="dueDateButton" class="fa-regular fa-clock todo-button icon"></i>
