@@ -222,9 +222,9 @@ body {
     transition: background-color 0.3s;
 }
 
-.top-right  {
-    display:flex;
-    flex-wrap:wrap;
+.top-right {
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
 }
 
@@ -255,7 +255,7 @@ body {
     margin: 10px 0;
 }
 
-.element-icon{
+.element-icon {
     color: white;
     cursor: pointer;
 }
