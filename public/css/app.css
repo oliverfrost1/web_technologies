@@ -288,3 +288,12 @@ h4 {
 .error-message {
     color: red;
 }
+
+.admin-page-table, .admin-page-table th, .admin-page-table td, .admin-page-table tr {
+    border: 2px solid #555;
+    border-collapse: collapse;
+    border-radius: 10px;
+    padding: 5px;
+    color: white;
+    background-color: #f89100;
+}
