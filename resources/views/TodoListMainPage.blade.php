@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="todo-page-layout">
-        <x-TagSidebar :allTags="$allTags" :filterTags="$filterTags" />
+        <x-LeftSidebar :allTags="$allTags" :filterTags="$filterTags" :isSorted="$isSorted" />
         <div class="center-page">
 
             <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">
@@ -26,12 +26,7 @@
                 </div>
             </form>
 
-            <div class="button-header">
-                <form class="sort-button" method="get" action="{{ route('FilterTodos') }}" accept-charset="UTF-8">
-                    <input class="todo-button" type="submit"
-                        value="{{ $isSorted ? 'Show Completed Todos' : 'Hide Completed Todos' }}">
-                </form>
-            </div>
+
 
             <br />
             <div class="todolist-holder">
@@ -57,13 +52,15 @@
 
         </div>
 
-        @foreach ($todos as $todo)
-            @if ($todo->id == $openedId)
-                <x-TodoElementSidebar :todo="$todo" :tags="$tags" :unselectedTags="$unselectedTags" />
-            @break
-        @endif
-    @endforeach
 
 
-</div>
+        <x-RightSidebar :todo="$todos->find($openedId)" :tags="$tags" :unselectedTags="$unselectedTags" />
+
+
+
+
+
+
+
+    </div>
 @stop

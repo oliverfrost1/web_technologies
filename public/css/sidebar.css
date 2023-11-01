@@ -76,16 +76,17 @@
   background-color:white;
   font-weight: bold;
   padding: 5px;
+  margin-top:5px;
   cursor: pointer;
   border:none;
   border-radius:5px;
   box-shadow:  2px 4px 4px rgba(0, 0, 0, 0.2);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .sidebar-button:hover {
   transition: 0.2s;
-  transform: scale(1.06);
+  transform: scale(1.02);
 }
 
 .center-vertically-flex {
