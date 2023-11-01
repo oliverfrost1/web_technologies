@@ -102,7 +102,12 @@ class todoController extends Controller
         $tags = session()->get('selectedTags');
 
         if (auth()->check() && auth()->user()->isAdmin()) {
-            $todos = Todo::all();
+            $todos = Todo::join('users', 'todos.user_id', '=', 'users.id')
+                ->select('todos.*', 'users.email as user_email')
+                ->get();
+
+            \Log::info($todos);
+            ;
         } else {
             $todos = Todo::where('user_id', $userId)->get();
         }
@@ -282,7 +287,11 @@ class todoController extends Controller
         $user = auth()->user();
         $unselectedTags = [];
         if ($user) {
-            $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
+            if ($user->isAdmin()) {
+                $unselectedTags = Tag::whereNotIn('id', $tag_ids)->get();
+            } else {
+                $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
+            }
         }
         return $unselectedTags;
     }
