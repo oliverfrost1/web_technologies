@@ -4,18 +4,18 @@
 const todoPageLayout = document.querySelector(".todo-page-layout");
 
 const checkWrapAndJustify = () => {
-    let hasWrap = false;
+    let hasWrapped = false;
     let lastItem = null;
 
     for (const item of todoPageLayout.children) {
         if (lastItem && item.offsetTop > lastItem.offsetTop) {
-            hasWrap = true;
+            hasWrapped = true;
             break;
         }
         lastItem = item;
     }
 
-    if (hasWrap) {
+    if (hasWrapped) {
         todoPageLayout.style.justifyContent = "center";
     } else {
         todoPageLayout.style.justifyContent = "space-between";
@@ -62,14 +62,9 @@ if(tagInput !== null){
     });
 }
 
-
-
-
-
 /*
 * Change tag edit icon to input field
 */
-
 function enableEditField(tagId) {
     let prevTagIds = [];
     if(prevTagIds.length > 0){
@@ -77,7 +72,6 @@ function enableEditField(tagId) {
             disableEditField(tagId);
         });
     }
-    console.log(1);
     prevTagIds = [];
     prevTagIds.push(tagId);
     let tagLabel = document.getElementById('tagLabel-' + tagId);

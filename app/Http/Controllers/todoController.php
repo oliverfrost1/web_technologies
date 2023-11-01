@@ -11,7 +11,7 @@ use App\Models\TodoTag;
 
 use Illuminate\Support\Facades\View;
 
-class todoController extends Controller
+class TodoController extends Controller
 {
     /**
      * Display a listing of the resource.
