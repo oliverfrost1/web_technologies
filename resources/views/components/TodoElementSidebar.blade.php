@@ -3,8 +3,10 @@
 <div class="sidebar-holder" id="sidebar-holder">
     <a href="{{ route('Main') }}"><i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i></a>
     <form class="sidebar-form" method="post" accept-charset="UTF-8" action="{{ route('updateTodoFields') }}">
+
         @csrf
         <div class="sidebar-form-row">
+            <label>{{ $todo->user_email ? "User: $todo->user_email" : '' }}</label>
             <label for="title">Title</label>
             <input type="text" name="title" value="{{ $todo->title }}" placeholder="title">
         </div>
@@ -53,4 +55,5 @@
             </form>
         </div>
     </div>
+
 </div>

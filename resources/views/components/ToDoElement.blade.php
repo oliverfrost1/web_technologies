@@ -23,7 +23,7 @@
     @endif
     <div class="todo-element-text-and-icon-holder">
         <div class="todo-element-text {{ $completed ? 'todo-title-complete' : '' }}">
-            {{ $userEmail ? "$userEmail:" : '' }}{{ $title }}
+            {{ $userid ? "UID $userid: " : '' }}{{ $title }}
         </div>
 
         <div class="element-icon-container">
