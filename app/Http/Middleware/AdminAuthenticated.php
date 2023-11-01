@@ -15,11 +15,9 @@ class AdminAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->check() && !auth()->user()->isAdmin()) {
-            abort(403); // or any proper response
+        if(auth()->check() && auth()->user()->isAdmin()) {
+            return $next($request);
         }
-
-        // pass over next middleware
-        return $next($request);
+        abort(403);
     }
 }
