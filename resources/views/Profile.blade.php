@@ -8,25 +8,25 @@
         </h4>
         <form method="POST" action="{{ route('profile.update') }}">
             @csrf
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label>Name:</label>
-                <input class="input-container" type="text" name="name" value="{{ Auth::user()->name }}">
+                <input class="text-input-container" type="text" name="name" value="{{ Auth::user()->name }}">
             </div>
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label>Email Address:</label>
-                <input class="input-container" type="email" name="email" value="{{ Auth::user()->email }}">
+                <input class="text-input-container" type="email" name="email" value="{{ Auth::user()->email }}">
             </div>
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label>Current Password:</label>
-                <input class="input-container" type="password" name="current_password">
+                <input class="text-input-container" type="password" name="current_password">
             </div>
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label>New Password:</label>
-                <input class="input-container" type="password" name="new_password">
+                <input class="text-input-container" type="password" name="new_password">
             </div>
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label>Confirm New Password:</label>
-                <input class="input-container" type="password" name="confirm_new_password">
+                <input class="text-input-container" type="password" name="confirm_new_password">
             </div>
             <div class="center-children-in-parent">
                 <button class="todo-button" type="submit">Update Profile</button>

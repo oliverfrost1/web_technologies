@@ -17,7 +17,7 @@
             </div>
             <div class="sidebar-form-row">
                 <label for="completed">Completed</label>
-                <input type="checkbox" class="toggle-completed" name="completed"
+                <input type="checkbox" class="toggle-completed-checkbox" name="completed"
                     @if ($todo->completed == '1') checked @endif>
             </div>
             <div class="sidebar-form-row">

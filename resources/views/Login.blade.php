@@ -6,16 +6,16 @@
         <h2>Login</h2>
         <form action="{{ route('Login') }}" method="POST">
             @csrf
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label for="email">Email:</label>
-                <input type="email" name="email" required class="input-container">
+                <input type="email" name="email" required class="text-input-container">
             </div>
             @error('email')
                 <p style="color:red;">{{ $message }}</p>
             @enderror
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label for="password">Password:</label>
-                <input type="password" name="password" required class="input-container">
+                <input type="password" name="password" required class="text-input-container">
             </div>
             @error('password')
                 <p style="color:red;">{{ $message }}</p>

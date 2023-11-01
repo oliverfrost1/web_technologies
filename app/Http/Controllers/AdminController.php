@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\View;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,7 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view::make('adminDashboard', ['users' => $this->getAllUsers()]);
+        return view::make('AdminDashboard', ['users' => $this->getAllUsers()]);
     }
 
 
@@ -24,7 +25,7 @@ class AdminController extends Controller
     public function editUserForm($id)
     {
         $user = User::findOrFail($id);
-        return view::make('adminEditUser', ['user' => $user]);
+        return view::make('AdminEditUser', ['user' => $user]);
     }
 
     public function editUser(Request $request, $id)

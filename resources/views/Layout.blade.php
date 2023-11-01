@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <x-top-bar />
+    <x-TopBar />
     @yield('content')
 </body>
 <footer>

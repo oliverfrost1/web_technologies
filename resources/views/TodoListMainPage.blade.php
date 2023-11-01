@@ -9,7 +9,7 @@
                 @csrf
                 <div class="todo-adder-form-layout">
                     <div class="todo-title-and-date-holder">
-                        <div class="input-container">
+                        <div class="text-input-container">
                             <input type="text" class="add-todo-title" id="title" name="title"
                                 placeholder="Take the trash out" required autofocus>
                             <input type="hidden" class="add-todo-date-picker" id="duedate" name="duedate"

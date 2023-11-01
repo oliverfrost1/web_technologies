@@ -71,3 +71,23 @@
     opacity: 50%;
     text-decoration: line-through;
 }
+
+.todo-element-due-date-overdue {
+    background-color: red;
+}
+
+.todo-element-due-date-complete {
+    opacity: 50%;
+    text-decoration: line-through;
+}
+
+.todo-element-due-date {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 5px;
+}
