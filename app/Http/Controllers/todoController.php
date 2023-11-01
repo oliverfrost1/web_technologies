@@ -98,17 +98,22 @@ class todoController extends Controller
      */
     public function getTodo($isSorted)
     {
-        if (auth()->check() && auth()->user()->isAdmin()) {
-            return Todo::all();
-        }
-
         $userId = auth()->id();
         $tags = session()->get('selectedTags');
 
-        $todos = Todo::where('user_id', $userId)->get(); // gets the entire todolist from the database with the user id
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            $todos = Todo::join('users', 'todos.user_id', '=', 'users.id')
+                ->select('todos.*', 'users.email as user_email')
+                ->get();
+
+            \Log::info($todos);
+            ;
+        } else {
+            $todos = Todo::where('user_id', $userId)->get();
+        }
+
         if ($tags) {
             $todos = $this->getTodosAssociatedWithTag($tags);
-
         }
         // gets the entire todolist from the database
         if ($isSorted) {
@@ -189,8 +194,7 @@ class todoController extends Controller
         if ($user) {
             if ($user->isAdmin()) {
                 $tags = Tag::all();
-            } 
-            else {
+            } else {
                 $tags = Tag::where('user_id', $user->id)->get();
             }
         }
@@ -217,7 +221,7 @@ class todoController extends Controller
             $tagid = $tag->id;
             $request->merge(['tagid' => $tagid]);
             return $this->attachTagToTodo($request);
-        } else{
+        } else {
             return back()->withErrors([
                 'createError' => 'You need to log in to add this tag to todo.',
             ])->onlyInput('createError');
@@ -283,7 +287,11 @@ class todoController extends Controller
         $user = auth()->user();
         $unselectedTags = [];
         if ($user) {
-            $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
+            if ($user->isAdmin()) {
+                $unselectedTags = Tag::whereNotIn('id', $tag_ids)->get();
+            } else {
+                $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
+            }
         }
         return $unselectedTags;
     }
@@ -302,13 +310,14 @@ class todoController extends Controller
         return $tags;
     }
 
-    public function updateTag(Request $request){
+    public function updateTag(Request $request)
+    {
         $tagId = $request->tagId;
         $tagName = $request->tagName;
         $user = auth()->user();
         if ($user) {
             $tag = Tag::find($tagId);
-            if ($tag && $tag->user_id === $user->id) {
+            if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
                 $tag->name = $tagName;
                 $tag->save();
                 return back();

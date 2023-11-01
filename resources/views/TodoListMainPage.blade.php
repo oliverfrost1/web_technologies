@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="todo-page-layout">
-        <x-TagSidebar :allTags="$allTags" :filterTags="$filterTags" />
+        <x-LeftSidebar :allTags="$allTags" :filterTags="$filterTags" :isSorted="$isSorted" />
         <div class="center-page">
 
             <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">
@@ -26,29 +26,41 @@
                 </div>
             </form>
 
-            <div class="button-header">
-                <form class="sort-button" method="get" action="{{ route('FilterTodos') }}" accept-charset="UTF-8">
-                    <input class="todo-button" type="submit"
-                        value="{{ $isSorted ? 'Show Completed Todos' : 'Hide Completed Todos' }}">
-                </form>
-            </div>
+
 
             <br />
             <div class="todolist-holder">
-                @foreach ($todos->sortBy('due_date')->sortBy('completed') as $todo)
-                    <x-ToDoElement :title="$todo->title" :id="$todo->id" :completed="$todo->completed" :duedate="$todo->due_date ? date('d/m/Y', strtotime($todo->due_date)) : ''" />
+                @php
+                    $lastUserId = null;
+                @endphp
+
+                @foreach ($todos->sortBy('due_date')->sortBy('completed')->sortBy('user_id') as $index => $todo)
+                    @if ($lastUserId !== $todo->user_id && $todo->user_email)
+                        <div class="todo-element-text padding-top-and-bottom">UID:
+                            {{ $todo->user_id }} - {{ $todo->user_email }}</div>
+                        @php
+                            $lastUserId = $todo->user_id;
+                        @endphp
+                    @endif
+
+                    <x-ToDoElement :title="$todo->title" :id="$todo->id" :completed="$todo->completed" :userid="$todo->user_email ? $todo->user_id : null"
+                        :duedate="$todo->due_date ? date('d/m/Y', strtotime($todo->due_date)) : ''" />
                 @endforeach
+
+
             </div>
 
         </div>
 
-        @foreach ($todos as $todo)
-            @if ($todo->id == $openedId)
-                <x-TodoElementSidebar :todo="$todo" :tags="$tags" :unselectedTags="$unselectedTags" />
-            @break
-        @endif
-    @endforeach
 
 
-</div>
+        <x-RightSidebar :todo="$todos->find($openedId)" :tags="$tags" :unselectedTags="$unselectedTags" />
+
+
+
+
+
+
+
+    </div>
 @stop

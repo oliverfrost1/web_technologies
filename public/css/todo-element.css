@@ -1,6 +1,7 @@
 .todo-element-text {
     color: white;
     font-size: 16px;
+    word-break: break-all;
 }
 
 .todo-element {
@@ -11,7 +12,7 @@
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 4px;
-    width: 100%;
+    width:100%;
     height: fit-content;
     background-color: #f89100;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);

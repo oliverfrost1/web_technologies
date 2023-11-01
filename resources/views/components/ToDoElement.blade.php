@@ -26,6 +26,7 @@
             {{ $title }}
         </div>
 
+
         <div class="element-icon-container">
             <form method="get" action="{{ route('Main') }}" accept-charset="UTF-8"
                 class="element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"

@@ -27,7 +27,8 @@
 }
 
 .todolist-holder {
-    width: 50%;
+    min-width:400px;
+    max-width:400px;
 }
 
 .todo-adder-form-layout {
@@ -266,9 +267,14 @@ body {
     transition: 0.2s;
 }
 
-h2,
+h2,h3,
 h4 {
     color: white;
+}
+
+.padding-top-and-bottom {
+    padding-top: 4px;
+    padding-bottom:4px;
 }
 
 .feedback-message {
