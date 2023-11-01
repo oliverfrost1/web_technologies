@@ -46,12 +46,16 @@ const toggleButton = document.getElementById("toggle-tag-input");
 const tagInput = document.getElementById("tag-choices");
 const addTagForm = document.getElementById("add-tag-form");
 
-tagInput.addEventListener("keydown", function (event) {
-    if (event.key === "Enter" && tagInput.value.trim() !== "") {
-        event.preventDefault();
-        addTagForm.submit();
-    }
-});
+
+if(tagInput !== null){
+    tagInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" && tagInput.value.trim() !== "") {
+            event.preventDefault();
+            addTagForm.submit();
+        }
+    });
+}
+
 
 
 tagInput.addEventListener("blur", function () {
@@ -64,8 +68,9 @@ tagInput.addEventListener("blur", function () {
 /*
 * Change tag edit icon to input field
 */
-let prevTagIds = [];
+
 function enableEditField(tagId) {
+    let prevTagIds = [];
     if(prevTagIds.length > 0){
         prevTagIds.forEach(tagId => {
             disableEditField(tagId);
