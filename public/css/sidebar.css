@@ -7,20 +7,22 @@
   background-color: #f89100;
   border: 2px solid #ccc;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
-
   min-width:300px;
   max-Width:300px;
 }
-.sidebar-tag{
+
+.sidebar-tag {
     display: flex;
     margin-top: 5px;
 }
-.tag-button{
+
+.tag-button {
     position: relative;
     padding-right: 30px;
     background-color: white;
     color: black;
 }
+
 .remove-icon {
     position: absolute;
     right: 5px;
@@ -29,6 +31,7 @@
     opacity: 0;
     transition: opacity 0.3s;
 }
+
 .tag-button:hover .remove-icon {
     opacity: 1;
 }
@@ -55,6 +58,7 @@
   font-size: 1.1em;
   color: white
 }
+
 .sidebar-label {
     font-weight: bold;
     font-size: 1.1em;
@@ -93,13 +97,6 @@
     display: flex;
     align-items: center;
     column-gap: 5px;
-}
-
-.tag-delete{
-    margin-left: 5px;
-    font-size: 0.8rem;
-    padding: 3px;
-
 }
 
 .tag-holder {

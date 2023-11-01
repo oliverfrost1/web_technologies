@@ -36,7 +36,7 @@
 
                 @foreach ($todos->sortBy('due_date')->sortBy('completed')->sortBy('user_id') as $index => $todo)
                     @if ($lastUserId !== $todo->user_id && $todo->user_email)
-                        <div class="todo-element-text padding-top-and-bottom">UID:
+                        <div class="big-white-text padding-top-and-bottom">UID:
                             {{ $todo->user_id }} - {{ $todo->user_email }}</div>
                         @php
                             $lastUserId = $todo->user_id;

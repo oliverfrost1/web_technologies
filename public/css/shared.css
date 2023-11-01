@@ -6,6 +6,12 @@ body {
     margin: 0px;
 }
 
+.big-white-text {
+    color: white;
+    font-size: 16px;
+    word-break: break-all;
+}
+
 .todo-page-layout {
     display: flex;
     justify-content: space-between;

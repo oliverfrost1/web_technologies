@@ -21,8 +21,8 @@
             <label>{{ $duedate }}</label>
         </div>
     @endif
-    <div class="todo-element-text-and-icon-holder">
-        <div class="todo-element-text {{ $completed ? 'todo-title-complete' : '' }}">
+    <div class="big-white-text-and-icon-holder">
+        <div class="big-white-text {{ $completed ? 'todo-title-complete' : '' }}">
             {{ $title }}
         </div>
 
