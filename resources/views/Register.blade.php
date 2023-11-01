@@ -6,24 +6,25 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label for="name">Name</label>
-                <input type="text" name="name" value="{{ old('name') }} " class="input-container" required autofocus>
+                <input type="text" name="name" value="{{ old('name') }} " class="text-input-container" required
+                    autofocus>
                 @error('name')
                     <span>{{ $message }}</span>
                 @enderror
             </div>
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label for="email">Email Address</label>
-                <input type="email" name="email" value="{{ old('email') }}" class="input-container" required>
+                <input type="email" name="email" value="{{ old('email') }}" class="text-input-container" required>
             </div>
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label for="password">Password</label>
-                <input type="password" name="password" class="input-container" required>
+                <input type="password" name="password" class="text-input-container" required>
             </div>
-            <div class="auth-row">
+            <div class="input-row-container">
                 <label for="password_confirmation">Confirm Password</label>
-                <input type="password" name="password_confirmation" class="input-container" required>
+                <input type="password" name="password_confirmation" class="text-input-container" required>
             </div>
             <div class="center-children-in-parent">
                 <button type="submit" class="todo-button">Register</button>

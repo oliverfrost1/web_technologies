@@ -4,25 +4,25 @@
             id="changeCompletionStatus">
             @csrf
             <input type="hidden" name="todo_id" value="{{ $id }}" />
-            <input type="checkbox" class="toggle-completed" id="todoCheckbox"
+            <input type="checkbox" class="toggle-completed-checkbox" id="todoCheckbox"
                 @if ($completed === 1) checked @endif onchange="this.form.submit()" />
         </form>
     </div>
 
     @if ($duedate)
         @php
-            $duedateTimestamp = strtotime($duedate);
-            $isDue = !empty($duedateTimestamp);
-            $isComplete = $completed ? 'todo-due-date-complete' : '';
-            $isOverdue = $isDue && !$completed ? 'todo-due-date-overdue' : '';
+            $duedateTimestamp = DateTime::createFromFormat('d/m/Y', $duedate)->getTimestamp();
+            $isDue = $duedateTimestamp < time();
+            $completeStyling = $completed ? 'todo-element-due-date-complete' : '';
+            $overdueStyling = $isDue && !$completed ? 'todo-element-due-date-overdue' : '';
         @endphp
 
-        <div class="todo-due-date {{ $isComplete }} {{ $isOverdue }}">
+        <div class="todo-element-due-date {{ $completeStyling }} {{ $overdueStyling }}">
             <label>{{ $duedate }}</label>
         </div>
     @endif
-    <div class="todo-element-text-and-icon-holder">
-        <div class="todo-element-text {{ $completed ? 'todo-title-complete' : '' }}">
+    <div class="big-white-text-and-icon-holder">
+        <div class="big-white-text {{ $completed ? 'todo-title-complete' : '' }}">
             {{ $title }}
         </div>
 

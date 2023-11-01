@@ -8,17 +8,17 @@ class TopBar extends Component
 {
     public function render()
     {
-        return view('components.top-bar');
+        return view('components.TopBar');
     }
 
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
-     
+
         $request->session()->invalidate();
-     
+
         $request->session()->regenerateToken();
-     
+
         return redirect('/');
     }
 }

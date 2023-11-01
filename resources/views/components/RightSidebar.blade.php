@@ -17,7 +17,7 @@
             </div>
             <div class="sidebar-form-row">
                 <label for="completed">Completed</label>
-                <input type="checkbox" class="toggle-completed" name="completed"
+                <input type="checkbox" class="toggle-completed-checkbox" name="completed"
                     @if ($todo->completed == '1') checked @endif>
             </div>
             <div class="sidebar-form-row">
@@ -59,5 +59,5 @@
         <div class="sidebar-label">Click on <i class="fa-solid fa-pen-to-square " style="color:white"></i> of a todo to
             edit it.</div>
     @endif
-
+    <script src="{{ asset('js/rightSidebarTagHandler.js') }}" defer></script>
 </div>

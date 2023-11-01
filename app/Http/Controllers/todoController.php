@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use App\Models\Todo;
 use App\Models\Tag;
-use App\Models\TodoTag;
-
 
 use Illuminate\Support\Facades\View;
 
-class todoController extends Controller
+class TodoController extends Controller
 {
     /**
      * Display a listing of the resource.
