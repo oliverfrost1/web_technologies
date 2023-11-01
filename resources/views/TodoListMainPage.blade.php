@@ -36,7 +36,7 @@
             <br />
             <div class="todolist-holder">
                 @foreach ($todos->sortBy('due_date')->sortBy('completed') as $todo)
-                    <x-ToDoElement :title="$todo->title" :id="$todo->id" :completed="$todo->completed" :userid="$todo->user_id"
+                    <x-ToDoElement :title="$todo->title" :id="$todo->id" :completed="$todo->completed" :userid="$todo->user_email ? $todo->user_id : null"
                         :duedate="$todo->due_date ? date('d/m/Y', strtotime($todo->due_date)) : ''" />
                 @endforeach
             </div>
