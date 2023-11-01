@@ -11,10 +11,10 @@
 
     @if ($duedate)
         @php
-            $duedateTimestamp = strtotime($duedate);
-            $isDue = !empty($duedateTimestamp);
+            $duedateTimestamp = DateTime::createFromFormat('d/m/Y', $duedate)->getTimestamp();
+            $isDue = $duedateTimestamp < time();
             $completeStyling = $completed ? 'todo-element-due-date-complete' : '';
-            $overdueStyling = $isDue && !$completed ? 'todo-element-due-date-complete' : '';
+            $overdueStyling = $isDue && !$completed ? 'todo-element-due-date-overdue' : '';
         @endphp
 
         <div class="todo-element-due-date {{ $completeStyling }} {{ $overdueStyling }}">
