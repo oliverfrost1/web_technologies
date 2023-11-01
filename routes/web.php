@@ -19,7 +19,7 @@ Route::get('/Profile', function () {
     return view('Profile');
 })->middleware('auth.basic')->name('profile');
 
-Route::controller(AdminController::class, 'admin')->group(function () {
+Route::controller(AdminController::class)->middleware('admin')->group(function () {
     Route::get('/admin/dashboard', 'dashboard')->name('admin.dashboard');
     Route::get('/admin/editUser/{id}', 'editUserForm')->name('admin.edit-user');
     Route::post('/admin/editUser/{id}', 'editUser')->name('admin.edit-user');

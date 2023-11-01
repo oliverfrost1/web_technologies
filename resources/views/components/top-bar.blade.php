@@ -8,7 +8,7 @@
         @auth
         <span>{{ Auth::user()->name }}</span>
         @if(Auth::user()->role === "admin")
-        <a href="{{ route('admin.dashboard')}}" class="button">Admin <i class="fa-solid fa-address-card"></i></a>
+        <a href="{{ route('admin.dashboard')}}" class="button">Admin <i class="fa-solid fa-screwdriver-wrench"></i></a>
         @endif
         <a href="{{ route('profile')}}" class="button">Profile <i class="fa-solid fa-address-card"></i></a>
         <a href="#" class="button"
