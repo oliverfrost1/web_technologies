@@ -271,6 +271,11 @@ h4 {
     color: white;
 }
 
+.padding-top-and-bottom {
+    padding-top: 4px;
+    padding-bottom:4px;
+}
+
 .feedback-message {
     padding-top: 8px;
     padding-bottom: 5px;

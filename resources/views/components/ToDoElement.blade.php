@@ -23,8 +23,9 @@
     @endif
     <div class="todo-element-text-and-icon-holder">
         <div class="todo-element-text {{ $completed ? 'todo-title-complete' : '' }}">
-            {{ $userid ? "UID $userid: " : '' }}{{ $title }}
+            {{ $title }}
         </div>
+
 
         <div class="element-icon-container">
             <form method="get" action="{{ route('Main') }}" accept-charset="UTF-8"

@@ -54,16 +54,17 @@ if(tagInput !== null){
             addTagForm.submit();
         }
     });
+    tagInput.addEventListener("blur", function () {
+        if (tagInput.value === "") {
+            toggleButton.style.display = "block";
+            tagInput.style.display = "none";
+        }
+    });
 }
 
 
 
-tagInput.addEventListener("blur", function () {
-    if (tagInput.value === "") {
-        toggleButton.style.display = "block";
-        tagInput.style.display = "none";
-    }
-});
+
 
 /*
 * Change tag edit icon to input field

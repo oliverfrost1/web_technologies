@@ -6,7 +6,6 @@
 
         @csrf
         <div class="sidebar-form-row">
-            <label>{{ $todo->user_email ? "User: $todo->user_email" : '' }}</label>
             <label for="title">Title</label>
             <input type="text" name="title" value="{{ $todo->title }}" placeholder="title">
         </div>
