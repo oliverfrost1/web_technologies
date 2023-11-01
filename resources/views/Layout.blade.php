@@ -13,8 +13,5 @@
     <x-TopBar />
     @yield('content')
 </body>
-<footer>
-    <script src="{{ asset('js/app.js') }}" defer></script>
-</footer>
 
 </html>

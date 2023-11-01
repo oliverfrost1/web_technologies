@@ -55,12 +55,7 @@
 
 
         <x-RightSidebar :todo="$todos->find($openedId)" :tags="$tags" :unselectedTags="$unselectedTags" />
-
-
-
-
-
-
-
+        <script src="{{ asset('js/elementWrapChecker.js') }}" defer></script>
+        <script src="{{ asset('js/dueDateShowHandler.js') }}" defer></script>
     </div>
 @stop

@@ -36,4 +36,6 @@
         </div>
     @endforeach
 
+    <script src="{{ asset('js/leftSidebarTagEditHandler.js') }}" defer></script>
+
 </div>
