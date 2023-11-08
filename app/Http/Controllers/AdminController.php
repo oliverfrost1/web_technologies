@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\View;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\View;
 
 class AdminController extends Controller
 {
@@ -16,15 +14,10 @@ class AdminController extends Controller
         return view::make('AdminDashboard', ['users' => $this->getAllUsers()]);
     }
 
-
-    private function getAllUsers()
-    {
-        return User::all();
-    }
-
     public function editUserForm($id)
     {
         $user = User::findOrFail($id);
+
         return view::make('AdminEditUser', ['user' => $user]);
     }
 
@@ -54,6 +47,12 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
+
         return redirect()->route('admin.dashboard')->with('success', 'User has been deleted successfully');
+    }
+
+    private function getAllUsers()
+    {
+        return User::all();
     }
 }

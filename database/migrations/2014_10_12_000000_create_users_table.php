@@ -2,14 +2,12 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -20,10 +18,10 @@ return new class extends Migration {
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->string("role")->default('user');
+            $table->string('role')->default('user');
         });
 
-       // create an admin user
+        // create an admin user
         DB::table('users')->insert([
             'name' => 'admin',
             'email' => 'admin@todo.dk',
@@ -34,9 +32,6 @@ return new class extends Migration {
 
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');
