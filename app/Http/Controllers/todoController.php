@@ -64,7 +64,7 @@ class TodoController extends Controller
         return back();
     }
 
-    public function store(Request $request)
+    public function createTodo(Request $request)
     {
         if (!$request->title) {
             return redirect()->route("Main");

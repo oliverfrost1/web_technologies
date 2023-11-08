@@ -31,13 +31,13 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request)
-{
-    // Invalidate the session
-    Auth::logout();
-    $request->session()->invalidate();
-    // Regenerate CSRF token
-    $request->session()->regenerateToken();
+    {
+        // Invalidate the session
+        Auth::logout();
+        $request->session()->invalidate();
+        // Regenerate CSRF token
+        $request->session()->regenerateToken();
 
-    return redirect('/');
-}
+        return redirect('/');
+    }
 }
