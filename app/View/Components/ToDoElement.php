@@ -15,6 +15,7 @@ class ToDoElement extends Component
     public $id;
     public $completed;
     public $duedate;
+
     public function __construct($title, $id, $completed, $duedate)
     {
         $this->title = $title;

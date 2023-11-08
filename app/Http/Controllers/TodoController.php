@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Todo;
 use App\Models\Tag;
-
+use App\Models\Todo;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Log;
 
 class TodoController extends Controller
 {
@@ -23,17 +23,18 @@ class TodoController extends Controller
         }
         $isSorted = session()->get('isSorted');
         $filterTags = session()->get('selectedTags');
-        if (!$filterTags) {
+        if (! $filterTags) {
             $filterTags = [];
         }
+
         return View::make('TodoListMainPage', [
-            "todos" => $this->getTodo($isSorted),
-            "isSorted" => $isSorted,
-            "openedId" => $todoId,
-            "tags" => $tagsOnSelectedTodo,
-            "unselectedTags" => $unselectedTagsOnTodo,
-            "allTags" => $allTags,
-            "filterTags" => $filterTags,
+            'todos' => $this->getTodo($isSorted),
+            'isSorted' => $isSorted,
+            'openedId' => $todoId,
+            'tags' => $tagsOnSelectedTodo,
+            'unselectedTags' => $unselectedTagsOnTodo,
+            'allTags' => $allTags,
+            'filterTags' => $filterTags,
         ]);
     }
 
@@ -42,6 +43,7 @@ class TodoController extends Controller
         $isSorted = session()->get('isSorted');
         $isSorted = $isSorted ? 0 : 1;
         session()->put('isSorted', $isSorted);
+
         return back();
     }
 
@@ -57,10 +59,11 @@ class TodoController extends Controller
         if ($tagIndex !== false) {
             unset($selectedTags[$tagIndex]);
             $selectedTags = array_values($selectedTags);
-        } else if ($curTag) {
+        } elseif ($curTag) {
             $selectedTags[] = $curTag;
         }
         session()->put('selectedTags', $selectedTags);
+
         return back();
     }
 
@@ -94,8 +97,8 @@ class TodoController extends Controller
                 ->select('todos.*', 'users.email as user_email')
                 ->get();
 
-            \Log::info($todos);
-            ;
+            Log::info($todos);
+
         } else {
             $todos = Todo::where('user_id', $userId)->get();
         }
@@ -109,22 +112,24 @@ class TodoController extends Controller
                 return $todo->completed === 0;
             });
         }
+
         return $todos;
     }
 
     public function changeCompletionStatus($id)
     {
-        # log the request
-        \Log::info($id);
+        // log the request
+        Log::info($id);
         $todo = Todo::find($id);
-        \Log::info($todo);
-        # TODO: Maybe change this.
+        Log::info($todo);
+        // TODO: Maybe change this.
         if ($todo->completed === 1) {
             $todo->completed = 0;
         } else {
             $todo->completed = 1;
         }
         $todo->save();
+
         return back();
     }
 
@@ -135,9 +140,11 @@ class TodoController extends Controller
             $todo = Todo::find($id);
             if ($todo->user_id === $user->id || $user->isAdmin()) {
                 $todo->delete();
+
                 return back();
             }
         }
+
         return back()->withErrors([
             'createError' => 'You need to log in to delete this todo.',
         ])->onlyInput('createError');
@@ -154,9 +161,11 @@ class TodoController extends Controller
                 $request["completed"] = $request->completed === "on" ? true : false;
                 $updateData = $request->except('_token');
                 $todo->update($updateData);
+
                 return back();
             }
         }
+
         return back()->withErrors([
             'createError' => 'You need to log in to update this todo.',
         ])->onlyInput('createError');
@@ -173,12 +182,13 @@ class TodoController extends Controller
                 $tags = Tag::where('user_id', $user->id)->get();
             }
         }
+
         return $tags;
     }
 
     public function addNewTagToTodo(Request $request)
     {
-        if (!$request->tagName) {
+        if (! $request->tagName) {
             return back();
         }
         $tag = $this->getTagFromName($request->tagName);
@@ -189,9 +199,10 @@ class TodoController extends Controller
         }
         $user = auth()->user();
         if ($user) {
-            $tag = Tag::Create(["name" => $request->tagName, "user_id" => $user->id]);
+            $tag = Tag::Create(['name' => $request->tagName, 'user_id' => $user->id]);
             $tagid = $tag->id;
             $request->merge(['tagid' => $tagid]);
+
             return $this->attachTagToTodo($request);
         } else {
             return back()->withErrors([
@@ -208,6 +219,7 @@ class TodoController extends Controller
         if ($todo && $tag) {
             $todo->tags()->attach($tag);
         }
+
         return back();
     }
 
@@ -216,6 +228,7 @@ class TodoController extends Controller
         $tagId = $request->tagid;
         $todo = Todo::find($request->todoid);
         $todo->tags()->detach($tagId);
+
         return back();
     }
 
@@ -230,6 +243,7 @@ class TodoController extends Controller
         }
         session()->put('selectedTags', $selectedTags);
         Tag::destroy($tagId);
+
         return back();
     }
 
@@ -238,6 +252,7 @@ class TodoController extends Controller
         $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
             $query->whereIn('tags.id', $tagIds);
         })->get();
+
         return $todos;
     }
 
@@ -254,38 +269,14 @@ class TodoController extends Controller
                 $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
             }
         }
+
         return $unselectedTags;
     }
 
     private function getTagFromName($tagName)
     {
         $tag = Tag::where('name', $tagName)->first();
+
         return $tag;
-    }
-
-    public function getTagsAssociatedWithTodo($todoId)
-    {
-        $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
-            $query->where('todos.id', $todoId);
-        })->get();
-        return $tags;
-    }
-
-    public function updateTag(Request $request)
-    {
-        $tagId = $request->tagId;
-        $tagName = $request->tagName;
-        $user = auth()->user();
-        if ($user) {
-            $tag = Tag::find($tagId);
-            if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
-                $tag->name = $tagName;
-                $tag->save();
-                return back();
-            }
-        }
-        return back()->withErrors([
-            'createError' => 'You need to log in to update this tag.',
-        ])->onlyInput('createError');
     }
 }
