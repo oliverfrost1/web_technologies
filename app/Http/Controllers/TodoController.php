@@ -192,12 +192,15 @@ class TodoController extends Controller
             return back();
         }
         $tag = $this->getTagFromName($request->tagName);
+        $user = auth()->user();
+        if($user->isAdmin()){
+            return back();
+        }
         if ($tag) {
             $tagid = $tag->id;
             $request->merge(['tagid' => $tagid]);
             return $this->attachTagToTodo($request);
         }
-        $user = auth()->user();
         if ($user) {
             $tag = Tag::Create(['name' => $request->tagName, 'user_id' => $user->id]);
             $tagid = $tag->id;
