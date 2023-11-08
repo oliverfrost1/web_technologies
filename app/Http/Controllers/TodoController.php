@@ -255,6 +255,31 @@ class TodoController extends Controller
 
         return $todos;
     }
+    public function getTagsAssociatedWithTodo($todoId)
+    {
+        $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
+            $query->where('todos.id', $todoId);
+        })->get();
+        return $tags;
+    }
+    public function updateTag(Request $request)
+    {
+        $tagId = $request->tagId;
+        $tagName = $request->tagName;
+        $user = auth()->user();
+        if ($user) {
+            $tag = Tag::find($tagId);
+            if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
+                $tag->name = $tagName;
+                $tag->save();
+                return back();
+            }
+        }
+        return back()->withErrors([
+            'createError' => 'You need to log in to update this tag.',
+        ])->onlyInput('createError');
+        return $tag;
+    }
 
     private function getTagsNotAssociatedWithTodo($todoId)
     {
