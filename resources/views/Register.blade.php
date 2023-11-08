@@ -5,7 +5,6 @@
         <h2>Register</h2>
         <form method="POST" action="{{ route('register') }}">
             @csrf
-
             <div class="input-row-container">
                 <label for="name">Name</label>
                 <input type="text" name="name" value="{{ old('name') }} " class="text-input-container" required

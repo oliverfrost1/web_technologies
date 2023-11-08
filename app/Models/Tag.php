@@ -28,8 +28,6 @@ class Tag extends Model
         return $this->belongsTo(User::class);
     }
     public function todos(){
-        //BelongsToMany should auto create tag_todo table
-        //Had to create migration table manually.
         return $this->belongsToMany(Todo::class);
     }
 

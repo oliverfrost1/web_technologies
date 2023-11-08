@@ -19,12 +19,12 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
- 
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
- 
+
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
@@ -32,10 +32,12 @@ class AuthController extends Controller
 
     public function logout(Request $request)
 {
-    Auth::logout();  // Invalidate the session
-    $request->session()->invalidate();  // Invalidate the session
-    $request->session()->regenerateToken();  // Regenerate CSRF token
+    // Invalidate the session
+    Auth::logout();
+    $request->session()->invalidate();
+    // Regenerate CSRF token
+    $request->session()->regenerateToken();
 
-    return redirect('/');  // Redirect to homepage
+    return redirect('/');
 }
 }

@@ -16,7 +16,6 @@
             $completeStyling = $completed ? 'todo-element-due-date-complete' : '';
             $overdueStyling = $isDue && !$completed ? 'todo-element-due-date-overdue' : '';
         @endphp
-
         <div class="todo-element-due-date {{ $completeStyling }} {{ $overdueStyling }}">
             <label>{{ $duedate }}</label>
         </div>
@@ -25,8 +24,6 @@
         <div class="big-white-text {{ $completed ? 'todo-title-complete' : '' }}">
             {{ $title }}
         </div>
-
-
         <div class="element-icon-container">
             <form method="get" action="{{ route('Main') }}" accept-charset="UTF-8"
                 class="element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"

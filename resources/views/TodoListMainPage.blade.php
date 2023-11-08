@@ -4,7 +4,6 @@
     <div class="todo-page-layout">
         <x-LeftSidebar :allTags="$allTags" :filterTags="$filterTags" :isSorted="$isSorted" />
         <div class="center-page">
-
             <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">
                 @csrf
                 <div class="todo-adder-form-layout">
@@ -17,7 +16,6 @@
                             <i id="dueDateButton" class="fa-regular fa-clock todo-button icon"></i>
                             <i class="fa-solid fa-plus todo-button icon"
                                 onclick="document.getElementById('addItemToTodo').submit()"></i>
-
                         </div>
                     </div>
                     @error('createError')
@@ -25,9 +23,6 @@
                     @enderror
                 </div>
             </form>
-
-
-
             <br />
             <div class="todolist-holder">
                 @php
@@ -46,13 +41,8 @@
                     <x-ToDoElement :title="$todo->title" :id="$todo->id" :completed="$todo->completed" :userid="$todo->user_email ? $todo->user_id : null"
                         :duedate="$todo->due_date ? date('d/m/Y', strtotime($todo->due_date)) : ''" />
                 @endforeach
-
-
             </div>
-
         </div>
-
-
 
         <x-RightSidebar :todo="$todos->find($openedId)" :tags="$tags" :unselectedTags="$unselectedTags" />
         <script src="{{ asset('js/elementWrapChecker.js') }}" defer></script>

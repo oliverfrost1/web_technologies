@@ -16,7 +16,6 @@ class AdminController extends Controller
         return view::make('AdminDashboard', ['users' => $this->getAllUsers()]);
     }
 
-
     private function getAllUsers()
     {
         return User::all();
@@ -37,11 +36,10 @@ class AdminController extends Controller
         ];
 
         $validatedData = $request->validate($rules);
-
         $user = User::findOrFail($id);
-
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
+
         if ($validatedData['password']) {
             $user->password = Hash::make($validatedData['password']);
         }

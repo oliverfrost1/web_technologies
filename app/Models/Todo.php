@@ -29,13 +29,11 @@ class Todo extends Model
         'updated_at'
     ];
 
-    /**
-     * Get the user that owns the todo.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function tags(){
         return $this->belongsToMany(Tag::class);
     }
