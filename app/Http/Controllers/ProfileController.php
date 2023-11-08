@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
     public function update(Request $request)
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
         $validationMessage = $this->validateInput($request, $user);
 
@@ -21,7 +19,7 @@ class ProfileController extends Controller
             return back()->withErrors($validationMessage);
         }
 
-        if (!$shouldUpdate) {
+        if (! $shouldUpdate) {
             return back()->with('info', 'Nothing to update');
         }
 
@@ -29,7 +27,6 @@ class ProfileController extends Controller
 
         return back()->with('success', 'Profile updated successfully');
     }
-
 
     private function shouldUpdate(Request $request, $user)
     {
@@ -63,7 +60,7 @@ class ProfileController extends Controller
             'confirm_new_password' => 'nullable|same:new_password',
         ]);
 
-        if (!$this->isCurrentPasswordValid($request, $user)) {
+        if (! $this->isCurrentPasswordValid($request, $user)) {
             return ['current_password' => 'Current password is incorrect'];
         }
 
@@ -76,7 +73,6 @@ class ProfileController extends Controller
             return Hash::check($request->input('current_password'), $user->password);
         }
     }
-
 
     private function isNameChanged(Request $request, $user)
     {
@@ -92,5 +88,4 @@ class ProfileController extends Controller
     {
         return $request->filled('new_password') && $request->filled('current_password');
     }
-
 }

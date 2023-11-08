@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
-
 class RegisterController extends Controller
 {
     public function showRegistrationForm()
     {
-        return View::make("Register");
+        return View::make('Register');
     }
 
     public function register(Request $request)
