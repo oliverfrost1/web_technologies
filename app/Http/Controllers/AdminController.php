@@ -13,7 +13,6 @@ class AdminController extends Controller
     {
         return view::make('AdminDashboard', ['users' => $this->getAllUsers()]);
     }
-
     public function editUserForm($id)
     {
         $user = User::findOrFail($id);
@@ -30,11 +29,10 @@ class AdminController extends Controller
         ];
 
         $validatedData = $request->validate($rules);
-
         $user = User::findOrFail($id);
-
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
+
         if ($validatedData['password']) {
             $user->password = Hash::make($validatedData['password']);
         }

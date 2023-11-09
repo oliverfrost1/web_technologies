@@ -34,8 +34,11 @@ Route::post('updateTag', TodoController::class . '@updateTag')->name('updateTag'
 
 Route::get('filterByTags', TodoController::class . '@changeSelectedTags')->name('filterByTags');
 
-Route::post('SaveItem', TodoController::class . '@store')->name('SaveItem');
+Route::get("/filterByTags", TodoController::class . '@changeSelectedTags')->name("filterByTags");
 
-Route::post('changeCompletionStatus/{id}', [TodoController::class, 'changeCompletionStatus'])->name('changeCompletionStatus');
-Route::post('deleteTodoElement/{id}', [TodoController::class, 'deleteTodoElement'])->name('deleteTodoElement');
-Route::post('updateTodoFields', [TodoController::class, 'updateTodoFields'])->name('updateTodoFields');
+
+Route::post("/SaveItem", TodoController::class . '@createTodo')->name("SaveItem");
+
+Route::post("/changeCompletionStatus/{id}", [TodoController::class, 'changeCompletionStatus'])->name("changeCompletionStatus");
+Route::post("/deleteTodoElement/{id}", [TodoController::class, 'deleteTodoElement'])->name("deleteTodoElement");
+Route::post("/updateTodoFields", [TodoController::class, 'updateTodoFields'])->name("updateTodoFields");

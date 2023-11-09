@@ -10,41 +10,6 @@ use Log;
 
 class TodoController extends Controller
 {
-    /**
-     * Store a newly created todo in the database.
-     */
-    public function store(Request $request)
-    {
-        if (! $request->title) {
-            return redirect()->route('Main');
-        }
-
-        if (auth()->user()) {
-            Todo::create([
-                'title' => $request->title,
-                'due_date' => $request->duedate,
-                'user_id' => auth()->user()->id,
-            ]);
-
-            return back();
-        }
-
-        return back()->withErrors([
-            'createError' => 'You need to log in to create a todo.',
-        ])->onlyInput('createError');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-
-    }
-
-    /**
-     * Display a listing of the resource.
-     */
     public function showTodoList()
     {
         $todoId = request()->id;
@@ -102,9 +67,26 @@ class TodoController extends Controller
         return back();
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function createTodo(Request $request)
+    {
+        if (!$request->title) {
+            return redirect()->route("Main");
+        }
+
+        if (auth()->user()) {
+            Todo::create([
+                "title" => $request->title,
+                "due_date" => $request->duedate,
+                "user_id" => auth()->user()->id,
+            ]);
+            return back();
+        }
+
+        return back()->withErrors([
+            'createError' => 'You need to log in to create a todo.',
+        ])->onlyInput('createError');
+    }
+
     public function getTodo($isSorted)
     {
         $userId = auth()->id();
@@ -151,9 +133,6 @@ class TodoController extends Controller
         return back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function deleteTodoElement($id)
     {
         $user = auth()->user();
@@ -179,10 +158,8 @@ class TodoController extends Controller
         if ($user) {
             $todo = Todo::find($request->id);
             if ($todo && ($todo->user_id === $user->id || $user->isAdmin())) {
-                // Extract all fields except _token
-                $request['completed'] = $request->completed === 'on' ? true : false;
+                $request["completed"] = $request->completed === "on" ? true : false;
                 $updateData = $request->except('_token');
-                // Update the Todo
                 $todo->update($updateData);
 
                 return back();
@@ -197,7 +174,7 @@ class TodoController extends Controller
     public function getAllTagsOnUser()
     {
         $user = auth()->user();
-        $tags = []; //Instantiation as todos are currently visible without loggin in
+        $tags = [];
         if ($user) {
             if ($user->isAdmin()) {
                 $tags = Tag::all();
@@ -215,16 +192,15 @@ class TodoController extends Controller
             return back();
         }
         $tag = $this->getTagFromName($request->tagName);
+        $user = auth()->user();
+        if($user->isAdmin()){
+            return back();
+        }
         if ($tag) {
             $tagid = $tag->id;
             $request->merge(['tagid' => $tagid]);
-            if (! $this->anyTodoHasAssociationsWithTag($tag)) {
-                return $this->attachTagToTodo($request);
-            }
-
-            return back();
+            return $this->attachTagToTodo($request);
         }
-        $user = auth()->user();
         if ($user) {
             $tag = Tag::Create(['name' => $request->tagName, 'user_id' => $user->id]);
             $tagid = $tag->id;
@@ -262,10 +238,6 @@ class TodoController extends Controller
     public function removeTag(Request $request)
     {
         $tagId = $request->id;
-        $todos = $this->getTodosAssociatedWithTag((array) $tagId);
-        foreach ($todos as $todo) {
-            $todo->tags()->detach($tagId);
-        }
         $selectedTags = session()->get('selectedTags');
         $tagIndex = array_search($tagId, (array) $selectedTags);
         if ($tagIndex !== false) {
@@ -278,15 +250,21 @@ class TodoController extends Controller
         return back();
     }
 
+    private function getTodosAssociatedWithTag($tagIds)
+    {
+        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
+            $query->whereIn('tags.id', $tagIds);
+        })->get();
+
+        return $todos;
+    }
     public function getTagsAssociatedWithTodo($todoId)
     {
         $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
             $query->where('todos.id', $todoId);
         })->get();
-
         return $tags;
     }
-
     public function updateTag(Request $request)
     {
         $tagId = $request->tagId;
@@ -297,30 +275,13 @@ class TodoController extends Controller
             if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
                 $tag->name = $tagName;
                 $tag->save();
-
                 return back();
             }
         }
-
         return back()->withErrors([
             'createError' => 'You need to log in to update this tag.',
         ])->onlyInput('createError');
-    }
-
-    private function anyTodoHasAssociationsWithTag($tagId) //could be redundant, kept for now
-    {
-        return Todo::whereHas('tags', function ($query) use ($tagId) {
-            $query->where('tags.id', $tagId);
-        })->exists();
-    }
-
-    private function getTodosAssociatedWithTag($tagIds)
-    {
-        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
-            $query->whereIn('tags.id', $tagIds);
-        })->get();
-
-        return $todos;
+        return $tag;
     }
 
     private function getTagsNotAssociatedWithTodo($todoId)

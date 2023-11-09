@@ -12,7 +12,6 @@ class ProfileController extends Controller
         $user = auth()->user();
 
         $validationMessage = $this->validateInput($request, $user);
-
         $shouldUpdate = $this->shouldUpdate($request, $user);
 
         if ($validationMessage) {
@@ -24,7 +23,6 @@ class ProfileController extends Controller
         }
 
         $user->save();
-
         return back()->with('success', 'Profile updated successfully');
     }
 
@@ -63,7 +61,6 @@ class ProfileController extends Controller
         if (! $this->isCurrentPasswordValid($request, $user)) {
             return ['current_password' => 'Current password is incorrect'];
         }
-
         return null;
     }
 
