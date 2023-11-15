@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KanbanController; // Ensure you have the correct namespace for your controller
+use App\Http\Controllers\KanbanController;
 
 
 /*
@@ -16,9 +16,9 @@ use App\Http\Controllers\KanbanController; // Ensure you have the correct namesp
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-// Add your adapted routes here
+
 Route::post("/logSomething", [KanbanController::class, 'logSomething'])->name("logSomething");
