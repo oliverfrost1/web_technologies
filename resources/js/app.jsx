@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestComponent from './TestComponent';
+import TestComponent from './KanbanBoard';
 
 const root = document.getElementById('react-root');
 if (root) {
