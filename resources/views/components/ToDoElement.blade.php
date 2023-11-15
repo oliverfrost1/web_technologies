@@ -3,6 +3,7 @@
         <form method="post" action="{{ route('changeCompletionStatus', $id) }}" accept-charset="UTF-8"
             id="changeCompletionStatus">
             @csrf
+            @method('PUT')
             <input type="hidden" name="todo_id" value="{{ $id }}" />
             <input type="checkbox" class="toggle-completed-checkbox" id="todoCheckbox"
                 @if ($completed === 1) checked @endif onchange="this.form.submit()" />
@@ -36,6 +37,7 @@
                 action="{{ route('deleteTodoElement', $id) }}" accept-charset="UTF-8"
                 id="deleteTodoForm-{{ $id }}">
                 @csrf
+                @method('DELETE')
                 <input type="hidden" name="id" value="{{ $id }}">
                 <i class="fa-solid fa-trash-can"
                     onclick="document.getElementById('deleteTodoForm-{{ $id }}').submit()"></i>

@@ -9,6 +9,7 @@
         </h4>
         <form method="POST" action="{{ route('admin.edit-user', ['id' => $user->id]) }}">
             @csrf
+            @method('PUT')
             <div class="input-row-container">
                 <label>Name:</label>
                 <input class="text-input-container" type="text" name="name" value="{{ $user->name }}">

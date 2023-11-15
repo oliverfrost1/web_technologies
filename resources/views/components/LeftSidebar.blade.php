@@ -19,6 +19,7 @@
             <form method="post" action={{ route('updateTag') }} accept-charset="UTF-8" class="center-vertically-flex"
                 id="editTag-{{ $tag->id }}">
                 @csrf
+                @method('PUT')
                 <label class="sidebar-label" id="tagLabel-{{ $tag->id }}">{{ $tag->name }}</label>
                 <input type="hidden" name="tagId" value="{{ $tag->id }}">
                 <input type="text" name="tagName" class="text-input-container add-todo-title"
@@ -29,6 +30,7 @@
             <form method="post" action={{ route('removeTag') }} accept-charset="UTF-8"
                 class="center-vertically-flex element-icon" id="removeTag-{{ $tag->id }}">
                 @csrf
+                @method('DELETE')
                 <input type="hidden" name="id" value="{{ $tag->id }}">
                 <i class="fa-solid fa-trash-can"
                     onclick="document.getElementById('removeTag-{{ $tag->id }}').submit()"></i>
