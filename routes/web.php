@@ -9,7 +9,7 @@ use App\Http\Controllers\KanbanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', TodoController::class . '@showTodoList')->name('Main');
-Route::get('Kanban', KanbanController::class . '@showKanban')->name('Kanban');
+
 Route::get('FilterTodos', TodoController::class . '@changeSort')->name('FilterTodos');
 Route::get('Register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
 Route::post('Register', [RegisterController::class, 'register'])->name('register');
@@ -44,3 +44,8 @@ Route::post("/SaveItem", TodoController::class . '@createTodo')->name("SaveItem"
 Route::post("/changeCompletionStatus/{id}", [TodoController::class, 'changeCompletionStatus'])->name("changeCompletionStatus");
 Route::post("/deleteTodoElement/{id}", [TodoController::class, 'deleteTodoElement'])->name("deleteTodoElement");
 Route::post("/updateTodoFields", [TodoController::class, 'updateTodoFields'])->name("updateTodoFields");
+
+// Kanban board routes
+Route::get('Kanban', KanbanController::class . '@showKanban')->name('Kanban');
+Route::post("logSomething", KanbanController::class . '@logSomething')->name("logSomething");
+Route::post("/logSomething", KanbanController::class . '@logSomething');

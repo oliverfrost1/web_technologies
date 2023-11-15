@@ -6,7 +6,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/js/app.jsx',
+                'resources/js/app.tsx',
             ],
             refresh: true,
         }),
@@ -14,7 +14,7 @@ export default defineConfig({
     ],
     build: {
         rollupOptions: {
-            input: 'resources/js/app.jsx',
+            input: 'resources/js/app.tsx',
         },
         outDir: 'public/build',
     },

@@ -10,4 +10,8 @@ class KanbanController extends Controller
     {
         return view('KanbanBoard');
     }
+
+    public function logSomething() {
+        Log::info("Something");
+    }
 }
