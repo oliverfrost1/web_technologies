@@ -12,6 +12,6 @@ class KanbanController extends Controller
     }
 
     public function logSomething() {
-        Log::info("Something");
+        \Log::info("Something");
     }
 }
