@@ -23,6 +23,7 @@ class ProfileController extends Controller
         }
 
         $user->save();
+
         return back()->with('success', 'Profile updated successfully');
     }
 
@@ -61,6 +62,7 @@ class ProfileController extends Controller
         if (! $this->isCurrentPasswordValid($request, $user)) {
             return ['current_password' => 'Current password is incorrect'];
         }
+
         return null;
     }
 

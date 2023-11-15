@@ -8,6 +8,7 @@
         </h4>
         <form method="POST" action="{{ route('profile.update') }}">
             @csrf
+            @method('PUT')
             <div class="input-row-container">
                 <label>Name:</label>
                 <input class="text-input-container" type="text" name="name" value="{{ Auth::user()->name }}">
