@@ -87,8 +87,9 @@ class TodoController extends Controller
         ])->onlyInput('createError');
     }
 
-    public function getTodo($isSorted)
+    public function getTodo($isSorted = false)
     {
+        \Log::info(auth()->user());
         $userId = auth()->id();
         $tags = session()->get('selectedTags');
 
@@ -102,6 +103,8 @@ class TodoController extends Controller
         } else {
             $todos = Todo::where('user_id', $userId)->get();
         }
+        \Log::info($todos);
+        \Log::info($userId);
 
         if ($tags) {
             $todos = $this->getTodosAssociatedWithTag($tags);
@@ -112,6 +115,7 @@ class TodoController extends Controller
                 return $todo->completed === 0;
             });
         }
+
 
         return $todos;
     }

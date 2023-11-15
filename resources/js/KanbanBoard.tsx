@@ -2,14 +2,14 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import React from "react";
 
-async function logSomething() {
-    const res = await axios.post("/api/logSomething");
-    console.log(res);
+async function testApi() {
+    const res = await axios.post("/api/test");
+    const todos = await axios.get("/api/todos");
 }
 
 export default function KanbanBoard() {
     return (
-        <Button variant="contained" onClick={logSomething}>
+        <Button variant="contained" onClick={testApi}>
             Log something
         </Button>
     );

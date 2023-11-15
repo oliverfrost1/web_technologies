@@ -11,7 +11,10 @@ class KanbanController extends Controller
         return view('KanbanBoard');
     }
 
-    public function logSomething() {
-        \Log::info("Something");
+    public function test() {
+        return response()->json([
+            'success' => true,
+            'message' => 'You have successfully tested something.'
+        ], 200);
     }
 }
