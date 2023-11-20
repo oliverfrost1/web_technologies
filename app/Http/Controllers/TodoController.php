@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
-use App\Models\Todo;
 use App\Services\TagService;
 use App\Services\TodoService;
 use Illuminate\Http\Request;
@@ -78,19 +76,20 @@ class TodoController extends Controller
             return redirect()->route('Main');
         }
 
-        if (auth()->user()) {
-            Todo::create([
-                'title' => $request->title,
-                'due_date' => $request->duedate,
-                'user_id' => auth()->user()->id,
-            ]);
-
-            return back();
+        $user = auth()->user();
+        if (! $user) {
+            return back()->withErrors([
+                'createError' => 'You need to log in to create a todo.',
+            ])->onlyInput('createError');
         }
 
-        return back()->withErrors([
-            'createError' => 'You need to log in to create a todo.',
-        ])->onlyInput('createError');
+        $this->todoService->createTodo(
+            $request->title,
+            $request->duedate,
+            $user->id
+        );
+
+        return back();
     }
 
     public function changeCompletionStatus($id)
@@ -100,144 +99,97 @@ class TodoController extends Controller
         return back();
     }
 
-    public function deleteTodoElement($id)
+    public function deleteTodo($id)
     {
         $user = auth()->user();
-        if ($user || $user->isAdmin()) {
-            $todo = Todo::find($id);
-            if ($todo->user_id === $user->id || $user->isAdmin()) {
-                $todo->delete();
-
-                return back();
-            }
+        if (! $user) {
+            return back()->withErrors([
+                'createError' => 'You need to log in to delete this todo.',
+            ])->onlyInput('createError');
         }
 
-        return back()->withErrors([
-            'createError' => 'You need to log in to delete this todo.',
-        ])->onlyInput('createError');
+        $deleted = $this->todoService->deleteTodo($id, $user->id, $user->isAdmin());
 
+        if (! $deleted) {
+            return back()->withErrors([
+                'deleteError' => 'Failed to delete the todo.',
+            ])->onlyInput('deleteError');
+        }
+
+        return back();
     }
 
-    public function updateTodoFields()
+    public function updateTodo()
     {
         $request = request();
         $user = auth()->user();
-        if ($user) {
-            $todo = Todo::find($request->id);
-            if ($todo && ($todo->user_id === $user->id || $user->isAdmin())) {
-                $request['completed'] = $request->completed === 'on' ? true : false;
-                $updateData = $request->except('_token');
-                $todo->update($updateData);
 
-                return back();
-            }
+        if (! $user) {
+            return back()->withErrors([
+                'createError' => 'You need to log in to update this todo.',
+            ])->onlyInput('createError');
         }
 
-        return back()->withErrors([
-            'createError' => 'You need to log in to update this todo.',
-        ])->onlyInput('createError');
+        $request['completed'] = $request->completed === 'on' ? true : false;
+        $updateData = $request->except('_token');
+        $updated = $this->todoService->updateTodo($request->id, $updateData, $user->id, $user->isAdmin());
+
+        if (! $updated) {
+            return back()->withErrors([
+                'updateError' => 'Failed to update the todo.',
+            ])->onlyInput('updateError');
+        }
+
+        return back();
     }
 
-    public function addNewTagToTodo(Request $request)
+    public function createOrAttachTagToTodo(Request $request)
     {
-        if (! $request->tagName) {
-            return back();
-        }
-        $tag = $this->getTagFromName($request->tagName);
         $user = auth()->user();
-        if ($user->isAdmin()) {
-            return back();
-        }
-        if ($tag) {
-            $tagid = $tag->id;
-            $request->merge(['tagid' => $tagid]);
+        $result = $this->tagService->createOrAttachTag($request->tagName, $user, $request->todoid);
 
-            return $this->attachTagToTodo($request);
-        }
-        if ($user) {
-            $tag = Tag::Create(['name' => $request->tagName, 'user_id' => $user->id]);
-            $tagid = $tag->id;
-            $request->merge(['tagid' => $tagid]);
-
-            return $this->attachTagToTodo($request);
-        } else {
+        if (! $result) {
             return back()->withErrors([
                 'createError' => 'You need to log in to add this tag to todo.',
             ])->onlyInput('createError');
         }
+
+        return back();
     }
 
-    //creates new association between an existing tag and a todo
-    public function attachTagToTodo(Request $request)
+    public function detachTagFromTodo(Request $request)
     {
-        $todo = Todo::find($request->todoid);
-        $tag = Tag::find($request->tagid);
-        if ($todo && $tag) {
-            $todo->tags()->attach($tag);
+        $result = $this->tagService->detachTagFromTodo($request->tagid, $request->todoid);
+
+        if (! $result) {
+            return back()->withErrors([
+                'removeError' => 'Failed to remove the tag from todo.',
+            ])->onlyInput('removeError');
         }
 
         return back();
     }
 
-    public function removeTagAssociation(Request $request)
+    public function deleteTag(Request $request)
     {
-        $tagId = $request->tagid;
-        $todo = Todo::find($request->todoid);
-        $todo->tags()->detach($tagId);
-
-        return back();
-    }
-
-    public function removeTag(Request $request)
-    {
-        $tagId = $request->id;
-        $selectedTags = session()->get('selectedTags');
-        $tagIndex = array_search($tagId, (array) $selectedTags);
-        if ($tagIndex !== false) {
-            unset($selectedTags[$tagIndex]);
-            $selectedTags = array_values($selectedTags);
-        }
+        $selectedTags = $this->tagService->deleteTag($request->id, session()->get('selectedTags'));
         session()->put('selectedTags', $selectedTags);
-        Tag::destroy($tagId);
 
         return back();
     }
 
     public function updateTag(Request $request)
     {
-        $tagId = $request->tagId;
-        $tagName = $request->tagName;
         $user = auth()->user();
-        if ($user) {
-            $tag = Tag::find($tagId);
-            if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
-                $tag->name = $tagName;
-                $tag->save();
 
-                return back();
-            }
+        if (! $user) {
+            return back()->withErrors([
+                'createError' => 'You need to log in to update this tag.',
+            ])->onlyInput('createError');
         }
 
-        return back()->withErrors([
-            'createError' => 'You need to log in to update this tag.',
-        ])->onlyInput('createError');
+        $this->tagService->updateTag($request->tagId, $request->tagName, $user);
 
-        return $tag;
-    }
-
-    private function getTodosAssociatedWithTag($tagIds)
-    {
-        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
-            $query->whereIn('tags.id', $tagIds);
-        })->get();
-
-        return $todos;
-    }
-
-    private function getTagFromName($tagName)
-    {
-        $tag = Tag::where('name', $tagName)->first();
-
-        return $tag;
+        return back();
     }
 }

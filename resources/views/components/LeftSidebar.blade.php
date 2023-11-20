@@ -27,13 +27,13 @@
                 <i class="fa-solid fa-pen-to-square element-icon" style="color:white"
                     onclick="enableEditField('{{ $tag->id }}')"></i>
             </form>
-            <form method="post" action={{ route('removeTag') }} accept-charset="UTF-8"
-                class="center-vertically-flex element-icon" id="removeTag-{{ $tag->id }}">
+            <form method="post" action={{ route('deleteTag') }} accept-charset="UTF-8"
+                class="center-vertically-flex element-icon" id="deleteTag-{{ $tag->id }}">
                 @csrf
                 @method('DELETE')
                 <input type="hidden" name="id" value="{{ $tag->id }}">
                 <i class="fa-solid fa-trash-can"
-                    onclick="document.getElementById('removeTag-{{ $tag->id }}').submit()"></i>
+                    onclick="document.getElementById('deleteTag-{{ $tag->id }}').submit()"></i>
             </form>
         </div>
     @endforeach

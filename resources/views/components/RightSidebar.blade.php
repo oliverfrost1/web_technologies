@@ -3,7 +3,7 @@
 <div class="sidebar-holder" id="sidebar-holder">
     @if ($todo)
         <a href="{{ route('Main') }}"><i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i></a>
-        <form class="sidebar-form" method="post" accept-charset="UTF-8" action="{{ route('updateTodoFields') }}">
+        <form class="sidebar-form" method="post" accept-charset="UTF-8" action="{{ route('updateTodo') }}">
             @csrf
             @method('PUT')
             <div class="sidebar-form-row">
@@ -34,7 +34,7 @@
                 <label class="sidebar-label" for="tag">Manage Tags</label>
                 <div class="tag-holder">
                     @foreach ($tags as $tag)
-                        <form class="sidebar-form" action="{{ route('removeTagFromTodo') }}" method="POST">
+                        <form class="sidebar-form" action="{{ route('detachTagFromTodo') }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button class="todo-button tag-button">{{ $tag->name }} <span
@@ -44,7 +44,8 @@
                         </form>
                     @endforeach
                 </div>
-                <form class="sidebar-form" id="add-tag-form" action="{{ route('addNewTag') }}" method="post">
+                <form class="sidebar-form" id="add-tag-form" action="{{ route('createOrAttachTagToTodo') }}"
+                    method="post">
                     @csrf
                     <input list="tag-choices" id="tagName" name="tagName" autocomplete="off" required />
                     <datalist id="tag-choices">

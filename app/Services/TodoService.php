@@ -6,13 +6,6 @@ use App\Models\Todo;
 
 class TodoService
 {
-    private $tagService;
-
-    public function __construct(TagService $tagService)
-    {
-        $this->tagService = $tagService;
-    }
-
     public function getTodoList($isSorted)
     {
         $userId = auth()->id();
@@ -44,6 +37,44 @@ class TodoService
         $todo = Todo::find($id);
         $todo->completed = ! $todo->completed;
         $todo->save();
+    }
+
+    public function createTodo($title, $dueDate, $userId)
+    {
+        return Todo::create([
+            'title' => $title,
+            'due_date' => $dueDate,
+            'user_id' => $userId,
+        ]);
+    }
+
+    public function deleteTodo($id, $userId, $isAdmin)
+    {
+        $todo = Todo::find($id);
+        if ($todo && ($todo->user_id === $userId || $isAdmin)) {
+            $todo->delete();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function updateTodo($id, $updateData, $userId, $isAdmin)
+    {
+        $todo = Todo::find($id);
+        if ($todo && ($todo->user_id === $userId || $isAdmin)) {
+            $todo->update($updateData);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getTodoById($id)
+    {
+        return Todo::find($id);
     }
 
     private function getTodosAssociatedWithTag($tagIds)

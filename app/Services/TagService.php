@@ -6,6 +6,13 @@ use App\Models\Tag;
 
 class TagService
 {
+    private $todoService;
+
+    public function __construct(TodoService $todoService)
+    {
+        $this->todoService = $todoService;
+    }
+
     public function getAllTagsOnUser()
     {
         $user = auth()->user();
@@ -45,5 +52,69 @@ class TagService
         }
 
         return $unselectedTags;
+    }
+
+    public function createOrAttachTag($tagName, $user, $todoId)
+    {
+        if (! $tagName || $user->isAdmin()) {
+            return false;
+        }
+
+        $tag = $this->getTagByName($tagName) ?? Tag::Create(['name' => $tagName, 'user_id' => $user->id]);
+
+        if ($tag && $user) {
+            $todo = $this->todoService->getTodoById($todoId);
+            if ($todo) {
+                $todo->tags()->attach($tag);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function detachTagFromTodo($tagId, $todoId)
+    {
+        $todo = $this->todoService->getTodoById($todoId);
+        if ($todo) {
+            $todo->tags()->detach($tagId);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function deleteTag($tagId, $selectedTags)
+    {
+        $tagIndex = array_search($tagId, (array) $selectedTags);
+        if ($tagIndex !== false) {
+            unset($selectedTags[$tagIndex]);
+            $selectedTags = array_values($selectedTags);
+        }
+        Tag::destroy($tagId);
+
+        return $selectedTags;
+    }
+
+    public function updateTag($tagId, $tagName, $user)
+    {
+        $tag = Tag::find($tagId);
+        if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
+            $tag->name = $tagName;
+            $tag->save();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private function getTagByName($tagName)
+    {
+        $tag = Tag::where('name', $tagName)->first();
+
+        return $tag;
     }
 }

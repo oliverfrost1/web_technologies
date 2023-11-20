@@ -26,16 +26,15 @@ Route::controller(AdminController::class)->middleware('admin')->group(function (
     Route::delete('admin/deleteUser/{id}', 'deleteUser')->name('admin.delete-user');
 });
 
-Route::post('addNewTag', TodoController::class . '@addNewTagToTodo')->name('addNewTag');
-Route::post('attachTag', TodoController::class . '@attachTagToTodo')->name('attachTag');
-Route::delete('removeTagFromTodo', TodoController::class . '@removeTagAssociation')->name('removeTagFromTodo');
-Route::delete('removeTag', TodoController::class . '@removeTag')->name('removeTag');
+Route::post('createOrAttachTagToTodo', TodoController::class . '@createOrAttachTagToTodo')->name('createOrAttachTagToTodo');
+Route::delete('detachTagFromTodo', TodoController::class . '@detachTagFromTodo')->name('detachTagFromTodo');
+Route::delete('deleteTag', TodoController::class . '@deleteTag')->name('deleteTag');
 Route::put('updateTag', TodoController::class . '@updateTag')->name('updateTag');
 
 Route::get('filterByTags', TodoController::class . '@changeSelectedTags')->name('filterByTags');
 
-Route::post('SaveItem', TodoController::class . '@createTodo')->name('SaveItem');
+Route::post('createTodo', TodoController::class . '@createTodo')->name('createTodo');
 
 Route::put('changeCompletionStatus/{id}', [TodoController::class, 'changeCompletionStatus'])->name('changeCompletionStatus');
-Route::delete('deleteTodoElement/{id}', [TodoController::class, 'deleteTodoElement'])->name('deleteTodoElement');
-Route::put('updateTodoFields', [TodoController::class, 'updateTodoFields'])->name('updateTodoFields');
+Route::delete('deleteTodo/{id}', [TodoController::class, 'deleteTodo'])->name('deleteTodo');
+Route::put('updateTodo', [TodoController::class, 'updateTodo'])->name('updateTodo');

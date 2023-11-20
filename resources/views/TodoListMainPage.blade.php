@@ -4,7 +4,7 @@
     <div class="todo-page-layout">
         <x-LeftSidebar :allTags="$allTags" :filterTags="$filterTags" :isSorted="$isSorted" />
         <div class="center-page">
-            <form method="post" action="{{ route('SaveItem') }}" accept-charset="UTF-8" id="addItemToTodo">
+            <form method="post" action="{{ route('createTodo') }}" accept-charset="UTF-8" id="addItemToTodo">
                 @csrf
                 <div class="todo-adder-form-layout">
                     <div class="todo-title-and-date-holder">
