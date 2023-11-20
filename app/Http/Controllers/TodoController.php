@@ -4,35 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use App\Models\Todo;
+use App\Services\TagService;
+use App\Services\TodoService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
 class TodoController extends Controller
 {
+    private $tagService;
+    private $todoService;
+
+    public function __construct(TagService $tagService, TodoService $todoService)
+    {
+        $this->tagService = $tagService;
+        $this->todoService = $todoService;
+    }
+
     public function showTodoList()
     {
         $todoId = request()->id;
-        $tagsOnSelectedTodo = null;
-        $allTags = $this->getAllTagsOnUser();
-        $unselectedTagsOnTodo = null;
-        if ($todoId) {
-            //Main page has been loaded with a todo selected
-            $tagsOnSelectedTodo = $this->getTagsAssociatedWithTodo($todoId);
-            $unselectedTagsOnTodo = $this->getTagsNotAssociatedWithTodo($todoId);
-        }
+        $allTags = $this->tagService->getAllTagsOnUser();
+        $tagsAssociatedWithSelectedTodo = $todoId ? $this->tagService->getTagsAssociatedWithTodo($todoId) : null;
+        $tagsNotAssociatedWithSelectedTodo = $todoId ? $this->tagService->getTagsNotAssociatedWithTodo($todoId) : null;
+
         $isSorted = session()->get('isSorted');
-        $filterTags = session()->get('selectedTags');
-        if (! $filterTags) {
-            $filterTags = [];
-        }
+        $filterTags = session()->get('selectedTags', []);
+
+        $todos = $this->todoService->getTodoList($isSorted);
 
         return View::make('TodoListMainPage', [
-            'todos' => $this->getTodo($isSorted),
+            'todos' => $todos,
             'isSorted' => $isSorted,
             'openedId' => $todoId,
-            'tags' => $tagsOnSelectedTodo,
-            'unselectedTags' => $unselectedTagsOnTodo,
+            'tags' => $tagsAssociatedWithSelectedTodo,
+            'unselectedTags' => $tagsNotAssociatedWithSelectedTodo,
             'allTags' => $allTags,
             'filterTags' => $filterTags,
         ]);
@@ -88,48 +93,9 @@ class TodoController extends Controller
         ])->onlyInput('createError');
     }
 
-    public function getTodo($isSorted)
-    {
-        $userId = auth()->id();
-        $tags = session()->get('selectedTags');
-
-        if (auth()->check() && auth()->user()->isAdmin()) {
-            $todos = Todo::join('users', 'todos.user_id', '=', 'users.id')
-                ->select('todos.*', 'users.email as user_email')
-                ->get();
-
-            Log::info($todos);
-
-        } else {
-            $todos = Todo::where('user_id', $userId)->get();
-        }
-
-        if ($tags) {
-            $todos = $this->getTodosAssociatedWithTag($tags);
-        }
-        // gets the entire todolist from the database
-        if ($isSorted) {
-            $todos = $todos->filter(function ($todo) {
-                return $todo->completed === 0;
-            });
-        }
-
-        return $todos;
-    }
-
     public function changeCompletionStatus($id)
     {
-        // log the request
-        Log::info($id);
-        $todo = Todo::find($id);
-        Log::info($todo);
-        // TODO: Maybe change this.
-        if ($todo->completed === 1) {
-            $todo->completed = 0;
-        } else {
-            $todo->completed = 1;
-        }
-        $todo->save();
+        $this->todoService->changeCompletionStatus($id);
 
         return back();
     }
@@ -170,21 +136,6 @@ class TodoController extends Controller
         return back()->withErrors([
             'createError' => 'You need to log in to update this todo.',
         ])->onlyInput('createError');
-    }
-
-    public function getAllTagsOnUser()
-    {
-        $user = auth()->user();
-        $tags = [];
-        if ($user) {
-            if ($user->isAdmin()) {
-                $tags = Tag::all();
-            } else {
-                $tags = Tag::where('user_id', $user->id)->get();
-            }
-        }
-
-        return $tags;
     }
 
     public function addNewTagToTodo(Request $request)
@@ -252,15 +203,6 @@ class TodoController extends Controller
         return back();
     }
 
-    public function getTagsAssociatedWithTodo($todoId)
-    {
-        $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
-            $query->where('todos.id', $todoId);
-        })->get();
-
-        return $tags;
-    }
-
     public function updateTag(Request $request)
     {
         $tagId = $request->tagId;
@@ -290,23 +232,6 @@ class TodoController extends Controller
         })->get();
 
         return $todos;
-    }
-
-    private function getTagsNotAssociatedWithTodo($todoId)
-    {
-        $tags = $this->getTagsAssociatedWithTodo($todoId);
-        $tag_ids = $tags->pluck('id')->toArray();
-        $user = auth()->user();
-        $unselectedTags = [];
-        if ($user) {
-            if ($user->isAdmin()) {
-                $unselectedTags = Tag::whereNotIn('id', $tag_ids)->get();
-            } else {
-                $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
-            }
-        }
-
-        return $unselectedTags;
     }
 
     private function getTagFromName($tagName)
