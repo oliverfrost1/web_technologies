@@ -13,6 +13,13 @@ class TagService
         $this->todoService = $todoService;
     }
 
+    private function getTagByName($tagName)
+    {
+        $tag = Tag::where('name', $tagName)->first();
+
+        return $tag;
+    }
+
     public function getAllTagsOnUser()
     {
         $user = auth()->user();
@@ -74,6 +81,19 @@ class TagService
         return false;
     }
 
+    public function updateTag($tagId, $tagName, $user)
+    {
+        $tag = Tag::find($tagId);
+        if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
+            $tag->name = $tagName;
+            $tag->save();
+
+            return true;
+        }
+
+        return false;
+    }
+
     public function detachTagFromTodo($tagId, $todoId)
     {
         $todo = $this->todoService->getTodoById($todoId);
@@ -96,25 +116,5 @@ class TagService
         Tag::destroy($tagId);
 
         return $selectedTags;
-    }
-
-    public function updateTag($tagId, $tagName, $user)
-    {
-        $tag = Tag::find($tagId);
-        if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
-            $tag->name = $tagName;
-            $tag->save();
-
-            return true;
-        }
-
-        return false;
-    }
-
-    private function getTagByName($tagName)
-    {
-        $tag = Tag::where('name', $tagName)->first();
-
-        return $tag;
     }
 }

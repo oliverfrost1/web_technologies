@@ -41,6 +41,42 @@ class TodoController extends Controller
         ]);
     }
 
+    public function createTodo(Request $request)
+    {
+        if (! $request->title) {
+            return redirect()->route('Main');
+        }
+
+        $user = auth()->user();
+        if (! $user) {
+            return back()->withErrors([
+                'createError' => 'You need to log in to create a todo.',
+            ])->onlyInput('createError');
+        }
+
+        $this->todoService->createTodo(
+            $request->title,
+            $request->duedate,
+            $user->id
+        );
+
+        return back();
+    }
+
+    public function createOrAttachTagToTodo(Request $request)
+    {
+        $user = auth()->user();
+        $result = $this->tagService->createOrAttachTag($request->tagName, $user, $request->todoid);
+
+        if (! $result) {
+            return back()->withErrors([
+                'createError' => 'You need to log in to add this tag to todo.',
+            ])->onlyInput('createError');
+        }
+
+        return back();
+    }
+
     public function changeSort()
     {
         $isSorted = session()->get('isSorted');
@@ -70,51 +106,9 @@ class TodoController extends Controller
         return back();
     }
 
-    public function createTodo(Request $request)
-    {
-        if (! $request->title) {
-            return redirect()->route('Main');
-        }
-
-        $user = auth()->user();
-        if (! $user) {
-            return back()->withErrors([
-                'createError' => 'You need to log in to create a todo.',
-            ])->onlyInput('createError');
-        }
-
-        $this->todoService->createTodo(
-            $request->title,
-            $request->duedate,
-            $user->id
-        );
-
-        return back();
-    }
-
     public function changeCompletionStatus($id)
     {
         $this->todoService->changeCompletionStatus($id);
-
-        return back();
-    }
-
-    public function deleteTodo($id)
-    {
-        $user = auth()->user();
-        if (! $user) {
-            return back()->withErrors([
-                'createError' => 'You need to log in to delete this todo.',
-            ])->onlyInput('createError');
-        }
-
-        $deleted = $this->todoService->deleteTodo($id, $user->id, $user->isAdmin());
-
-        if (! $deleted) {
-            return back()->withErrors([
-                'deleteError' => 'Failed to delete the todo.',
-            ])->onlyInput('deleteError');
-        }
 
         return back();
     }
@@ -143,15 +137,36 @@ class TodoController extends Controller
         return back();
     }
 
-    public function createOrAttachTagToTodo(Request $request)
+    public function updateTag(Request $request)
     {
         $user = auth()->user();
-        $result = $this->tagService->createOrAttachTag($request->tagName, $user, $request->todoid);
 
-        if (! $result) {
+        if (! $user) {
             return back()->withErrors([
-                'createError' => 'You need to log in to add this tag to todo.',
+                'createError' => 'You need to log in to update this tag.',
             ])->onlyInput('createError');
+        }
+
+        $this->tagService->updateTag($request->tagId, $request->tagName, $user);
+
+        return back();
+    }
+
+    public function deleteTodo($id)
+    {
+        $user = auth()->user();
+        if (! $user) {
+            return back()->withErrors([
+                'createError' => 'You need to log in to delete this todo.',
+            ])->onlyInput('createError');
+        }
+
+        $deleted = $this->todoService->deleteTodo($id, $user->id, $user->isAdmin());
+
+        if (! $deleted) {
+            return back()->withErrors([
+                'deleteError' => 'Failed to delete the todo.',
+            ])->onlyInput('deleteError');
         }
 
         return back();
@@ -178,18 +193,5 @@ class TodoController extends Controller
         return back();
     }
 
-    public function updateTag(Request $request)
-    {
-        $user = auth()->user();
 
-        if (! $user) {
-            return back()->withErrors([
-                'createError' => 'You need to log in to update this tag.',
-            ])->onlyInput('createError');
-        }
-
-        $this->tagService->updateTag($request->tagId, $request->tagName, $user);
-
-        return back();
-    }
 }

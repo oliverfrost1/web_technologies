@@ -6,6 +6,15 @@ use App\Models\Todo;
 
 class TodoService
 {
+    private function getTodosAssociatedWithTag($tagIds)
+    {
+        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
+            $query->whereIn('tags.id', $tagIds);
+        })->get();
+
+        return $todos;
+    }
+
     public function getTodoList($isSorted)
     {
         $userId = auth()->id();
@@ -32,11 +41,9 @@ class TodoService
         return $todos;
     }
 
-    public function changeCompletionStatus($id)
+    public function getTodoById($id)
     {
-        $todo = Todo::find($id);
-        $todo->completed = ! $todo->completed;
-        $todo->save();
+        return Todo::find($id);
     }
 
     public function createTodo($title, $dueDate, $userId)
@@ -46,18 +53,6 @@ class TodoService
             'due_date' => $dueDate,
             'user_id' => $userId,
         ]);
-    }
-
-    public function deleteTodo($id, $userId, $isAdmin)
-    {
-        $todo = Todo::find($id);
-        if ($todo && ($todo->user_id === $userId || $isAdmin)) {
-            $todo->delete();
-
-            return true;
-        }
-
-        return false;
     }
 
     public function updateTodo($id, $updateData, $userId, $isAdmin)
@@ -72,17 +67,22 @@ class TodoService
         return false;
     }
 
-    public function getTodoById($id)
+    public function changeCompletionStatus($id)
     {
-        return Todo::find($id);
+        $todo = Todo::find($id);
+        $todo->completed = ! $todo->completed;
+        $todo->save();
     }
 
-    private function getTodosAssociatedWithTag($tagIds)
+    public function deleteTodo($id, $userId, $isAdmin)
     {
-        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
-            $query->whereIn('tags.id', $tagIds);
-        })->get();
+        $todo = Todo::find($id);
+        if ($todo && ($todo->user_id === $userId || $isAdmin)) {
+            $todo->delete();
 
-        return $todos;
+            return true;
+        }
+
+        return false;
     }
 }
