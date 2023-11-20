@@ -192,6 +192,4 @@ class TodoController extends Controller
 
         return back();
     }
-
-
 }

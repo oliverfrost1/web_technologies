@@ -13,13 +13,6 @@ class TagService
         $this->todoService = $todoService;
     }
 
-    private function getTagByName($tagName)
-    {
-        $tag = Tag::where('name', $tagName)->first();
-
-        return $tag;
-    }
-
     public function getAllTagsOnUser()
     {
         $user = auth()->user();
@@ -116,5 +109,12 @@ class TagService
         Tag::destroy($tagId);
 
         return $selectedTags;
+    }
+
+    private function getTagByName($tagName)
+    {
+        $tag = Tag::where('name', $tagName)->first();
+
+        return $tag;
     }
 }

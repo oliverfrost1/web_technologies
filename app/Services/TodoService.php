@@ -6,15 +6,6 @@ use App\Models\Todo;
 
 class TodoService
 {
-    private function getTodosAssociatedWithTag($tagIds)
-    {
-        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
-            $query->whereIn('tags.id', $tagIds);
-        })->get();
-
-        return $todos;
-    }
-
     public function getTodoList($isSorted)
     {
         $userId = auth()->id();
@@ -84,5 +75,14 @@ class TodoService
         }
 
         return false;
+    }
+
+    private function getTodosAssociatedWithTag($tagIds)
+    {
+        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
+            $query->whereIn('tags.id', $tagIds);
+        })->get();
+
+        return $todos;
     }
 }
