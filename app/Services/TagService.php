@@ -17,7 +17,7 @@ class TagService
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return [];
         }
 

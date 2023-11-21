@@ -1,7 +1,7 @@
 <div class="todo-element {{ $completed ? 'todo-element-complete' : '' }}" id="{{ $id }}">
     <div class="todo-element-checkbox">
-        <form method="post" action="{{ route('changeCompletionStatus', $id) }}" accept-charset="UTF-8"
-            id="changeCompletionStatus">
+        <form method="post" action="{{ route('toggleTodoCompletionStatus', $id) }}" accept-charset="UTF-8"
+            id="toggleTodoCompletionStatus">
             @csrf
             @method('PUT')
             <input type="hidden" name="todo_id" value="{{ $id }}" />

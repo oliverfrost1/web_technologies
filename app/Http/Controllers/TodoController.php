@@ -20,24 +20,24 @@ class TodoController extends Controller
 
     public function displayTodoListWithTags()
     {
-        $todoId = request()->id;
-        $allTags = $this->tagService->getUserTags();
-        $tagsAssociatedWithSelectedTodo = $todoId ? $this->tagService->getTagsAssociatedWithTodo($todoId) : null;
-        $tagsNotAssociatedWithSelectedTodo = $todoId ? $this->tagService->getTagsNotAssociatedWithTodo($todoId) : null;
+        $selectedTodoId = request()->id;
+        $allUserTags = $this->tagService->getUserTags();
+        $tagsForSelectedTodo = $selectedTodoId ? $this->tagService->getTagsAssociatedWithTodo($selectedTodoId) : null;
+        $tagsNotForSelectedTodo = $selectedTodoId ? $this->tagService->getTagsNotAssociatedWithTodo($selectedTodoId) : null;
 
-        $isSorted = session()->get('isSorted');
-        $filterTags = session()->get('selectedTags', []);
+        $isSortEnabled = session()->get('isSorted');
+        $filteredTags = session()->get('selectedTags', []);
 
-        $todos = $this->todoService->getTodoList($isSorted);
+        $todos = $this->todoService->getTodoList($isSortEnabled);
 
         return View::make('TodoListMainPage', [
             'todos' => $todos,
-            'isSorted' => $isSorted,
-            'openedId' => $todoId,
-            'tags' => $tagsAssociatedWithSelectedTodo,
-            'unselectedTags' => $tagsNotAssociatedWithSelectedTodo,
-            'allTags' => $allTags,
-            'filterTags' => $filterTags,
+            'isSorted' => $isSortEnabled,
+            'openedId' => $selectedTodoId,
+            'tags' => $tagsForSelectedTodo,
+            'unselectedTags' => $tagsNotForSelectedTodo,
+            'allTags' => $allUserTags,
+            'filterTags' => $filteredTags,
         ]);
     }
 
@@ -49,9 +49,7 @@ class TodoController extends Controller
 
         $user = auth()->user();
         if (! $user) {
-            return back()->withErrors([
-                'createError' => 'You need to log in to create a todo.',
-            ])->onlyInput('createError');
+            return $this->errorResponse('You need to log in to create a todo.', 'createError');
         }
 
         $this->todoService->createTodo(
@@ -63,18 +61,20 @@ class TodoController extends Controller
         return back();
     }
 
-    public function changeSort()
+    public function toggleCompletedTodosVisibility()
     {
-        $isSorted = session()->get('isSorted');
-        $isSorted = $isSorted ? 0 : 1;
-        session()->put('isSorted', $isSorted);
+        $isSorted = session()->get('isSorted', false);
+
+        $newSortOrder = ! $isSorted;
+
+        session()->put('isSorted', $newSortOrder);
 
         return back();
     }
 
-    public function changeCompletionStatus($id)
+    public function toggleTodoCompletionStatus($id)
     {
-        $this->todoService->changeCompletionStatus($id);
+        $this->todoService->toggleTodoCompletionStatus($id);
 
         return back();
     }
@@ -85,9 +85,7 @@ class TodoController extends Controller
         $user = auth()->user();
 
         if (! $user) {
-            return back()->withErrors([
-                'createError' => 'You need to log in to update this todo.',
-            ])->onlyInput('createError');
+            return $this->errorResponse('You need to log in to update this todo.', 'createError');
         }
 
         $request['completed'] = $request->completed === 'on' ? true : false;
@@ -95,9 +93,7 @@ class TodoController extends Controller
         $updated = $this->todoService->updateTodo($request->id, $updateData, $user->id, $user->isAdmin());
 
         if (! $updated) {
-            return back()->withErrors([
-                'updateError' => 'Failed to update the todo.',
-            ])->onlyInput('updateError');
+            return $this->errorResponse('Failed to update the todo.', 'updateError');
         }
 
         return back();
@@ -107,20 +103,22 @@ class TodoController extends Controller
     {
         $user = auth()->user();
         if (! $user) {
-            return back()->withErrors([
-                'createError' => 'You need to log in to delete this todo.',
-            ])->onlyInput('createError');
+            return $this->errorResponse('You need to log in to delete this todo.', 'createError');
         }
 
         $deleted = $this->todoService->deleteTodo($id, $user->id, $user->isAdmin());
 
         if (! $deleted) {
-            return back()->withErrors([
-                'deleteError' => 'Failed to delete the todo.',
-            ])->onlyInput('deleteError');
+            return $this->errorResponse('Failed to delete the todo.', 'deleteError');
         }
 
         return back();
     }
 
+    private function errorResponse($message, $inputKey)
+    {
+        return back()->withErrors([
+            $inputKey => $message,
+        ])->onlyInput($inputKey);
+    }
 }

@@ -1,7 +1,7 @@
 @props(['allTags', 'filterTags', 'isSorted'])
 <div class="sidebar-holder">
     <label class="sidebar-label" for="tags"><i class="fa-solid fa-filter"></i> Filters</label>
-    <form method="get" action="{{ route('FilterTodos') }}" accept-charset="UTF-8">
+    <form method="get" action="{{ route('toggleCompletedTodosVisibility') }}" accept-charset="UTF-8">
         <input class="sidebar-button" type="submit"
             value="{{ $isSorted ? 'Show Completed Todos' : 'Hide Completed Todos' }}">
     </form>

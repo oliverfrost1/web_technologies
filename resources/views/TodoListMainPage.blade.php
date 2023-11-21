@@ -18,10 +18,10 @@
                                 onclick="document.getElementById('addItemToTodo').submit()"></i>
                         </div>
                     </div>
-                    @error('createError')
-                        <p style="color:red;">{{ $message }}</p>
-                    @enderror
                 </div>
+                @error('createError')
+                    <p style="color:red;">{{ $message }}</p>
+                @enderror
             </form>
             <br />
             <div class="todolist-holder">

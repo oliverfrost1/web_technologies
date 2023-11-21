@@ -58,7 +58,7 @@ class TodoService
         return false;
     }
 
-    public function changeCompletionStatus($id)
+    public function toggleTodoCompletionStatus($id)
     {
         $todo = Todo::find($id);
         $todo->completed = ! $todo->completed;

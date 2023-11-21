@@ -4,8 +4,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TodoController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes
@@ -31,11 +31,11 @@ Route::middleware('admin')->group(function () {
 
 // Todo routes
 Route::get('/', TodoController::class . '@displayTodoListWithTags')->name('Main');
-Route::get('FilterTodos', TodoController::class . '@changeSort')->name('FilterTodos');
+Route::get('toggleCompletedTodosVisibility', TodoController::class . '@toggleCompletedTodosVisibility')->name('toggleCompletedTodosVisibility');
 Route::post('createTodo', TodoController::class . '@createTodo')->name('createTodo');
 Route::put('updateTodo', [TodoController::class, 'updateTodo'])->name('updateTodo');
 Route::delete('deleteTodo/{id}', [TodoController::class, 'deleteTodo'])->name('deleteTodo');
-Route::put('changeCompletionStatus/{id}', [TodoController::class, 'changeCompletionStatus'])->name('changeCompletionStatus');
+Route::put('toggleTodoCompletionStatus/{id}', [TodoController::class, 'toggleTodoCompletionStatus'])->name('toggleTodoCompletionStatus');
 
 // Tag routes
 Route::post('createOrAttachTagToTodo', TagController::class . '@createOrAttachTagToTodo')->name('createOrAttachTagToTodo');
