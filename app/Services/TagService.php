@@ -39,17 +39,21 @@ class TagService
 
     public function getTagsNotAssociatedWithTodo($todoId)
     {
-        $tags = $this->getTagsAssociatedWithTodo($todoId);
-        $tag_ids = $tags->pluck('id')->toArray();
         $user = auth()->user();
-        $unselectedTags = [];
-        if ($user) {
-            if ($user->isAdmin()) {
-                $unselectedTags = Tag::whereNotIn('id', $tag_ids)->get();
-            } else {
-                $unselectedTags = Tag::where('user_id', $user->id)->whereNotIn('id', $tag_ids)->get();
-            }
+
+        if (! $user) {
+            return [];
         }
+
+        $query = Tag::query();
+
+        if (! $user->isAdmin()) {
+            $query->where('user_id', $user->id);
+        }
+
+        $unselectedTags = $query->whereDoesntHave('todos', function ($query) use ($todoId) {
+            $query->where('todos.id', $todoId);
+        })->get();
 
         return $unselectedTags;
     }
@@ -101,11 +105,8 @@ class TagService
 
     public function deleteTag($tagId, $selectedTags)
     {
-        $tagIndex = array_search($tagId, (array) $selectedTags);
-        if ($tagIndex !== false) {
-            unset($selectedTags[$tagIndex]);
-            $selectedTags = array_values($selectedTags);
-        }
+        $selectedTags = $selectedTags ?? [];
+        $selectedTags = array_diff($selectedTags, [$tagId]);
         Tag::destroy($tagId);
 
         return $selectedTags;
