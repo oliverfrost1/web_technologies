@@ -81,8 +81,8 @@ class TodoService
 
     private function filterTodosByTags($todos, $tags)
     {
-        return $todos->whereHas('tags', function ($query) use ($tags) {
-            $query->whereIn('tags.id', $tags);
+        return $todos->filter(function ($todo) use ($tags) {
+            return $todo->tags->whereIn('id', $tags)->isNotEmpty();
         });
     }
 
