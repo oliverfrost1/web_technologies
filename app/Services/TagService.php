@@ -58,21 +58,29 @@ class TagService
         return $unselectedTags;
     }
 
-    public function createOrAttachTag($tagName, $user, $todoId)
+    public function createOrAttachTag($tagName, $admin, $todoId)
     {
-        if (! $tagName || $user->isAdmin()) {
+        if (! $tagName) {
             return false;
         }
 
-        $tag = $this->getTagByName($tagName) ?? Tag::Create(['name' => $tagName, 'user_id' => $user->id]);
+        $todo = $this->todoService->getTodoById($todoId);
+        if (! $todo) {
+            return false;
+        }
 
-        if ($tag && $user) {
-            $todo = $this->todoService->getTodoById($todoId);
-            if ($todo) {
-                $todo->tags()->attach($tag);
+        $tag = $this->getTagByName($tagName);
 
-                return true;
-            }
+        if (! $tag) {
+            $tag = Tag::Create(['name' => $tagName, 'user_id' => $todo->user_id]);
+        } elseif ($tag->user_id != $todo->user_id) {
+            $tag = Tag::Create(['name' => $tagName, 'user_id' => $todo->user_id]);
+        }
+
+        if ($tag) {
+            $todo->tags()->attach($tag);
+
+            return true;
         }
 
         return false;
