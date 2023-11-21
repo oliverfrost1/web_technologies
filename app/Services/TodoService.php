@@ -8,25 +8,15 @@ class TodoService
 {
     public function getTodoList($isSorted)
     {
-        $userId = auth()->id();
+        $todos = $this->getTodosBasedOnUserRole();
+
         $tags = session()->get('selectedTags');
-
-        if (auth()->check() && auth()->user()->isAdmin()) {
-            $todos = Todo::join('users', 'todos.user_id', '=', 'users.id')
-                ->select('todos.*', 'users.email as user_email')
-                ->get();
-        } else {
-            $todos = Todo::where('user_id', $userId)->get();
-        }
-
         if ($tags) {
-            $todos = $this->getTodosAssociatedWithTag($tags);
+            $todos = $this->filterTodosByTags($todos, $tags);
         }
 
         if ($isSorted) {
-            $todos = $todos->filter(function ($todo) {
-                return $todo->completed === 0;
-            });
+            $todos = $this->sortTodos($todos);
         }
 
         return $todos;
@@ -48,8 +38,8 @@ class TodoService
 
     public function updateTodo($id, $updateData, $userId, $isAdmin)
     {
-        $todo = Todo::find($id);
-        if ($todo && ($todo->user_id === $userId || $isAdmin)) {
+        $todo = $this->findTodoAndAuthorize($id, $userId, $isAdmin);
+        if ($todo) {
             $todo->update($updateData);
 
             return true;
@@ -67,14 +57,50 @@ class TodoService
 
     public function deleteTodo($id, $userId, $isAdmin)
     {
-        $todo = Todo::find($id);
-        if ($todo && ($todo->user_id === $userId || $isAdmin)) {
+        $todo = $this->findTodoAndAuthorize($id, $userId, $isAdmin);
+
+        if ($todo) {
             $todo->delete();
 
             return true;
         }
 
         return false;
+    }
+
+    private function getTodosBasedOnUserRole()
+    {
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            return Todo::join('users', 'todos.user_id', '=', 'users.id')
+                ->select('todos.*', 'users.email as user_email')
+                ->get();
+        }
+
+        return Todo::where('user_id', auth()->id())->get();
+    }
+
+    private function filterTodosByTags($todos, $tags)
+    {
+        return $todos->whereHas('tags', function ($query) use ($tags) {
+            $query->whereIn('tags.id', $tags);
+        });
+    }
+
+    private function sortTodos($todos)
+    {
+        return $todos->filter(function ($todo) {
+            return $todo->completed === 0;
+        });
+    }
+
+    private function findTodoAndAuthorize($id, $userId, $isAdmin)
+    {
+        $todo = Todo::find($id);
+        if ($todo && ($todo->user_id === $userId || $isAdmin)) {
+            return $todo;
+        }
+
+        return null;
     }
 
     private function getTodosAssociatedWithTag($tagIds)
