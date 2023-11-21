@@ -18,10 +18,10 @@ class TodoController extends Controller
         $this->todoService = $todoService;
     }
 
-    public function showTodoList()
+    public function displayTodoListWithTags()
     {
         $todoId = request()->id;
-        $allTags = $this->tagService->getAllTagsOnUser();
+        $allTags = $this->tagService->getUserTags();
         $tagsAssociatedWithSelectedTodo = $todoId ? $this->tagService->getTagsAssociatedWithTodo($todoId) : null;
         $tagsNotAssociatedWithSelectedTodo = $todoId ? $this->tagService->getTagsNotAssociatedWithTodo($todoId) : null;
 
@@ -63,45 +63,11 @@ class TodoController extends Controller
         return back();
     }
 
-    public function createOrAttachTagToTodo(Request $request)
-    {
-        $user = auth()->user();
-        $result = $this->tagService->createOrAttachTag($request->tagName, $user, $request->todoid);
-
-        if (! $result) {
-            return back()->withErrors([
-                'createError' => 'You need to log in to add this tag to todo.',
-            ])->onlyInput('createError');
-        }
-
-        return back();
-    }
-
     public function changeSort()
     {
         $isSorted = session()->get('isSorted');
         $isSorted = $isSorted ? 0 : 1;
         session()->put('isSorted', $isSorted);
-
-        return back();
-    }
-
-    public function changeSelectedTags(Request $request)
-    {
-        if (session()->has('selectedTags')) {
-            $selectedTags = session()->get('selectedTags', []);
-        } else {
-            $selectedTags = [];
-        }
-        $curTag = $request->tag;
-        $tagIndex = array_search($curTag, $selectedTags);
-        if ($tagIndex !== false) {
-            unset($selectedTags[$tagIndex]);
-            $selectedTags = array_values($selectedTags);
-        } elseif ($curTag) {
-            $selectedTags[] = $curTag;
-        }
-        session()->put('selectedTags', $selectedTags);
 
         return back();
     }
@@ -137,21 +103,6 @@ class TodoController extends Controller
         return back();
     }
 
-    public function updateTag(Request $request)
-    {
-        $user = auth()->user();
-
-        if (! $user) {
-            return back()->withErrors([
-                'createError' => 'You need to log in to update this tag.',
-            ])->onlyInput('createError');
-        }
-
-        $this->tagService->updateTag($request->tagId, $request->tagName, $user);
-
-        return back();
-    }
-
     public function deleteTodo($id)
     {
         $user = auth()->user();
@@ -172,24 +123,4 @@ class TodoController extends Controller
         return back();
     }
 
-    public function detachTagFromTodo(Request $request)
-    {
-        $result = $this->tagService->detachTagFromTodo($request->tagid, $request->todoid);
-
-        if (! $result) {
-            return back()->withErrors([
-                'removeError' => 'Failed to remove the tag from todo.',
-            ])->onlyInput('removeError');
-        }
-
-        return back();
-    }
-
-    public function deleteTag(Request $request)
-    {
-        $selectedTags = $this->tagService->deleteTag($request->id, session()->get('selectedTags'));
-        session()->put('selectedTags', $selectedTags);
-
-        return back();
-    }
 }

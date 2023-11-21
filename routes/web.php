@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes
@@ -29,7 +30,7 @@ Route::middleware('admin')->group(function () {
 });
 
 // Todo routes
-Route::get('/', TodoController::class . '@showTodoList')->name('Main');
+Route::get('/', TodoController::class . '@displayTodoListWithTags')->name('Main');
 Route::get('FilterTodos', TodoController::class . '@changeSort')->name('FilterTodos');
 Route::post('createTodo', TodoController::class . '@createTodo')->name('createTodo');
 Route::put('updateTodo', [TodoController::class, 'updateTodo'])->name('updateTodo');
@@ -37,8 +38,8 @@ Route::delete('deleteTodo/{id}', [TodoController::class, 'deleteTodo'])->name('d
 Route::put('changeCompletionStatus/{id}', [TodoController::class, 'changeCompletionStatus'])->name('changeCompletionStatus');
 
 // Tag routes
-Route::post('createOrAttachTagToTodo', TodoController::class . '@createOrAttachTagToTodo')->name('createOrAttachTagToTodo');
-Route::delete('detachTagFromTodo', TodoController::class . '@detachTagFromTodo')->name('detachTagFromTodo');
-Route::delete('deleteTag', TodoController::class . '@deleteTag')->name('deleteTag');
-Route::put('updateTag', TodoController::class . '@updateTag')->name('updateTag');
-Route::get('filterByTags', TodoController::class . '@changeSelectedTags')->name('filterByTags');
+Route::post('createOrAttachTagToTodo', TagController::class . '@createOrAttachTagToTodo')->name('createOrAttachTagToTodo');
+Route::delete('detachTagFromTodo', TagController::class . '@detachTagFromTodo')->name('detachTagFromTodo');
+Route::delete('deleteTag', TagController::class . '@deleteTag')->name('deleteTag');
+Route::put('updateTag', TagController::class . '@updateTag')->name('updateTag');
+Route::get('filterByTags', TagController::class . '@changeSelectedTags')->name('filterByTags');

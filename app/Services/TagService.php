@@ -13,19 +13,19 @@ class TagService
         $this->todoService = $todoService;
     }
 
-    public function getAllTagsOnUser()
+    public function getUserTags()
     {
         $user = auth()->user();
-        $tags = [];
-        if ($user) {
-            if ($user->isAdmin()) {
-                $tags = Tag::all();
-            } else {
-                $tags = Tag::where('user_id', $user->id)->get();
-            }
+
+        if (!$user) {
+            return [];
         }
 
-        return $tags;
+        if ($user->isAdmin()) {
+            return Tag::all();
+        }
+
+        return Tag::where('user_id', $user->id)->get();
     }
 
     public function getTagsAssociatedWithTodo($todoId)
