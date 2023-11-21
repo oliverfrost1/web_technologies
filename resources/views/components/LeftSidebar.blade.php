@@ -7,7 +7,13 @@
     </form>
     <br />
     <label class="sidebar-label" for="tags"><i class="fa-solid fa-tags"></i> Tags</label>
-    @foreach ($allTags as $tag)
+    @php
+        $sortedTags = $allTags;
+        if (Auth::user()->isAdmin()) {
+            $sortedTags = $sortedTags->sortBy('user_id');
+        }
+    @endphp
+    @foreach ($sortedTags as $tag)
         <div class="center-vertically-flex">
             <form method="get" action="{{ route('filterByTags') }}" accept-charset="UTF-8"
                 class="center-vertically-flex">
@@ -20,12 +26,18 @@
                 id="editTag-{{ $tag->id }}">
                 @csrf
                 @method('PUT')
-                <label class="sidebar-label" id="tagLabel-{{ $tag->id }}">{{ $tag->name }}</label>
+                <label class="sidebar-label" id="tagLabel-{{ $tag->id }}">
+                    @if (Auth::user()->isAdmin())
+                        UID: {{ $tag->user_id }} -
+                    @endif{{ $tag->name }}
+
+                </label>
                 <input type="hidden" name="tagId" value="{{ $tag->id }}">
                 <input type="text" name="tagName" class="text-input-container add-todo-title"
                     id="editField-{{ $tag->id }}" style="display: none;" value="{{ $tag->name }}">
                 <i class="fa-solid fa-pen-to-square element-icon" style="color:white"
                     onclick="enableEditField('{{ $tag->id }}')"></i>
+
             </form>
             <form method="post" action={{ route('deleteTag') }} accept-charset="UTF-8"
                 class="center-vertically-flex element-icon" id="deleteTag-{{ $tag->id }}">
