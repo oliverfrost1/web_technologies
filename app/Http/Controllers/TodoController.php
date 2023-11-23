@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\TagService;
-use App\Services\TodoService;
+use App\Services\Contracts\TagService;
+use App\Services\Contracts\TodoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 

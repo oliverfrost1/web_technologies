@@ -3,8 +3,9 @@
 namespace App\Services;
 
 use App\Models\Todo;
+use App\Services\Contracts\TodoService;
 
-class TodoService
+class TodoServiceImpl implements TodoService
 {
     public function getTodoList($isSorted)
     {
@@ -27,7 +28,7 @@ class TodoService
         return Todo::find($id);
     }
 
-    public function getTagsByTodoId($todoId)
+    public function getAttachedTagsForTodoByTodoId($todoId)
     {
         $todo = Todo::find($todoId);
 

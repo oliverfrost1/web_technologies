@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Models\Tag;
+use App\Services\Contracts\TagService;
+use App\Services\Contracts\TodoService;
 
-class TagService
+class TagServiceImpl implements TagService
 {
     private $todoService;
 
@@ -30,7 +32,7 @@ class TagService
 
     public function getTagsAssociatedWithTodo($todoId)
     {
-        return $this->todoService->getTagsByTodoId($todoId);
+        return $this->todoService->getAttachedTagsForTodoByTodoId($todoId);
     }
 
     public function getTagsNotAssociatedWithTodo($todoId)
@@ -110,8 +112,8 @@ class TagService
     public function getTagByNameAndUserId($tagName, $userId)
     {
         return Tag::where('name', $tagName)
-                  ->where('user_id', $userId)
-                  ->first();
+            ->where('user_id', $userId)
+            ->first();
     }
 
     private function getTagById($tagId)
