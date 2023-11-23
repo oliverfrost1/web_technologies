@@ -17,7 +17,7 @@ class TagController extends Controller
     public function createOrAttachTagToTodo(Request $request)
     {
         $user = auth()->user();
-        $result = $this->tagService->createOrAttachTag($request->tagName, $user, $request->todoid);
+        $result = $this->tagService->createOrAttachTag($request->tagName, $request->todoid);
 
         if (! $result) {
             return $this->errorResponse('You need to log in to add this tag to todo.', 'createError');

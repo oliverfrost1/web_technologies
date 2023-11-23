@@ -46,7 +46,7 @@ class TagService
         return $this->getUnrelatedTagsForTodo($query, $todoId);
     }
 
-    public function createOrAttachTag($tagName, $admin, $todoId)
+    public function createOrAttachTag($tagName, $todoId)
     {
         $todo = $this->todoService->getTodoById($todoId);
 
@@ -54,11 +54,11 @@ class TagService
             return false;
         }
 
-        $tag = $this->getTagByName($tagName);
+        $tag = $this->getTagByNameAndUserId($tagName, $todo->user_id);
 
-        $isDifferentUserCreatingExistingTag = $tag->user_id != $todo->user_id;
+        $isTagReassignByAdmin = $tag ? $tag->user_id != $todo->user_id : false;
 
-        if (! $tag || $isDifferentUserCreatingExistingTag) {
+        if (! $tag || $isTagReassignByAdmin) {
             $tag = $this->createTag($tagName, $todo->user_id);
         }
 
@@ -107,9 +107,11 @@ class TagService
         return $updatedFilterTags;
     }
 
-    private function getTagByName($tagName)
+    public function getTagByNameAndUserId($tagName, $userId)
     {
-        return Tag::where('name', $tagName)->first();
+        return Tag::where('name', $tagName)
+                  ->where('user_id', $userId)
+                  ->first();
     }
 
     private function getTagById($tagId)
