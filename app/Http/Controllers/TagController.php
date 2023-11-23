@@ -20,7 +20,7 @@ class TagController extends Controller
         $result = $this->tagService->createOrAttachTag($request->tagName, $request->todoid);
 
         if (! $result) {
-            return $this->errorResponse('You need to log in to add this tag to todo.', 'createError');
+            return $this->errorResponse('Failed to add this tag to todo.', 'createError');
         }
 
         return back();

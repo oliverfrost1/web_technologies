@@ -50,7 +50,11 @@
                     <input list="tag-choices" id="tagName" name="tagName" autocomplete="off" required />
                     <datalist id="tag-choices">
                         @foreach ($unselectedTags as $unselectedTag)
-                            <option value="{{ $unselectedTag->name }}"></option>
+                            <option value="{{ $unselectedTag->name }}">
+                                @if (auth()->user()->isAdmin())
+                                    UID: {{ $unselectedTag->user_id }}
+                                @endif
+                            </option>
                         @endforeach
                     </datalist>
                     <input type="hidden" name="todoid" value="{{ $todo->id }}">
