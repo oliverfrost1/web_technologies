@@ -9,7 +9,7 @@
     <label class="sidebar-label" for="tags"><i class="fa-solid fa-tags"></i> Tags</label>
     @php
         $sortedTags = $allTags;
-        if (Auth::user()->isAdmin()) {
+        if (Auth::check() && Auth::user()->isAdmin()) {
             $sortedTags = $sortedTags->sortBy('user_id');
         }
     @endphp

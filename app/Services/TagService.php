@@ -60,30 +60,20 @@ class TagService
 
     public function createOrAttachTag($tagName, $admin, $todoId)
     {
-        if (! $tagName) {
-            return false;
-        }
-
         $todo = $this->todoService->getTodoById($todoId);
-        if (! $todo) {
+        if (! $tagName || ! $todo) {
             return false;
         }
 
         $tag = $this->getTagByName($tagName);
 
-        if (! $tag) {
-            $tag = Tag::Create(['name' => $tagName, 'user_id' => $todo->user_id]);
-        } elseif ($tag->user_id != $todo->user_id) {
+        if (! $tag || $tag->user_id != $todo->user_id) {
             $tag = Tag::Create(['name' => $tagName, 'user_id' => $todo->user_id]);
         }
 
-        if ($tag) {
-            $todo->tags()->attach($tag);
+        $todo->tags()->attach($tag);
 
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     public function updateTag($tagId, $tagName, $user)
@@ -111,13 +101,17 @@ class TagService
         return false;
     }
 
-    public function deleteTag($tagId, $selectedTags)
+    public function deleteTag($tagId)
     {
-        $selectedTags = $selectedTags ?? [];
-        $selectedTags = array_diff($selectedTags, [$tagId]);
         Tag::destroy($tagId);
+    }
 
-        return $selectedTags;
+    public function removeTagFromFilterList($tagId, $currentFilterTags)
+    {
+        $currentFilterTags = $currentFilterTags ?? [];
+        $updatedFilterTags = array_diff($currentFilterTags, [$tagId]);
+
+        return $updatedFilterTags;
     }
 
     private function getTagByName($tagName)

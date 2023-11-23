@@ -26,20 +26,20 @@ class TagController extends Controller
         return back();
     }
 
-    public function changeSelectedTags(Request $request)
+    public function filterByTags(Request $request)
     {
-        $selectedTags = session()->get('selectedTags', []);
+        $tagsForFiltering = session()->get('tagsForFiltering', []);
         $currentTag = $request->tag;
-        $tagIndex = array_search($currentTag, $selectedTags);
+        $tagIndex = array_search($currentTag, $tagsForFiltering);
 
         if ($tagIndex !== false) {
-            unset($selectedTags[$tagIndex]);
+            unset($tagsForFiltering[$tagIndex]);
         } elseif ($currentTag) {
-            $selectedTags[] = $currentTag;
+            $tagsForFiltering[] = $currentTag;
         }
 
-        $selectedTags = array_values($selectedTags);
-        session()->put('selectedTags', $selectedTags);
+        $tagsForFiltering = array_values($tagsForFiltering);
+        session()->put('tagsForFiltering', $tagsForFiltering);
 
         return back();
     }
@@ -70,8 +70,10 @@ class TagController extends Controller
 
     public function deleteTag(Request $request)
     {
-        $selectedTags = $this->tagService->deleteTag($request->id, session()->get('selectedTags'));
-        session()->put('selectedTags', $selectedTags);
+        $this->tagService->deleteTag($request->id);
+
+        $updatedFilterTags = $this->tagService->removeTagFromFilterList($request->id, session()->get('tagsForFiltering'));
+        session()->put('tagsForFiltering', $updatedFilterTags);
 
         return back();
     }
