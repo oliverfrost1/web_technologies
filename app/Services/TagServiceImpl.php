@@ -56,6 +56,12 @@ class TagServiceImpl implements TagService
             return false;
         }
 
+        $existingTag = $todo->tags()->where('name', $tagName)->first();
+
+        if ($existingTag) {
+            return;
+        }
+
         $tag = $this->getTagByNameAndUserId($tagName, $todo->user_id);
 
         $isTagReassignByAdmin = $tag ? $tag->user_id != $todo->user_id : false;
