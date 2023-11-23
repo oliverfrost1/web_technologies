@@ -26,7 +26,7 @@ class TodoController extends Controller
         $tagsNotForSelectedTodo = $selectedTodoId ? $this->tagService->getTagsNotAssociatedWithTodo($selectedTodoId) : null;
 
         $isSortEnabled = session()->get('isSorted');
-        $filteredTags = session()->get('selectedTags', []);
+        $filteredTags = session()->get('tagsForFiltering', []);
 
         $todos = $this->todoService->getTodoList($isSortEnabled);
 

@@ -15,7 +15,7 @@ class TagService
 
     public function getUserTags()
     {
-        $user = auth()->user();
+        $user = $this->getAuthenticatedUser();
 
         if (! $user) {
             return [];
@@ -30,45 +30,36 @@ class TagService
 
     public function getTagsAssociatedWithTodo($todoId)
     {
-        $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
-            $query->where('todos.id', $todoId);
-        })->get();
-
-        return $tags;
+        return $this->todoService->getTagsByTodoId($todoId);
     }
 
     public function getTagsNotAssociatedWithTodo($todoId)
     {
-        $user = auth()->user();
-
-        if (! $user) {
-            return [];
-        }
+        $user = $this->getAuthenticatedUser();
 
         $query = Tag::query();
 
-        if (! $user->isAdmin()) {
+        if ($user && ! $user->isAdmin()) {
             $query->where('user_id', $user->id);
         }
 
-        $unselectedTags = $query->whereDoesntHave('todos', function ($query) use ($todoId) {
-            $query->where('todos.id', $todoId);
-        })->get();
-
-        return $unselectedTags;
+        return $this->getUnrelatedTagsForTodo($query, $todoId);
     }
 
     public function createOrAttachTag($tagName, $admin, $todoId)
     {
         $todo = $this->todoService->getTodoById($todoId);
+
         if (! $tagName || ! $todo) {
             return false;
         }
 
         $tag = $this->getTagByName($tagName);
 
-        if (! $tag || $tag->user_id != $todo->user_id) {
-            $tag = Tag::Create(['name' => $tagName, 'user_id' => $todo->user_id]);
+        $isDifferentUserCreatingExistingTag = $tag->user_id != $todo->user_id;
+
+        if (! $tag || $isDifferentUserCreatingExistingTag) {
+            $tag = $this->createTag($tagName, $todo->user_id);
         }
 
         $todo->tags()->attach($tag);
@@ -78,7 +69,8 @@ class TagService
 
     public function updateTag($tagId, $tagName, $user)
     {
-        $tag = Tag::find($tagId);
+        $tag = $this->getTagById($tagId);
+
         if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
             $tag->name = $tagName;
             $tag->save();
@@ -92,6 +84,7 @@ class TagService
     public function detachTagFromTodo($tagId, $todoId)
     {
         $todo = $this->todoService->getTodoById($todoId);
+
         if ($todo) {
             $todo->tags()->detach($tagId);
 
@@ -116,8 +109,28 @@ class TagService
 
     private function getTagByName($tagName)
     {
-        $tag = Tag::where('name', $tagName)->first();
+        return Tag::where('name', $tagName)->first();
+    }
 
-        return $tag;
+    private function getTagById($tagId)
+    {
+        return Tag::find($tagId);
+    }
+
+    private function createTag($tagName, $userId)
+    {
+        return Tag::Create(['name' => $tagName, 'user_id' => $userId]);
+    }
+
+    private function getUnrelatedTagsForTodo($query, $todoId)
+    {
+        return $query->whereDoesntHave('todos', function ($query) use ($todoId) {
+            $query->where('todos.id', $todoId);
+        })->get();
+    }
+
+    private function getAuthenticatedUser()
+    {
+        return auth()->user();
     }
 }

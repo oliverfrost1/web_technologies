@@ -10,7 +10,7 @@ class TodoService
     {
         $todos = $this->getTodosBasedOnUserRole();
 
-        $tags = session()->get('selectedTags');
+        $tags = session()->get('tagsForFiltering');
         if ($tags) {
             $todos = $this->filterTodosByTags($todos, $tags);
         }
@@ -25,6 +25,13 @@ class TodoService
     public function getTodoById($id)
     {
         return Todo::find($id);
+    }
+
+    public function getTagsByTodoId($todoId)
+    {
+        $todo = Todo::find($todoId);
+
+        return $todo->tags;
     }
 
     public function createTodo($title, $dueDate, $userId)
