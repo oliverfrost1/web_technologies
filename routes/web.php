@@ -42,4 +42,4 @@ Route::post('createOrAttachTagToTodo', TagController::class . '@createOrAttachTa
 Route::delete('detachTagFromTodo', TagController::class . '@detachTagFromTodo')->name('detachTagFromTodo');
 Route::delete('deleteTag', TagController::class . '@deleteTag')->name('deleteTag');
 Route::put('updateTag', TagController::class . '@updateTag')->name('updateTag');
-Route::get('filterByTags', TagController::class . '@changeSelectedTags')->name('filterByTags');
+Route::get('filterByTags', TagController::class . '@filterByTags')->name('filterByTags');
