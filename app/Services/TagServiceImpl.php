@@ -56,17 +56,15 @@ class TagServiceImpl implements TagService
             return false;
         }
 
-        $existingTag = $todo->tags()->where('name', $tagName)->first();
+        $isTagAlreadyAttached = $todo->tags()->where('name', $tagName)->first();
 
-        if ($existingTag) {
-            return;
+        if ($isTagAlreadyAttached) {
+            return false;
         }
 
         $tag = $this->getTagByNameAndUserId($tagName, $todo->user_id);
 
-        $isTagReassignByAdmin = $tag ? $tag->user_id != $todo->user_id : false;
-
-        if (! $tag || $isTagReassignByAdmin) {
+        if (! $tag) {
             $tag = $this->createTag($tagName, $todo->user_id);
         }
 
