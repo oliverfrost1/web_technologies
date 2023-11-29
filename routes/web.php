@@ -13,7 +13,7 @@ Route::get('Register', [RegisterController::class, 'showRegistrationForm'])->nam
 Route::post('Register', [RegisterController::class, 'register'])->name('register');
 Route::get('Login', AuthController::class . '@show')->name('Login');
 Route::post('Login', [AuthController::class, 'authenticate'])->name('Login');
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('logout', [AuthController::class, 'logout'])->name('Logout');
 Route::put('profile/update', [ProfileController::class, 'update'])->name('Profile.update');
 Route::get('Profile', [ProfileController::class, 'getProfilePage'])->middleware('auth.basic')->name('Profile');
 
