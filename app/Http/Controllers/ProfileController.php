@@ -90,6 +90,6 @@ class ProfileController extends Controller
 
     public function getProfilePage()
     {
-        return view('Profile');
+        return view('profile');
     }
 }

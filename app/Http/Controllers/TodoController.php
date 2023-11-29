@@ -69,7 +69,7 @@ class TodoController extends Controller
     public function createTodo(Request $request)
     {
         if (!$request->title) {
-            return redirect()->route('Main');
+            return redirect()->route('main');
         }
 
         if (auth()->user()) {

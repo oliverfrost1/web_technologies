@@ -7,15 +7,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', TodoController::class . '@showTodoList')->name('Main');
-Route::get('FilterTodos', TodoController::class . '@changeSort')->name('FilterTodos');
-Route::get('Register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
-Route::post('Register', [RegisterController::class, 'register'])->name('register');
-Route::get('Login', AuthController::class . '@show')->name('Login');
-Route::post('Login', [AuthController::class, 'authenticate'])->name('Login');
-Route::post('logout', [AuthController::class, 'logout'])->name('Logout');
-Route::put('profile/update', [ProfileController::class, 'update'])->name('Profile.update');
-Route::get('Profile', [ProfileController::class, 'getProfilePage'])->middleware('auth.basic')->name('Profile');
+Route::get('/', TodoController::class . '@showTodoList')->name('main');
+Route::get('filter-todos', TodoController::class . '@changeSort')->name('filter-todos');
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
+Route::post('register', [RegisterController::class, 'register'])->name('register');
+Route::get('login', AuthController::class . '@show')->name('login');
+Route::post('login', [AuthController::class, 'authenticate'])->name('login');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::put('profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::get('profile', [ProfileController::class, 'getProfilePage'])->middleware('auth.basic')->name('profile');
 
 Route::controller(AdminController::class)->middleware('admin')->group(function () {
     Route::get('admin/dashboard', 'dashboard')->name('admin.dashboard');

@@ -1,7 +1,7 @@
 <div class="topbar">
     <div class="top-bar-left">
         <h1>
-            <a href="{{ route('Main') }}" class="button"> <i class="fa-solid fa-house-circle-check"></i> Todo List </a>
+            <a href="{{ route('main') }}" class="button"> <i class="fa-solid fa-house-circle-check"></i> Todo List </a>
         </h1>
     </div>
     <div class="top-bar-right">
@@ -11,13 +11,13 @@
                 <a href="{{ route('admin.dashboard') }}" class="button"> <i class="fa-solid fa-screwdriver-wrench"></i> Admin
                 </a>
             @endif
-            <a href="{{ route('Profile') }}" class="button"><i class="fa-solid fa-address-card"></i> Profile </a>
+            <a href="{{ route('profile') }}" class="button"><i class="fa-solid fa-address-card"></i> Profile </a>
             <a href="#" class="button" id="logout-button"><i class="fa-solid fa-right-from-bracket"></i> Log out </a>
-            <form id="logout-form" action="{{ route('Logout') }}" method="POST" class="d-none">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
             </form>
         @else
-            <a href="{{ route('Login') }}" class="button"> <i class="fa-solid fa-right-to-bracket"></i> Login</a>
+            <a href="{{ route('login') }}" class="button"> <i class="fa-solid fa-right-to-bracket"></i> Login</a>
             <a href="{{ route('register') }}" class="button"> <i class="fa-solid fa-align-justify"></i> Register </a>
         @endauth
     </div>

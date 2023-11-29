@@ -4,7 +4,7 @@
     <div class="container center-page">
 
         <h2>Login</h2>
-        <form action="{{ route('Login') }}" method="POST">
+        <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="input-row-container">
                 <label for="email">Email:</label>
