@@ -1,7 +1,7 @@
 <div class="topbar">
     <div class="top-bar-left">
         <h1>
-            <a href="/" class="button"> <i class="fa-solid fa-house-circle-check"></i> Todo List </a>
+            <a href="{{ route('Main') }}" class="button"> <i class="fa-solid fa-house-circle-check"></i> Todo List </a>
         </h1>
     </div>
     <div class="top-bar-right">
