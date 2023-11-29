@@ -21,8 +21,39 @@ function enableEditField(tagId) {
         }
     });
 }
+
 function disableEditField(tagId) {
     document.getElementById('editField-' + tagId).style.display = 'none';
     document.getElementById('tagLabel-' + tagId).style.display = 'inline';
 }
 
+
+/**
+ * Enable tags edit field and delete tag icon
+ */
+
+
+const editIcons = document.querySelectorAll('#enable-edit-field-icon');
+const deleteIcons = document.querySelectorAll('#delete-tag-icon');
+
+editIcons.forEach(icon => {
+    icon.addEventListener('click', function() {
+        enableEditField(this.getAttribute('data-tag-id'));
+    });
+});
+
+deleteIcons.forEach(icon => {
+    icon.addEventListener('click', function() {
+        const tagId = this.getAttribute('data-tag-id');
+        document.getElementById(`removeTag-${tagId}`).submit();
+    });
+});
+
+
+
+const tagCheckboxes = document.querySelectorAll('#tag-checkbox');
+tagCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        this.form.submit();
+    });
+});
