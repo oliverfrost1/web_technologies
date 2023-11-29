@@ -13,7 +13,7 @@
                 class="center-vertically-flex">
                 <input type="hidden" name="tag" value="{{ $tag->id }}">
                 <input type="checkbox" name="tag" class="toggle-completed-checkbox" value="{{ $tag->id }}"
-                    id="tag-checkbox" @if (in_array($tag->id, (array) $filterTags)) checked @endif onchange="this.form.submit()">
+                    id="tag-checkbox" @if (in_array($tag->id, (array) $filterTags)) checked @endif>
             </form>
             <form method="post" action={{ route('updateTag') }} accept-charset="UTF-8" class="center-vertically-flex"
                 id="editTag-{{ $tag->id }}">
