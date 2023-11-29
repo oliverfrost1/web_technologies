@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\Todo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
 class TodoController extends Controller
