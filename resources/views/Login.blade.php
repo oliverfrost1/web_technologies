@@ -10,7 +10,7 @@
                 <label for="email">Email:</label>
                 <input type="email" name="email" required class="text-input-container">
             </div>
-            @error('email')
+            @error('credential')
                 <p style="color:red;">{{ $message }}</p>
             @enderror
             <div class="input-row-container">

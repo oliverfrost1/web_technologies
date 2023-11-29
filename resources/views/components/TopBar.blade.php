@@ -21,4 +21,5 @@
             <a href="{{ route('register') }}" class="button"> <i class="fa-solid fa-align-justify"></i> Register </a>
         @endauth
     </div>
+    <script src="{{ asset('js/topbar.js') }}"></script>
 </div>

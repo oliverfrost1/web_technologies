@@ -24,12 +24,12 @@ class AuthController extends Controller
         if (auth()->attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            return redirect()->route('Main');
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+            'credential' => 'The provided credentials do not match our records.',
+        ]);
     }
 
     public function logout(Request $request)
@@ -40,6 +40,6 @@ class AuthController extends Controller
         // Regenerate CSRF token
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('Main');
     }
 }
