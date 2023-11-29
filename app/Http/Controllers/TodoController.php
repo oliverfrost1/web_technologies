@@ -98,8 +98,6 @@ class TodoController extends Controller
                 ->select('todos.*', 'users.email as user_email')
                 ->get();
 
-            Log::info($todos);
-
         } else {
             $todos = Todo::where('user_id', $userId)->get();
         }
@@ -120,9 +118,7 @@ class TodoController extends Controller
     public function changeCompletionStatus($id)
     {
         // log the request
-        Log::info($id);
         $todo = Todo::find($id);
-        Log::info($todo);
         if ($todo->completed === 1) {
             $todo->completed = 0;
         } else {
