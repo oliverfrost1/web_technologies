@@ -3,7 +3,7 @@
  */
 
 const todoCheckboxes = document.querySelectorAll('#todoCheckbox');
-todoCheckboxesInForm.forEach(checkbox => {
+todoCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('change', function() {
         this.form.submit();
     });

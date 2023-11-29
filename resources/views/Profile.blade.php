@@ -6,7 +6,7 @@
         <h4>
             Profile created on: {{ Auth::user()->created_at->format('j F Y') }}
         </h4>
-        <form method="POST" action="{{ route('profile.update') }}">
+        <form method="POST" action="{{ route('Profile.update') }}">
             @csrf
             @method('PUT')
             <div class="input-row-container">

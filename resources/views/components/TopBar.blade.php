@@ -11,10 +11,8 @@
                 <a href="{{ route('admin.dashboard') }}" class="button"> <i class="fa-solid fa-screwdriver-wrench"></i> Admin
                 </a>
             @endif
-            <a href="{{ route('profile') }}" class="button"><i class="fa-solid fa-address-card"></i> Profile </a>
-            <a href="#" class="button"
-                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                    class="fa-solid fa-right-from-bracket"></i> Log out </a>
+            <a href="{{ route('Profile') }}" class="button"><i class="fa-solid fa-address-card"></i> Profile </a>
+            <a href="#" class="button" id="logout-button"><i class="fa-solid fa-right-from-bracket"></i> Log out </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
             </form>
