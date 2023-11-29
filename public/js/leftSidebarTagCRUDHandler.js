@@ -49,7 +49,9 @@ deleteIcons.forEach(icon => {
     });
 });
 
-
+/**
+ * Listen for checkbox change and submit form
+ */
 
 const tagCheckboxes = document.querySelectorAll('#tag-checkbox');
 tagCheckboxes.forEach(checkbox => {
