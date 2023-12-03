@@ -1,17 +1,22 @@
-import { Button } from "@mui/material";
 import axios from "axios";
-import React from "react";
-
-async function testApi() {
-    const res = await axios.post("/api/test");
-    const todos = await axios.get("/api/todos");
-    console.log(todos);
-}
+import React, { useEffect, useState } from "react";
+import { Todo } from "./types/todoTypes";
+import TodoElement from "./components/TodoElement";
 
 export default function KanbanBoard() {
+    const [todos, setTodos] = useState<Todo[]>([]);
+
+    useEffect(() => {
+        axios.get("/api/todos").then((res) => {
+            setTodos(res.data);
+        });
+    }, []);
+
     return (
-        <Button variant="contained" onClick={testApi}>
-            Log something
-        </Button>
+        <div>
+            {todos.map((todo) => {
+                return <TodoElement key={todo.id} todo={todo} />;
+            })}
+        </div>
     );
 }
