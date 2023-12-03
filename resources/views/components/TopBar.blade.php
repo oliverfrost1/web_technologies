@@ -7,6 +7,8 @@
     <div class="top-bar-right">
         @auth
             <span>{{ Auth::user()->name }}</span>
+            <a href="{{ route('kanban') }}" class="button"> <i class="fa-solid fa-screwdriver-wrench"></i> Kanban mode
+            </a>
             @if (Auth::user()->role === 'admin')
                 <a href="{{ route('admin.dashboard') }}" class="button"> <i class="fa-solid fa-screwdriver-wrench"></i> Admin
                 </a>
