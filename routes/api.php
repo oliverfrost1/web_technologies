@@ -17,10 +17,9 @@ use App\Http\Controllers\TodoController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::middleware('web')->group(function () {
+    Route::get('/todos', [TodoController::class, 'getTodo'])->name('getTodo');
 });
 
-
 Route::post("/test", [KanbanController::class, 'test'])->name("test");
-Route::get("/todos", [TodoController::class, 'getTodo'])->middleware('auth.basic')->name("todos");

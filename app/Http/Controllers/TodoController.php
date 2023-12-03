@@ -89,7 +89,6 @@ class TodoController extends Controller
 
     public function getTodo($isSorted = false)
     {
-        \Log::info(auth()->user());
         $userId = auth()->id();
         $tags = session()->get('selectedTags');
 

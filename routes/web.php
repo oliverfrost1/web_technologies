@@ -46,6 +46,6 @@ Route::post("/deleteTodoElement/{id}", [TodoController::class, 'deleteTodoElemen
 Route::post("/updateTodoFields", [TodoController::class, 'updateTodoFields'])->name("updateTodoFields");
 
 // Kanban board routes
-Route::get('Kanban', KanbanController::class . '@showKanban')->name('Kanban');
+Route::get('kanban', KanbanController::class . '@showKanban')->name('kanban');
 Route::post("logSomething", KanbanController::class . '@logSomething')->name("logSomething");
 Route::post("/logSomething", KanbanController::class . '@logSomething');
