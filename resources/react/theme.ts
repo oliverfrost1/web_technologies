@@ -8,11 +8,11 @@ export const theme = createTheme({
         },
         primary: {
             main: "#f89100",
-            contrastText: "white",
+            contrastText: "#FFFFFF",
         },
         secondary: {
             main: "#333",
-            contrastText: "white",
+            contrastText: "#FFFFFF",
         },
     },
     typography: {
