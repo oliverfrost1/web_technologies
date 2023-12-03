@@ -22,6 +22,7 @@ class Todo extends Model
         'due_date',
         'created_at',
         'updated_at',
+        'kanban_category'
     ];
 
     public function user()
