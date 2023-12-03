@@ -18,8 +18,6 @@ use App\Http\Controllers\TodoController;
 */
 
 
-Route::middleware('web')->group(function () {
-    Route::get('/todos', [TodoController::class, 'getTodo'])->name('getTodo');
-});
+Route::get('/todos', [TodoController::class, 'getTodo'])->name('getTodo');
 
 Route::post("/test", [KanbanController::class, 'test'])->name("test");
