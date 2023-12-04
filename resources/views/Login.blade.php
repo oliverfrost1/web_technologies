@@ -4,13 +4,13 @@
     <div class="container center-page">
 
         <h2>Login</h2>
-        <form action="{{ route('Login') }}" method="POST">
+        <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="input-row-container">
                 <label for="email">Email:</label>
                 <input type="email" name="email" required class="text-input-container">
             </div>
-            @error('email')
+            @error('credential')
                 <p style="color:red;">{{ $message }}</p>
             @enderror
             <div class="input-row-container">

@@ -19,6 +19,6 @@ class TopBar extends Component
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('main');
     }
 }

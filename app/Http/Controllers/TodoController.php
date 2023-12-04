@@ -6,7 +6,6 @@ use App\Models\Tag;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Log;
 
 class TodoController extends Controller
 {
@@ -23,7 +22,7 @@ class TodoController extends Controller
         }
         $isSorted = session()->get('isSorted');
         $filterTags = session()->get('selectedTags');
-        if (! $filterTags) {
+        if (!$filterTags) {
             $filterTags = [];
         }
 
@@ -70,15 +69,16 @@ class TodoController extends Controller
     public function createTodo(Request $request)
     {
         if (!$request->title) {
-            return redirect()->route("Main");
+            return redirect()->route('main');
         }
 
         if (auth()->user()) {
             Todo::create([
-                "title" => $request->title,
-                "due_date" => $request->duedate,
-                "user_id" => auth()->user()->id,
+                'title' => $request->title,
+                'due_date' => $request->duedate,
+                'user_id' => auth()->user()->id,
             ]);
+
             return back();
         }
 
@@ -96,8 +96,6 @@ class TodoController extends Controller
             $todos = Todo::join('users', 'todos.user_id', '=', 'users.id')
                 ->select('todos.*', 'users.email as user_email')
                 ->get();
-
-            Log::info($todos);
 
         } else {
             $todos = Todo::where('user_id', $userId)->get();
@@ -122,10 +120,7 @@ class TodoController extends Controller
     public function changeCompletionStatus($id)
     {
         // log the request
-        Log::info($id);
         $todo = Todo::find($id);
-        Log::info($todo);
-        // TODO: Maybe change this.
         if ($todo->completed === 1) {
             $todo->completed = 0;
         } else {
@@ -161,7 +156,7 @@ class TodoController extends Controller
         if ($user) {
             $todo = Todo::find($request->id);
             if ($todo && ($todo->user_id === $user->id || $user->isAdmin())) {
-                $request["completed"] = $request->completed === "on" ? true : false;
+                $request['completed'] = $request->completed === 'on' ? true : false;
                 $updateData = $request->except('_token');
                 $todo->update($updateData);
 
@@ -191,17 +186,18 @@ class TodoController extends Controller
 
     public function addNewTagToTodo(Request $request)
     {
-        if (! $request->tagName) {
+        if (!$request->tagName) {
             return back();
         }
         $tag = $this->getTagFromName($request->tagName);
         $user = auth()->user();
-        if($user->isAdmin()){
+        if ($user->isAdmin()) {
             return back();
         }
         if ($tag) {
             $tagid = $tag->id;
             $request->merge(['tagid' => $tagid]);
+
             return $this->attachTagToTodo($request);
         }
         if ($user) {
@@ -253,21 +249,15 @@ class TodoController extends Controller
         return back();
     }
 
-    private function getTodosAssociatedWithTag($tagIds)
-    {
-        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
-            $query->whereIn('tags.id', $tagIds);
-        })->get();
-
-        return $todos;
-    }
     public function getTagsAssociatedWithTodo($todoId)
     {
         $tags = Tag::whereHas('todos', function ($query) use ($todoId) {
             $query->where('todos.id', $todoId);
         })->get();
+
         return $tags;
     }
+
     public function updateTag(Request $request)
     {
         $tagId = $request->tagId;
@@ -278,13 +268,25 @@ class TodoController extends Controller
             if ($tag && ($tag->user_id === $user->id || $user->isAdmin())) {
                 $tag->name = $tagName;
                 $tag->save();
+
                 return back();
             }
         }
+
         return back()->withErrors([
             'createError' => 'You need to log in to update this tag.',
         ])->onlyInput('createError');
+
         return $tag;
+    }
+
+    private function getTodosAssociatedWithTag($tagIds)
+    {
+        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
+            $query->whereIn('tags.id', $tagIds);
+        })->get();
+
+        return $todos;
     }
 
     private function getTagsNotAssociatedWithTodo($todoId)

@@ -13,6 +13,7 @@ class AdminController extends Controller
     {
         return view::make('AdminDashboard', ['users' => $this->getAllUsers()]);
     }
+
     public function editUserForm($id)
     {
         $user = User::findOrFail($id);

@@ -2,10 +2,10 @@
 
 <div class="sidebar-holder" id="sidebar-holder">
     @if ($todo)
-        <a href="{{ route('Main') }}"><i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i></a>
+        <a href="{{ route('main') }}"><i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i></a>
         <form class="sidebar-form" method="post" accept-charset="UTF-8" action="{{ route('updateTodoFields') }}">
-
             @csrf
+            @method('PUT')
             <div class="sidebar-form-row">
                 <label for="title">Title</label>
                 <input type="text" name="title" value="{{ $todo->title }}" placeholder="title">
@@ -36,6 +36,7 @@
                     @foreach ($tags as $tag)
                         <form class="sidebar-form" action="{{ route('removeTagFromTodo') }}" method="POST">
                             @csrf
+                            @method('DELETE')
                             <button class="todo-button tag-button">{{ $tag->name }} <span
                                     class="remove-icon">X</span></button>
                             <input type="hidden" name="tagid" value="{{ $tag->id }}">
