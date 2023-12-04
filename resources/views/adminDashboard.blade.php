@@ -18,7 +18,7 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at->format('j F Y') }}</td>
                     <td>
-                        <form action="{{ route('admin.edit-user', ['id' => $user->id]) }}" method="GET">
+                        <form action="{{ route('admin.edit-user-form', ['id' => $user->id]) }}" method="GET">
                             @csrf
                             <button type="submit" class="btn btn-primary">Edit</button>
                         </form>
