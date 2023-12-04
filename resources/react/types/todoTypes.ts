@@ -6,5 +6,5 @@ export interface Todo {
     title: string;
     updated_at: string;
     user_id: number;
-    kanban_category: "todo" | "doing" | "done";
+    status: "todo" | "doing" | "done";
 }
