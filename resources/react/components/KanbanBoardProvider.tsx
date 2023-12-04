@@ -5,6 +5,7 @@ import React, {
     useMemo,
     Dispatch,
     SetStateAction,
+    useEffect,
 } from "react";
 import { Todo } from "../types/todoTypes";
 
@@ -34,6 +35,10 @@ const KanbanBoardProvider: React.FC<KanbanBoardProviderProps> = ({
     const [todo, setTodo] = useState<Todo[]>([]);
     const [doing, setDoing] = useState<Todo[]>([]);
     const [done, setDone] = useState<Todo[]>([]);
+
+    useEffect(() => {
+        // Fetch data from API
+    }, []);
 
     const value = useMemo(() => {
         return {

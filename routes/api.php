@@ -19,3 +19,4 @@ use App\Http\Controllers\TodoController;
 
 
 Route::get('/todos', [TodoController::class, 'getTodos'])->name('getTodo');
+
