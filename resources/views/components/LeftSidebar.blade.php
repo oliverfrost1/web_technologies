@@ -21,8 +21,8 @@
                 <input type="checkbox" name="tag" class="toggle-completed-checkbox" value="{{ $tag->id }}"
                     id="tag-checkbox" @if (in_array($tag->id, (array) $filterTags)) checked @endif>
             </form>
-            <form method="post" action={{ route('updateTag') }} accept-charset="UTF-8" class="center-vertically-flex"
-                id="editTag-{{ $tag->id }}">
+            <form method="post" action={{ route('updateTag', ['id' => $tag->id]) }} accept-charset="UTF-8"
+                class="center-vertically-flex" id="editTag-{{ $tag->id }}">
                 @csrf
                 @method('PUT')
                 <label class="sidebar-label" id="tagLabel-{{ $tag->id }}">
@@ -37,7 +37,7 @@
                 <i class="fa-solid fa-pen-to-square element-icon" style="color:white" data-tag-id="{{ $tag->id }}"
                     id="enable-edit-field-icon"></i>
             </form>
-            <form method="post" action={{ route('deleteTag') }} accept-charset="UTF-8"
+            <form method="post" action={{ route('deleteTag', ['id' => $tag->id]) }} accept-charset="UTF-8"
                 class="center-vertically-flex element-icon" id="deleteTag-{{ $tag->id }}">
                 @csrf
                 @method('DELETE')
