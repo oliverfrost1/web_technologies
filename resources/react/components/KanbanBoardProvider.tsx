@@ -1,4 +1,11 @@
-import React, { useState, ReactNode, createContext, useMemo } from "react";
+import React, {
+    useState,
+    ReactNode,
+    createContext,
+    useMemo,
+    Dispatch,
+    SetStateAction,
+} from "react";
 import { Todo } from "../types/todoTypes";
 
 interface KanbanBoardProviderProps {
@@ -9,7 +16,17 @@ const KanbanBoardContext = createContext<{
     todo: Todo[];
     doing: Todo[];
     done: Todo[];
-}>({ todo: [], doing: [], done: [] });
+    setTodo: Dispatch<SetStateAction<Todo[]>> | null;
+    setDoing: Dispatch<SetStateAction<Todo[]>> | null;
+    setDone: Dispatch<SetStateAction<Todo[]>> | null;
+}>({
+    todo: [],
+    doing: [],
+    done: [],
+    setTodo: () => void 0,
+    setDoing: () => void 0,
+    setDone: () => void 0,
+});
 
 const KanbanBoardProvider: React.FC<KanbanBoardProviderProps> = ({
     children,
@@ -23,6 +40,9 @@ const KanbanBoardProvider: React.FC<KanbanBoardProviderProps> = ({
             todo,
             doing,
             done,
+            setTodo,
+            setDoing,
+            setDone,
         };
     }, [todo, doing, done]);
 

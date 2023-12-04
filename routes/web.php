@@ -41,5 +41,3 @@ Route::put('todo/update', [TodoController::class, 'updateTodoFields'])->name('up
 
 // Kanban board routes
 Route::get('kanban', KanbanController::class . '@showKanban')->name('kanban');
-Route::post("logSomething", KanbanController::class . '@logSomething')->name("logSomething");
-Route::post("/logSomething", KanbanController::class . '@logSomething');

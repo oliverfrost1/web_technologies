@@ -27,7 +27,7 @@ class TodoController extends Controller
         }
 
         return View::make('TodoListMainPage', [
-            'todos' => $this->getTodo($isSorted),
+            'todos' => $this->getTodos($isSorted),
             'isSorted' => $isSorted,
             'openedId' => $todoId,
             'tags' => $tagsOnSelectedTodo,
@@ -87,7 +87,7 @@ class TodoController extends Controller
         ])->onlyInput('createError');
     }
 
-    public function getTodo($isSorted = false)
+    public function getTodos($isSorted = false)
     {
         $userId = auth()->id();
         $tags = session()->get('selectedTags');
@@ -186,11 +186,12 @@ class TodoController extends Controller
 
     public function addNewTagToTodo(Request $request)
     {
+        $tag = $this->getTagFromName($request->tagName);
+        $user = auth()->user();
         if (!$request->tagName) {
             return back();
         }
-        $tag = $this->getTagFromName($request->tagName);
-        $user = auth()->user();
+
         if ($user->isAdmin()) {
             return back();
         }

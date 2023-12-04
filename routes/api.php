@@ -18,6 +18,4 @@ use App\Http\Controllers\TodoController;
 */
 
 
-Route::get('/todos', [TodoController::class, 'getTodo'])->name('getTodo');
-
-Route::post("/test", [KanbanController::class, 'test'])->name("test");
+Route::get('/todos', [TodoController::class, 'getTodos'])->name('getTodo');

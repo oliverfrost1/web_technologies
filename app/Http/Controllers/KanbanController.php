@@ -10,11 +10,4 @@ class KanbanController extends Controller
     {
         return view('KanbanBoard');
     }
-
-    public function test() {
-        return response()->json([
-            'success' => true,
-            'message' => 'You have successfully tested something.'
-        ], 200);
-    }
 }
