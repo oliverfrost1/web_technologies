@@ -18,7 +18,7 @@ class ProfileController extends Controller
             return back()->withErrors($validationMessage);
         }
 
-        if (! $shouldUpdate) {
+        if (!$shouldUpdate) {
             return back()->with('info', 'Nothing to update');
         }
 
@@ -59,7 +59,7 @@ class ProfileController extends Controller
             'confirm_new_password' => 'nullable|same:new_password',
         ]);
 
-        if (! $this->isCurrentPasswordValid($request, $user)) {
+        if (!$this->isCurrentPasswordValid($request, $user)) {
             return ['current_password' => 'Current password is incorrect'];
         }
 
@@ -86,5 +86,10 @@ class ProfileController extends Controller
     private function isPasswordChanged(Request $request, $user)
     {
         return $request->filled('new_password') && $request->filled('current_password');
+    }
+
+    public function getProfilePage()
+    {
+        return view('profile');
     }
 }

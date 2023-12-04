@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\Todo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
 class TodoController extends Controller
@@ -23,7 +22,7 @@ class TodoController extends Controller
         }
         $isSorted = session()->get('isSorted');
         $filterTags = session()->get('selectedTags');
-        if (! $filterTags) {
+        if (!$filterTags) {
             $filterTags = [];
         }
 
@@ -69,8 +68,8 @@ class TodoController extends Controller
 
     public function createTodo(Request $request)
     {
-        if (! $request->title) {
-            return redirect()->route('Main');
+        if (!$request->title) {
+            return redirect()->route('main');
         }
 
         if (auth()->user()) {
@@ -98,8 +97,6 @@ class TodoController extends Controller
                 ->select('todos.*', 'users.email as user_email')
                 ->get();
 
-            Log::info($todos);
-
         } else {
             $todos = Todo::where('user_id', $userId)->get();
         }
@@ -120,10 +117,7 @@ class TodoController extends Controller
     public function changeCompletionStatus($id)
     {
         // log the request
-        Log::info($id);
         $todo = Todo::find($id);
-        Log::info($todo);
-        // TODO: Maybe change this.
         if ($todo->completed === 1) {
             $todo->completed = 0;
         } else {
@@ -189,7 +183,7 @@ class TodoController extends Controller
 
     public function addNewTagToTodo(Request $request)
     {
-        if (! $request->tagName) {
+        if (!$request->tagName) {
             return back();
         }
         $tag = $this->getTagFromName($request->tagName);

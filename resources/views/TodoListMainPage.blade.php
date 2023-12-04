@@ -14,8 +14,7 @@
                             <input type="hidden" class="add-todo-date-picker" id="duedate" name="duedate"
                                 title="Due date">
                             <i id="dueDateButton" class="fa-regular fa-clock todo-button icon"></i>
-                            <i class="fa-solid fa-plus todo-button icon"
-                                onclick="document.getElementById('addItemToTodo').submit()"></i>
+                            <i class="fa-solid fa-plus todo-button icon" id="plus-icon-add-todo"></i>
                         </div>
                     </div>
                     @error('createError')
@@ -45,7 +44,7 @@
         </div>
 
         <x-RightSidebar :todo="$todos->find($openedId)" :tags="$tags" :unselectedTags="$unselectedTags" />
-        <script src="{{ asset('js/elementWrapChecker.js') }}" defer></script>
-        <script src="{{ asset('js/dueDateShowHandler.js') }}" defer></script>
+        <script src="{{ asset('js/mainPage.js') }}" defer></script>
+        <script src="{{ asset('js/todoElement.js') }}" defer></script>
     </div>
 @stop
