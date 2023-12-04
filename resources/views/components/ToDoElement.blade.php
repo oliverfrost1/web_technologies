@@ -6,7 +6,7 @@
             @method('PUT')
             <input type="hidden" name="todo_id" value="{{ $id }}" />
             <input type="checkbox" class="toggle-completed-checkbox" id="todoCheckbox"
-                @if ($completed === 1) checked @endif onchange="this.form.submit()" />
+                @if ($completed === 1) checked @endif />
         </form>
     </div>
 
@@ -26,23 +26,21 @@
             {{ $title }}
         </div>
         <div class="element-icon-container">
-            <form method="get" action="{{ route('Main') }}" accept-charset="UTF-8"
+            <form method="get" action="{{ route('main') }}" accept-charset="UTF-8"
                 class="element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"
-                id="openSelectedWindow{{ $id }}">
+                id="openSelectedWindow-{{ $id }}">
                 <input type="hidden" name="id" value="{{ $id }}">
-                <i class="fa-solid fa-pen-to-square " style="color:white"
-                    onclick="document.getElementById('openSelectedWindow{{ $id }}').submit()"></i>
+                <i class="fa-solid fa-pen-to-square " style="color:white" id="edit-todo-icon"
+                    data-todo-id="{{ $id }}"></i>
             </form>
             <form method="post" class="element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"
                 action="{{ route('deleteTodo', $id) }}" accept-charset="UTF-8"
-                id="deleteTodoForm-{{ $id }}">
+                id="deleteTodoElement-{{ $id }}">
                 @csrf
                 @method('DELETE')
                 <input type="hidden" name="id" value="{{ $id }}">
-                <i class="fa-solid fa-trash-can"
-                    onclick="document.getElementById('deleteTodoForm-{{ $id }}').submit()"></i>
+                <i class="fa-solid fa-trash-can" id="delete-todo-icon" data-todo-id="{{ $id }}"></i>
             </form>
         </div>
     </div>
-
 </div>

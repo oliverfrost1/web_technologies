@@ -13,7 +13,7 @@ class RegisterController extends Controller
 {
     public function showRegistrationForm()
     {
-        return View::make('Register');
+        return View::make('register');
     }
 
     public function register(Request $request)
@@ -25,7 +25,7 @@ class RegisterController extends Controller
         // Log the user in
         auth()->login($user);
 
-        return redirect()->route('Main');
+        return redirect()->route('main');
     }
 
     protected function validator(array $data)
