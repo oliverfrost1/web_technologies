@@ -22,7 +22,7 @@ class TodoController extends Controller
         }
         $isSorted = session()->get('isSorted');
         $filterTags = session()->get('selectedTags');
-        if (!$filterTags) {
+        if (! $filterTags) {
             $filterTags = [];
         }
 
@@ -68,7 +68,7 @@ class TodoController extends Controller
 
     public function createTodo(Request $request)
     {
-        if (!$request->title) {
+        if (! $request->title) {
             return redirect()->route('main');
         }
 
@@ -183,7 +183,7 @@ class TodoController extends Controller
 
     public function addNewTagToTodo(Request $request)
     {
-        if (!$request->tagName) {
+        if (! $request->tagName) {
             return back();
         }
         $tag = $this->getTagFromName($request->tagName);
