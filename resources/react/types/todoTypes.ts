@@ -1,3 +1,5 @@
+export type TodoStatus = "todo" | "doing" | "done";
+
 export interface Todo {
     completed: number;
     id: number;
@@ -6,5 +8,5 @@ export interface Todo {
     title: string;
     updated_at: string;
     user_id: number;
-    status: "todo" | "doing" | "done";
+    status: TodoStatus;
 }
