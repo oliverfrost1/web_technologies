@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Todo } from "../types/todoTypes";
+import { Todo, TodoStatus } from "../types/todoTypes";
 
 export async function getTodos() {
     return await axios
@@ -8,6 +8,10 @@ export async function getTodos() {
             return res.data;
         })
         .catch((err) => {
-            console.error(err);
+            throw err;
         });
+}
+
+export async function updateTodo(todoId: number, newStatus: TodoStatus) {
+    return axios.put<Todo>(`/api/todos/${todoId}`, { status: newStatus });
 }
