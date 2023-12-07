@@ -10,4 +10,12 @@ class KanbanController extends Controller
     {
         return view('KanbanBoard');
     }
+
+    public function updateTodo()
+    {
+        \Log::info('Updating todo', ['request' => request()->all()]);
+        return response()->json([
+            'message' => 'Todo updated successfully'
+        ]);
+    }
 }
