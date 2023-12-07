@@ -58,74 +58,58 @@ export default function KanbanBoardColumns() {
         console.log(result, provided);
         if (!setTodo || !setDoing || !setDone) return;
         if (!result.destination) return;
+
         const { source, destination } = result;
+
+        // Clone the array based on droppableId
+        const cloneArray = (droppableId) => {
+            switch (droppableId) {
+                case "todo":
+                    return Array.from(todo);
+                case "doing":
+                    return Array.from(doing);
+                case "done":
+                    return Array.from(done);
+                default:
+                    return [];
+            }
+        };
+
+        // I optimistically update the state first, then update the database
+        // If the database update fails, I refetch the data from the database (done elsewhere)
+        const updateState = (droppableId, newState) => {
+            switch (droppableId) {
+                case "todo":
+                    setTodo(newState);
+                    break;
+                case "doing":
+                    setDoing(newState);
+                    break;
+                case "done":
+                    setDone(newState);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        const sourceClone = cloneArray(source.droppableId);
+        const [movedItem] = sourceClone.splice(source.index, 1);
+
         if (source.droppableId === destination.droppableId) {
-            if (source.droppableId === "todo") {
-                const newTodo = Array.from(todo);
-                const [movedTodo] = newTodo.splice(source.index, 1);
-                newTodo.splice(destination.index, 0, movedTodo);
-                setTodo(newTodo);
-            } else if (source.droppableId === "doing") {
-                const newDoing = Array.from(doing);
-                const [movedDoing] = newDoing.splice(source.index, 1);
-                newDoing.splice(destination.index, 0, movedDoing);
-                setDoing(newDoing);
-            } else if (source.droppableId === "done") {
-                const newDone = Array.from(done);
-                const [movedDone] = newDone.splice(source.index, 1);
-                newDone.splice(destination.index, 0, movedDone);
-                setDone(newDone);
-            }
+            // If it's the same column
+            sourceClone.splice(destination.index, 0, movedItem);
+            updateState(source.droppableId, sourceClone);
         } else {
-            if (source.droppableId === "todo") {
-                const newTodo = Array.from(todo);
-                const [movedTodo] = newTodo.splice(source.index, 1);
-                if (destination.droppableId === "doing") {
-                    const newDoing = Array.from(doing);
-                    newDoing.splice(destination.index, 0, movedTodo);
-                    setDoing(newDoing);
-                    setTodo(newTodo);
-                    updateTodoInDatabase(movedTodo.id, "doing");
-                } else if (destination.droppableId === "done") {
-                    const newDone = Array.from(done);
-                    newDone.splice(destination.index, 0, movedTodo);
-                    setDone(newDone);
-                    setTodo(newTodo);
-                    updateTodoInDatabase(movedTodo.id, "done");
-                }
-            } else if (source.droppableId === "doing") {
-                const newDoing = Array.from(doing);
-                const [movedDoing] = newDoing.splice(source.index, 1);
-                if (destination.droppableId === "todo") {
-                    const newTodo = Array.from(todo);
-                    newTodo.splice(destination.index, 0, movedDoing);
-                    setTodo(newTodo);
-                    setDoing(newDoing);
-                    updateTodoInDatabase(movedDoing.id, "todo");
-                } else if (destination.droppableId === "done") {
-                    const newDone = Array.from(done);
-                    newDone.splice(destination.index, 0, movedDoing);
-                    setDone(newDone);
-                    setDoing(newDoing);
-                    updateTodoInDatabase(movedDoing.id, "done");
-                }
-            } else if (source.droppableId === "done") {
-                const newDone = Array.from(done);
-                const [movedDone] = newDone.splice(source.index, 1);
-                if (destination.droppableId === "todo") {
-                    const newTodo = Array.from(todo);
-                    newTodo.splice(destination.index, 0, movedDone);
-                    setTodo(newTodo);
-                    setDone(newDone);
-                    updateTodoInDatabase(movedDone.id, "todo");
-                } else if (destination.droppableId === "doing") {
-                    const newDoing = Array.from(doing);
-                    newDoing.splice(destination.index, 0, movedDone);
-                    setDoing(newDoing);
-                    setDone(newDone);
-                    updateTodoInDatabase(movedDone.id, "doing");
-                }
-            }
+            // IF it's moving to another column
+            const destinationClone = cloneArray(destination.droppableId);
+            destinationClone.splice(destination.index, 0, movedItem);
+            updateState(source.droppableId, sourceClone);
+            updateState(destination.droppableId, destinationClone);
+            updateTodoInDatabase(
+                movedItem.id,
+                destination.droppableId as TodoStatus
+            );
         }
     };
 
