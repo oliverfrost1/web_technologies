@@ -9,4 +9,5 @@ export interface Todo {
     updated_at: string;
     user_id: number;
     status: TodoStatus;
+    due_date: string | null;
 }
