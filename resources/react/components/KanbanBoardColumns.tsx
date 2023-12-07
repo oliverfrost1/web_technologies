@@ -7,19 +7,19 @@ import {
     ResponderProvided,
 } from "@hello-pangea/dnd";
 import { KanbanBoardContext } from "./KanbanBoardProvider";
-import { Alert, Box, BoxProps, Fade, Grid, Typography } from "@mui/material";
+import {
+    Alert,
+    Box,
+    BoxProps,
+    Fade,
+    Grid,
+    Typography,
+    useTheme,
+} from "@mui/material";
 import TodoElement from "./TodoElement";
 import { TodoStatus } from "../types/todoTypes";
 import { updateTodo } from "../api/KanbanApiEndpoints";
 import ErrorSnackbar from "./ErrorSnackbar";
-
-const kanbanColumnStyling: BoxProps["sx"] = {
-    minHeight: "100px",
-    padding: "5px",
-    border: "3px solid black",
-    borderRadius: "5px",
-    backgroundColor: "lightgrey",
-};
 
 export default function KanbanBoardColumns() {
     const {
@@ -32,7 +32,17 @@ export default function KanbanBoardColumns() {
         refetch,
         fetchingTodoError,
     } = useContext(KanbanBoardContext);
+    const theme = useTheme();
     const [error, setError] = useState<string | null>(null);
+
+    const kanbanColumnStyling: BoxProps["sx"] = {
+        minHeight: "100px",
+        padding: "5px",
+        border: "3px solid " + theme.palette.primary.main,
+        borderRadius: "5px",
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+    };
 
     const updateTodoInDatabase = async (
         todoId: number,
