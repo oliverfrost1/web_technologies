@@ -8,6 +8,7 @@ import React, {
     useEffect,
 } from "react";
 import { Todo } from "../types/todoTypes";
+import axios from "axios";
 
 interface KanbanBoardProviderProps {
     children: ReactNode;
@@ -37,7 +38,17 @@ const KanbanBoardProvider: React.FC<KanbanBoardProviderProps> = ({
     const [done, setDone] = useState<Todo[]>([]);
 
     useEffect(() => {
-        // Fetch data from API
+        axios.get("/api/todos").then((response) => {
+            setTodo(
+                response.data.filter((todo: Todo) => todo.status === "todo")
+            );
+            setDoing(
+                response.data.filter((todo: Todo) => todo.status === "doing")
+            );
+            setDone(
+                response.data.filter((todo: Todo) => todo.status === "done")
+            );
+        });
     }, []);
 
     const value = useMemo(() => {
