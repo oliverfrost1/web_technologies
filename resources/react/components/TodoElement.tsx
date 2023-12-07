@@ -17,7 +17,6 @@ type TodoElementProps = {
 };
 
 export default function TodoElement({ todo }: TodoElementProps) {
-    const theme = useTheme();
     // Show all elements of the todo object
     return <Chip label={todo.title} color={"primary"} />;
 }
