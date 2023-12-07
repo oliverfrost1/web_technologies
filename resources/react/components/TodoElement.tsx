@@ -1,6 +1,14 @@
 import React from "react";
 import { Todo } from "../types/todoTypes";
-import { Card, Chip } from "@mui/material";
+import {
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+    Typography,
+    useTheme,
+} from "@mui/material";
 
 type TodoElementProps = {
     todo: Todo;
@@ -19,16 +27,31 @@ export interface Todo {
 }*/
 
 export default function TodoElement({ todo }: TodoElementProps) {
+    const theme = useTheme();
     // Show all elements of the todo object
     return (
-        <Card sx={{ margin: "10px" }}>
-            <Chip label={todo.title} />
-            <Chip label={todo.description} />
-            <Chip label={todo.status} />
-            <Chip label={todo.created_at} />
-            <Chip label={todo.updated_at} />
-            <Chip label={todo.user_id} />
-            <Chip label={todo.completed} />
+        <Card
+            sx={{
+                margin: "10px",
+                border: "2px solid " + theme.palette.primary.main,
+                color: theme.palette.secondary.contrastText,
+            }}
+        >
+            <CardHeader
+                title={todo.title}
+                subheader={todo.due_date ? `Due by: ${todo.due_date}` : ""}
+            />
+            <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                    {todo.description}
+                </Typography>
+            </CardContent>
+            <CardActions>
+                {/* TODO: Add edit button */}
+                <Button size="small" color="primary">
+                    Edit
+                </Button>
+            </CardActions>
         </Card>
     );
 }
