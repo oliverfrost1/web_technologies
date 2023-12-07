@@ -100,8 +100,6 @@ class TodoController extends Controller
         } else {
             $todos = Todo::where('user_id', $userId)->get();
         }
-        \Log::info($todos);
-        \Log::info($userId);
 
         if ($tags) {
             $todos = $this->getTodosAssociatedWithTag($tags);
