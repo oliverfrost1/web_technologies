@@ -19,4 +19,5 @@ use App\Http\Controllers\TodoController;
 
 
 Route::get('/todos', [TodoController::class, 'getTodos'])->name('getTodo');
+Route::put('/todos/{id}', [KanbanController::class, 'updateTodo'])->name('updateTodo');
 
