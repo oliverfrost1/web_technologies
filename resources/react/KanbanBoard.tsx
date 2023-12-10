@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 export default function KanbanBoard() {
     return (
         <KanbanBoardProvider>
-            <Box sx={{ padding: "10px" }}>
+            <Box className="kanban-page-wrapper">
                 <KanbanBoardColumns />
             </Box>
         </KanbanBoardProvider>

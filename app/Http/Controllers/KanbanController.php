@@ -28,7 +28,7 @@ class KanbanController extends Controller
 
         // Also update completed status
         if(
-            $newStatus === 'todo'
+            $newStatus === 'todo' || $newStatus === 'doing'
         ) {
             $todo->update([
                 'completed' => 0

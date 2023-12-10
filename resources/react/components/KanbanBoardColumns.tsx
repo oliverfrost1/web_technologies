@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import {
     DragDropContext,
     Draggable,
     DropResult,
     Droppable,
-    ResponderProvided,
 } from "@hello-pangea/dnd";
 import { KanbanBoardContext } from "./KanbanBoardProvider";
 import {
@@ -35,27 +34,30 @@ export default function KanbanBoardColumns() {
     const theme = useTheme();
     const [error, setError] = useState<string | null>(null);
 
-    const kanbanColumnStyling: BoxProps["sx"] = {
-        minHeight: "100px",
-        padding: "5px",
-        border: "3px solid " + theme.palette.primary.main,
-        borderRadius: "5px",
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.primary.contrastText,
-    };
+    const kanbanColumnStyling: BoxProps["sx"] = useMemo(() => {
+        return {
+            minHeight: "100px",
+            padding: "5px",
+            border: "3px solid " + theme.palette.primary.main,
+            borderRadius: "5px",
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+        };
+    }, [theme]);
 
-    const updateTodoInDatabase = async (
-        todoId: number,
-        newStatus: TodoStatus
-    ) => {
-        updateTodo(todoId, newStatus).catch(() => {
-            setError("Error in updating Kanban board. Fetching latest data.");
-            refetch();
-        });
-    };
+    const updateTodoInDatabase = useCallback(
+        async (todoId: number, newStatus: TodoStatus) => {
+            updateTodo(todoId, newStatus).catch(() => {
+                setError(
+                    "Error in updating Kanban board. Fetching latest data."
+                );
+                refetch();
+            });
+        },
+        [refetch, setError]
+    );
 
-    const handleDragEnd = (result: DropResult, provided: ResponderProvided) => {
-        console.log(result, provided);
+    const handleDragEnd = (result: DropResult) => {
         if (!setTodo || !setDoing || !setDone) return;
         if (!result.destination) return;
 
@@ -76,7 +78,7 @@ export default function KanbanBoardColumns() {
         };
 
         // I optimistically update the state first, then update the database
-        // If the database update fails, I refetch the data from the database (done elsewhere)
+        // If the database update fails, I refetch the data from the database (done in updateTodoInDatabase)
         const updateState = (droppableId, newState) => {
             switch (droppableId) {
                 case "todo":
@@ -101,7 +103,7 @@ export default function KanbanBoardColumns() {
             sourceClone.splice(destination.index, 0, movedItem);
             updateState(source.droppableId, sourceClone);
         } else {
-            // IF it's moving to another column
+            // If it's moving to another column
             const destinationClone = cloneArray(destination.droppableId);
             destinationClone.splice(destination.index, 0, movedItem);
             updateState(source.droppableId, sourceClone);
