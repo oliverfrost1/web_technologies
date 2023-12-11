@@ -2,7 +2,7 @@
 
 <div class="sidebar-holder" id="sidebar-holder">
     @if ($todo)
-        <a href="{{ route('main') }}"><i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i></a>
+        <a href="{{ route('main') }}"><i class="fa-solid fa-circle-xmark icon-color"></i></a>
         <form class="sidebar-form" method="post" accept-charset="UTF-8"
             action="{{ route('updateTodoFields', ['id' => $todo->id]) }}">
             @csrf
@@ -61,7 +61,7 @@
             </div>
         </div>
     @else
-        <div class="sidebar-label">Click on <i class="fa-solid fa-pen-to-square " style="color:white"></i> of a todo to
+        <div class="sidebar-label">Click on <i class="fa-solid fa-pen-to-square icon-color"></i> of a todo to
             edit it.</div>
     @endif
     <script src="{{ asset('js/rightSidebarTagHandler.js') }}" defer></script>
