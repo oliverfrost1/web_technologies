@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\View;
 
 class RegisterController extends Controller
 {
-    public function showRegistrationForm()
-    {
-        return View::make('register');
-    }
-
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
