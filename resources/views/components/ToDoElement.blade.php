@@ -30,7 +30,7 @@
                 class="element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"
                 id="openSelectedWindow-{{ $id }}">
                 <input type="hidden" name="id" value="{{ $id }}">
-                <i class="fa-solid fa-pen-to-square " style="color:white" id="edit-todo-icon"
+                <i class="fa-solid fa-pen-to-square icon-color"  id="edit-todo-icon"
                     data-todo-id="{{ $id }}"></i>
             </form>
             <form method="post" class="element-icon {{ $completed ? 'todo-element-icon-complete' : '' }}"

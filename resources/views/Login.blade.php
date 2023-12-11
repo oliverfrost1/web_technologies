@@ -11,14 +11,14 @@
                 <input type="email" name="email" required class="text-input-container">
             </div>
             @error('credential')
-                <p style="color:red;">{{ $message }}</p>
+                <p class="error-message">{{ $message }}</p>
             @enderror
             <div class="input-row-container">
                 <label for="password">Password:</label>
                 <input type="password" name="password" required class="text-input-container">
             </div>
             @error('password')
-                <p style="color:red;">{{ $message }}</p>
+                <p class="error-message">{{ $message }}</p>
             @enderror
 
             <div class="center-children-in-parent">
