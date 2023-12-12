@@ -5,27 +5,38 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use app\Models\Todo;
-
+use App\Models\Todo;
+use App\Models\User;
 class TodosTest extends TestCase
 {
-
-    public function test_hide_todo_hides_completed_todos(): void
+    use RefreshDatabase;
+    public function test_shows_todo(): void
     {
+        $user = User::create([
+            'name' => 'tester',
+            'email' => 'test@test.com',
+            'password' => '12345678'
+        ]);
+        $todo = ["title" => "todo"];
+        $response = $this->actingAs($user)-> post('todos',$todo);
         $response = $this->get('/');
+        $response->assertSee('.todo-element');
         $response->assertStatus(200);
     }
     public function test_no_todo_visible_at_beginning(): void
     {
         $response = $this->get('/');
-        Todo::make([
+        $user = User::create([
+            'name' => 'tester',
+            'email' => 'test@test.com',
+            'password' => '12345678'
+        ]);
+        Todo::create([
             'title' => 'TODO',
-            'description',
-            'completed',
-            'user_id',
-            'due_date',
-            'created_at',
-            'updated_at',
+            'description' => null,
+            'completed' => false,
+            'user_id' => $user->id,
+            'due_date' => null
         ]);
         $response->assertDontSee('.todo-element');
         $response->assertStatus(200);
