@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class TagsTest extends TestCase
 {
-
+    use RefreshDatabase;
     public function test_example(): void
     {
         $response = $this->get('/');

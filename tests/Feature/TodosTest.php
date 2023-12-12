@@ -4,12 +4,15 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use App\Models\Todo;
 use App\Models\User;
 class TodosTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_shows_todo(): void
     {
         $user = User::create([
@@ -17,28 +20,34 @@ class TodosTest extends TestCase
             'email' => 'test@test.com',
             'password' => '12345678'
         ]);
-        $todo = ["title" => "todo"];
-        $response = $this->actingAs($user)-> post('todos',$todo);
+        $todo = ['title' => 'homework'];
+        $response = $this->actingAs($user)-> post('/todos',$todo);
         $response = $this->get('/');
-        $response->assertSee('.todo-element');
+        $response->assertSee('todo-element');
+        $response->assertSee('homework');
+
         $response->assertStatus(200);
     }
     public function test_no_todo_visible_at_beginning(): void
     {
-        $response = $this->get('/');
         $user = User::create([
             'name' => 'tester',
             'email' => 'test@test.com',
             'password' => '12345678'
         ]);
+        $response = $this->actingAs($user)-> get('/');
+
+        $response->assertDontSee('Homework');
         Todo::create([
-            'title' => 'TODO',
+            'title' => 'Homework',
             'description' => null,
             'completed' => false,
             'user_id' => $user->id,
             'due_date' => null
         ]);
-        $response->assertDontSee('.todo-element');
+        $response = $this->actingAs($user)-> get('/');
+
+        $response->assertSee('Homework');
         $response->assertStatus(200);
     }
     public function smoke_test():void{
