@@ -42,7 +42,10 @@
                 @endforeach
             </div>
         </div>
-
+        <form class="sidebar-form" id="add-tag-form" method="post">
+            @csrf
+            <p> sadbhjasd </p>
+        </form>
         <x-RightSidebar :todo="$todos->find($openedId)" :tags="$tags" :unselectedTags="$unselectedTags" />
         <script src="{{ asset('js/mainPage.js') }}" defer></script>
         <script src="{{ asset('js/todoElement.js') }}" defer></script>

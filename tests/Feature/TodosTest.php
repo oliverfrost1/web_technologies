@@ -22,6 +22,9 @@ class TodosTest extends TestCase
         ]);
         $todo = ['title' => 'homework'];
         $response = $this->actingAs($user)-> post('/todos',$todo);
+        $this->assertDatabaseHas('todos',[
+            'title' => 'homework',
+        ]);
         $response = $this->get('/');
         $response->assertSee('todo-element');
         $response->assertSee('homework');
@@ -50,6 +53,33 @@ class TodosTest extends TestCase
         $response->assertSee('Homework');
         $response->assertStatus(200);
     }
+
+    public function test_dont_see_todo_from_other_users(): void
+    {
+        $user = User::create([
+            'name' => 'tester',
+            'email' => 'test@test.com',
+            'password' => '12345678'
+        ]);
+        $notUser = User::create([
+            'name' => 'testee',
+            'email' => 'nottest@test.com',
+            'password' => '12345678'
+        ]);
+        Todo::create([
+            'title' => 'Homework',
+            'description' => null,
+            'completed' => false,
+            'user_id' => $user->id,
+            'due_date' => null
+        ]);
+        $response = $this->actingAs($notUser)-> get('/');
+
+        $response->assertDontSee('Homework');
+
+        $response->assertStatus(200);
+    }
+
     public function smoke_test():void{
         $response = $this->get('/profile');
         $response->assertStatus(200);
