@@ -65,7 +65,7 @@
             </div>
         </div>
     @else
-        <div class="sidebar-label">Click on <i class="fa-solid fa-pen-to-square " style="color:white"></i> of a todo to
+        <div class="sidebar-label">Click on <i class="fa-solid fa-pen-to-square icon-color"></i> of a todo to
             edit it.</div>
     @endif
     <script src="{{ asset('js/rightSidebarTagHandler.js') }}" defer></script>

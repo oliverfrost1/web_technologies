@@ -17,10 +17,10 @@
                             <i class="fa-solid fa-plus todo-button icon" id="plus-icon-add-todo"></i>
                         </div>
                     </div>
+                    @error('createError')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
                 </div>
-                @error('createError')
-                    <p style="color:red;">{{ $message }}</p>
-                @enderror
             </form>
             <br />
             <div class="todolist-holder">

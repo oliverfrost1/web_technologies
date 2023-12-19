@@ -2,6 +2,7 @@
 <div class="sidebar-holder">
     <label class="sidebar-label" for="tags"><i class="fa-solid fa-filter"></i> Filters</label>
     <form method="get" action="{{ route('toggleCompletedTodosVisibility') }}" accept-charset="UTF-8">
+        @method('PUT')
         <input class="sidebar-button" type="submit"
             value="{{ $isSorted ? 'Show Completed Todos' : 'Hide Completed Todos' }}">
     </form>
@@ -34,7 +35,7 @@
                 <input type="hidden" name="tagId" value="{{ $tag->id }}">
                 <input type="text" name="tagName" class="text-input-container add-todo-title"
                     id="editField-{{ $tag->id }}" style="display: none;" value="{{ $tag->name }}">
-                <i class="fa-solid fa-pen-to-square element-icon" style="color:white" data-tag-id="{{ $tag->id }}"
+                <i class="fa-solid fa-pen-to-square element-icon icon-color" data-tag-id="{{ $tag->id }}"
                     id="enable-edit-field-icon"></i>
             </form>
             <form method="post" action={{ route('deleteTag', ['id' => $tag->id]) }} accept-charset="UTF-8"
