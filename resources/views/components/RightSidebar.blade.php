@@ -2,7 +2,7 @@
 
 <div class="sidebar-holder" id="sidebar-holder">
     @if ($todo)
-        <a href="{{ route('main') }}"><i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i></a>
+        <a href="{{ route('main') }}"><i class="fa-solid fa-circle-xmark icon-color"></i></a>
         <form class="sidebar-form" method="post" accept-charset="UTF-8"
             action="{{ route('updateTodo', ['id' => $todo->id]) }}">
             @csrf
