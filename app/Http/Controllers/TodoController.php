@@ -188,16 +188,21 @@ class TodoController extends Controller
         }
         $tag = $this->getTagFromName($request->tagName);
         $user = auth()->user();
+
         if ($user->isAdmin()) {
+
             return back();
         }
         if ($tag) {
+            \Log::info("tag exists");
+
             $tagid = $tag->id;
             $request->merge(['tagid' => $tagid]);
 
             return $this->attachTagToTodo($request);
         }
         if ($user) {
+            \Log::info("Tag not exist");
             $tag = Tag::Create(['name' => $request->tagName, 'user_id' => $user->id]);
             $tagid = $tag->id;
             $request->merge(['tagid' => $tagid]);
@@ -213,12 +218,18 @@ class TodoController extends Controller
     //creates new association between an existing tag and a todo
     public function attachTagToTodo(Request $request)
     {
-        $todo = Todo::find($request->todoid);
-        $tag = Tag::find($request->tagid);
-        if ($todo && $tag) {
-            $todo->tags()->attach($tag);
-        }
+        try{
+            $todo = Todo::find($request->todoid);
+            $tag = Tag::find($request->tagid);
 
+            if ($todo && $tag) {
+                \Log::info("tag & todo exists");
+                $todo->tags()->attach($tag);
+            }
+        } catch(\Exception $e){
+            \Log::info("test");
+            \Log::error("Error attaching tag to todo: " .$e->getMessage());
+        }
         return back();
     }
 

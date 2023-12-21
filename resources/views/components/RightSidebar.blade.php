@@ -30,7 +30,7 @@
                 <input type="submit" class="sidebar-button" value="Update todo">
             </div>
         </form>
-        <div class="sidebar-tag" id="fuck">
+        <div class="sidebar-tag">
             <div class="sidebar-form-row">
                 <label class="sidebar-label" for="tag">Manage Tags</label>
                 <div class="tag-holder">
