@@ -13,7 +13,7 @@ class TodosTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_shows_todo(): void
+    public function test_created_todo_is_shown_on_main_page(): void
     {
         $user = User::create([
             'name' => 'tester',
@@ -40,7 +40,7 @@ class TodosTest extends TestCase
         ]);
         $response = $this->actingAs($user)-> get('/');
 
-        $response->assertDontSee('Homework');
+        $response->assertDontSee('todo-element ');
         Todo::create([
             'title' => 'Homework',
             'description' => null,
@@ -49,7 +49,7 @@ class TodosTest extends TestCase
             'due_date' => null
         ]);
         $response = $this->actingAs($user)-> get('/');
-
+        $response->assertSee('todo-element ');
         $response->assertSee('Homework');
         $response->assertStatus(200);
     }
@@ -76,6 +76,55 @@ class TodosTest extends TestCase
         $response = $this->actingAs($notUser)-> get('/');
         $response->assertStatus(200);
         $response->assertDontSee('Homework');
+    }
+    public function test_edit_todo_from_sidebar(): void
+    {
+        $user = User::create([
+            'name' => 'tester',
+            'email' => 'test@test.com',
+            'password' => '12345678'
+        ]);
+        $todo = Todo::create([
+            'title' => 'Homework',
+            'description' => null,
+            'completed' => false,
+            'user_id' => $user->id,
+            'due_date' => null
+        ]);
+        $this->assertDatabaseHas('todos',[
+            'id' => $todo->id,
+            'completed'=>false
+        ]);
+
+        $response = $this->actingAs($user)-> followingRedirects()-> put('/todos/'.$todo->id,['id'=>$todo->id,'completed'=>'on']);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('todos',[
+            'id' => $todo->id,
+            'completed'=>true
+        ]);
+    }
+    public function test_delete_todo(): void
+    {
+        $user = User::create([
+            'name' => 'tester',
+            'email' => 'test@test.com',
+            'password' => '12345678'
+        ]);
+        $todo = Todo::create([
+            'title' => 'Homework',
+            'description' => null,
+            'completed' => false,
+            'user_id' => $user->id,
+            'due_date' => null
+        ]);
+        $this->assertDatabaseHas('todos',[
+            'id' => $todo->id,
+        ]);
+        $response = $this->actingAs($user)-> followingRedirects()-> delete('/todos/'.$todo->id,['id'=>$todo->id,'completed'=>'on']);
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('todos',[
+            'id' => $todo->id,
+        ]);
     }
 
     public function smoke_test():void{
