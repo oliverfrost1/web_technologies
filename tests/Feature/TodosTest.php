@@ -74,10 +74,8 @@ class TodosTest extends TestCase
             'due_date' => null
         ]);
         $response = $this->actingAs($notUser)-> get('/');
-
-        $response->assertDontSee('Homework');
-
         $response->assertStatus(200);
+        $response->assertDontSee('Homework');
     }
 
     public function smoke_test():void{

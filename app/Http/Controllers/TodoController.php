@@ -12,6 +12,8 @@ class TodoController extends Controller
     public function showTodoList()
     {
         $todoId = request()->id;
+        \Log::info('id:'.$todoId);
+
         $tagsOnSelectedTodo = null;
         $allTags = $this->getAllTagsOnUser();
         $unselectedTagsOnTodo = null;

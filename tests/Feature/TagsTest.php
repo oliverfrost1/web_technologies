@@ -16,6 +16,7 @@ use App\Models\Tag;
 class TagsTest extends TestCase
 {
     use RefreshDatabase;
+    //would likely benefit from setup/teardown
 
     public function test_created_tag_shows_in_side_bar(): void
     {
@@ -32,10 +33,101 @@ class TagsTest extends TestCase
         $response->assertSee('Chore');
         $response->assertStatus(200);
     }
-
-    public function test_attach_tag_shows_in_side_bar(): void
+    public function test_filter_tag_with_session(): void
     {
-        LogFake::bind();
+        $user = User::create([
+            'name' => 'testeasd',
+            'email' => 'test@test.com',
+            'password' => '12345678'
+        ]);
+        $tag = Tag::create([
+            'name' => 'Chore',
+            'user_id' =>$user->id
+        ]);
+        $todo = Todo::create([
+            'title' => 'Homework',
+            'description' => null,
+            'completed' => false,
+            'user_id' => $user->id,
+            'due_date' => null
+        ]);
+        $todo2 = Todo::create([
+            'title' => 'Play',
+            'description' => null,
+            'completed' => false,
+            'user_id' => $user->id,
+            'due_date' => null
+        ]);
+        $todo->tags()->attach($tag);
+        $response = $this->actingAs($user)-> get('/');
+        $response->assertSee('Homework');
+        $response->assertSee('Play');
+        $response = $this->actingAs($user)->withSession(['selectedTags'=>[$tag->id]])-> get('/');
+        $response->assertStatus(200);
+        $response->assertSee('Homework');
+        $response->assertDontSee('Play');
+
+    }
+
+    public function test_delete_attached_tag_removes_attachment(): void{
+        $user = User::create([
+            'name' => 'testeasd',
+            'email' => 'test@test.com',
+            'password' => '12345678'
+        ]);
+        $tag = Tag::create([
+            'name' => 'Chore',
+            'user_id' =>$user->id
+        ]);
+        $todo = Todo::create([
+            'title' => 'Homework',
+            'description' => null,
+            'completed' => false,
+            'user_id' => $user->id,
+            'due_date' => null
+        ]);
+        $todo->tags()->attach($tag);
+        $this->assertDatabaseHas('tag_todo',[
+            'tag_id' => $tag->id,
+            'todo_id'=>$todo->id
+        ]);
+        $response = $this->actingAs($user)->followingRedirects()-> delete('/tags/'.$tag->id);
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('tag_todo',[
+            'tag_id' => $tag->id,
+            'todo_id'=>$todo->id
+        ]);
+    }
+
+    public function test_update_tag_in_sidebar(): void{
+        $user = User::create([
+            'name' => 'testeasd',
+            'email' => 'test@test.com',
+            'password' => '12345678'
+        ]);
+        $tag = Tag::create([
+            'name' => 'Chore',
+            'user_id' =>$user->id
+        ]);
+        $this->assertDatabaseHas('tags',[
+            'id' => $tag->id,
+            'name' => $tag->name
+        ]);
+        $response = $this->actingAs($user)->followingRedirects()-> put('/tags/'.$tag->id, ['tagId'=>$tag->id,'tagName'=>'Fun']);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('tags',[
+            'id' => $tag->id,
+            'name' => 'Fun'
+        ]);
+        $this->assertDatabaseMissing('tags',[
+            'id' => $tag->id,
+            'name' => $tag->name
+        ]);
+    }
+
+
+    public function test_attach_tag_from_sidebar(): void
+    {
         $user = User::create([
             'name' => 'testee',
             'email' => 'test@test.com',
@@ -48,47 +140,20 @@ class TagsTest extends TestCase
             'user_id' => $user->id,
             'due_date' => null
         ]);
-        $response = $this->assertDatabaseHas('todos',[
-            'id'=>$todo->id,
-            'title'=>$todo->title
-        ]);
-        /*
         $tag = Tag::create([
             'name' => 'Chore',
             'user_id' =>$user->id
         ]);
-
-        $response = $this->assertDatabaseHas('tags',[
-            'id'=>$tag->id,
-            'name'=>$tag->name
+        $this->assertDatabaseMissing('tag_todo',[
+            'tag_id' => $tag->id,
+            'todo_id'=>$todo->id
         ]);
-        */
-        $this->actingAs($user);
-        $this->withoutMiddleware();
-        $response -> assertAuthenticatedAs($user);
-        //.'/tags',['todoid' => $todo->id,"tagName"=>$tag->name]);
-        $response = $this->actingAs($user) -> post('/todos',['id' =>$todo->id]);
-        //$response->assertStatus(200);
-        /*
-        Log::assertLogged(
-            fn (LogEntry $log) => $log->message === 'tag exists'
-        );
-
-        Log::assertLogged(
-            fn (LogEntry $log) => $log->message === 'tag & todo exists'
-        );
-        */
-        /*
-        $response->assertRedirect(route('main'));
-        //dd($response->status(),$response->content());
+        $response = $this->actingAs($user) -> followingRedirects() -> post('/todos/'.$todo->id.'/tags',['tagName'=>$tag->name,'todoid'=>$todo->id]);
         $response->assertStatus(200);
-        $response = $this->assertDatabaseHas('tag_todo',[
-            'todo_id'=>$todo->id,
-            'tag_id'=>1
+        $this->assertDatabaseHas('tag_todo',[
+            'tag_id' => $tag->id,
+            'todo_id'=>$todo->id
         ]);
-
-        $response->assertStatus(200);
-        */
     }
 
 

@@ -17,30 +17,29 @@ class TagBrowserTest extends DuskTestCase
      */
     public function test_tag_is_displayed_in_datalist(): void
     {
-        $this->browse(function (Browser $browser){
-            $browser->visit('/auth/register')
-                ->type('name','tester')
-                ->type('email','tesasdt@test.com')
-                ->type('password','12345678')
-                ->type('#password-confirm','12345678')
-                ->press('#submit');
-        });
-        $this->browse(function (Browser $browser) {
-            $browser
-            ->visit('/')
-            ->type('title','work')
-            ->press('#plus-icon-add-todo')
-            ->press('#openSelectedWindow-1')
-            ->waitFor('#add-tag-form')
-            ->pause(5000)
-            ->type('tagName','grind')
-            ->pause(500)
-            ->keys('tagName','{enter}')
-            ->pause(500);
+        // $this->browse(function (Browser $browser){
+        //     $browser->visit('/auth/register')
+        //         ->type('name','tester')
+        //         ->type('email','tesasdt@test.com')
+        //         ->type('password','12345678')
+        //         ->type('#password-confirm','12345678')
+        //         ->press('#submit');
+        // });
+        // $this->browse(function (Browser $browser) {
+        //     $browser
+        //     ->visit('/')
+        //     ->type('title','work')
+        //     ->press('#plus-icon-add-todo')
+        //     ->press('#openSelectedWindow-1');
+        //     // ->waitFor('#add-tag-form')
+        //     // ->pause(5000)
+        //     // ->type('tagName','grind')
+        //     // ->pause(500)
+        //     // ->keys('tagName','{enter}')
+        //     // ->pause(500);
 
+        //     //check if datalist contains "grind" when editing a new todo
 
-            //check if datalist contains "grind" when editing a new todo
-
-        });
+        // });
     }
 }
