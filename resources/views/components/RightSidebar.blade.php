@@ -1,6 +1,6 @@
 @props(['todo', 'tags', 'unselectedTags'])
 
-<div class="sidebar-holder" id="sidebar-holder">
+<aside class="sidebar-holder" id="sidebar-holder">
     @if ($todo)
         <a href="{{ route('main') }}"><i class="fa-solid fa-circle-xmark icon-color"></i></a>
         <form class="sidebar-form" method="post" accept-charset="UTF-8"
@@ -69,4 +69,4 @@
             edit it.</div>
     @endif
     <script src="{{ asset('js/rightSidebarTagHandler.js') }}" defer></script>
-</div>
+</aside>

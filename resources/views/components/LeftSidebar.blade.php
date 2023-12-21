@@ -1,5 +1,5 @@
 @props(['allTags', 'filterTags', 'isSorted'])
-<div class="sidebar-holder">
+<aside class="sidebar-holder">
     <label class="sidebar-label" for="tags"><i class="fa-solid fa-filter"></i> Filters</label>
     <form method="get" action="{{ route('toggleCompletedTodosVisibility') }}" accept-charset="UTF-8">
         @method('PUT')
@@ -49,4 +49,4 @@
     @endforeach
     <script src="{{ asset('js/leftSidebarTagCRUDHandler.js') }}" defer></script>
 
-</div>
+</aside>

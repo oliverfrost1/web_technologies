@@ -1,7 +1,7 @@
 @extends('Layout')
 
 @section('content')
-    <div class="container center-page">
+    <section class="container center-page">
 
         <h2>Login</h2>
         <form action="{{ route('login') }}" method="POST">
@@ -25,5 +25,5 @@
                 <button type="submit" class="todo-button">Login</button>
             </div>
         </form>
-    </div>
+    </section>
 @stop

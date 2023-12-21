@@ -10,8 +10,12 @@
 </head>
 
 <body>
-    <x-TopBar />
-    @yield('content')
+    <header>
+        <x-TopBar />
+    </header>
+    <main>
+        @yield('content')
+    </main>
 </body>
 
 </html>
