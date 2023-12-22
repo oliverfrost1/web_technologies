@@ -45,13 +45,9 @@ class TagServiceImpl implements TagService
     {
         $user = $this->getAuthenticatedUser();
 
-        $query = Tag::query();
-
-        if ($user && ! $user->isAdmin()) {
-            $query->where('user_id', $user->id);
-        }
-
-        return $this->getUnrelatedTagsForTodo($query, $todoId);
+        return ($user && ! $user->isAdmin())
+            ? $this->getUnrelatedTagsForTodo(Tag::query()->where('user_id', $user->id), $todoId)
+            : [];
     }
 
     public function createOrAttachTag($tagName, $todoId)
@@ -62,7 +58,7 @@ class TagServiceImpl implements TagService
             return false;
         }
 
-        $isTagAlreadyAttached = $todo->tags()->where('name', $tagName)->first();
+        $isTagAlreadyAttached = $todo->tags()->where('name', $tagName)->exists();
 
         if ($isTagAlreadyAttached) {
             return false;
