@@ -20,7 +20,7 @@ class UserTest extends DuskTestCase
     */
     public function testRegister(): void
     {
-        $delay = 0;
+        $delay = 500;
         $this->browse(function (Browser $browser) use ($delay){
             $browser->visit('/auth/register')
                 ->type('name','tester')
@@ -38,14 +38,15 @@ class UserTest extends DuskTestCase
     }
     public function test_add_todo_without_logging_in(): void
     {
-        $delay = 0;
+        $delay = 500;
         $this->browse(function (Browser $browser) use ($delay){
             $browser->visit('/')
                 ->press('#logout-button')
                 ->type('title','work')
                 ->press('#plus-icon-add-todo')
                 ->assertSee('You need to log in to create a todo.')
-                ->assertDontSee('work');
+                ->assertDontSee('work')
+                ->pause($delay);
         });
 
     }
@@ -55,12 +56,7 @@ class UserTest extends DuskTestCase
     */
     public function testRegisterExistingEmail(): void
     {
-        $user = User::create([
-            'email' => 'test@test.com',
-            'name' => 'tester',
-            'password' => '12345678'
-        ]);
-        $delay = 0;
+        $delay = 500;
         $this->browse(function (Browser $browser) use ($delay){
             $browser->visit('/auth/register')
                 ->type('name','tester')
@@ -79,7 +75,8 @@ class UserTest extends DuskTestCase
                 ->pause($delay)
                 ->press('#submit')
                 ->pause($delay)
-                ->assertSee('The email has already been taken');
+                ->assertSee('The email has already been taken')
+                ->pause($delay);
         });
 
     }
@@ -94,7 +91,7 @@ class UserTest extends DuskTestCase
             'name' => 'tester',
             'password' => '12345678'
         ]);
-        $delay = 0;
+        $delay = 500;
         $this->browse(function (Browser $browser) use ($delay, $user){
             $browser->visit('/auth/login')
                 ->type('email',$user->email)

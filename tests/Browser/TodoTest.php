@@ -26,10 +26,12 @@ class TodoTest extends DuskTestCase
             ->type('title','Play')
             ->press('#plus-icon-add-todo')
             ->check('#changeCompletionStatus-1')
+            ->pause(500)
             ->press('#hide-completed')
+            ->pause(500)
             ->assertDontSee('Play')
             ->press('#hide-completed')
-            ->pause(100)
+            ->pause(500)
             ->assertSee('Play');
         });
     }
