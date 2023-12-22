@@ -10,8 +10,8 @@ export default function TodoElement({ todo }: Readonly<TodoElementProps>) {
     const theme = useTheme();
     return (
         <Card
+            className="card"
             sx={{
-                margin: "10px",
                 border: "2px solid " + theme.palette.primary.main,
                 color: theme.palette.secondary.contrastText,
             }}

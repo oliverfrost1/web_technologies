@@ -43,4 +43,4 @@ Route::put('tags/{id}', [TodoController::class, 'updateTag'])->name('updateTag')
 Route::get('tags/filter', [TodoController::class, 'changeSelectedTags'])->name('filterByTags');
 
 // Kanban board routes
-Route::get('kanban', KanbanController::class . '@showKanban')->name('kanban');
+Route::get('kanban', KanbanController::class . '@showKanban')->middleware('auth.basic')->name('kanban');
