@@ -28,13 +28,6 @@ class TodoServiceImpl implements TodoService
         return Todo::find($id);
     }
 
-    public function getAttachedTagsForTodoByTodoId($todoId)
-    {
-        $todo = Todo::find($todoId);
-
-        return $todo->tags;
-    }
-
     public function createTodo($title, $dueDate, $userId)
     {
         return Todo::create([
@@ -58,7 +51,7 @@ class TodoServiceImpl implements TodoService
 
     public function toggleTodoCompletionStatus($id)
     {
-        $todo = Todo::find($id);
+        $todo = $this->getTodoById($id);
         $todo->completed = ! $todo->completed;
         $todo->save();
     }
@@ -103,7 +96,7 @@ class TodoServiceImpl implements TodoService
 
     private function findTodoAndAuthorize($id, $userId, $isAdmin)
     {
-        $todo = Todo::find($id);
+        $todo = $this->getTodoById($id);
         if ($todo && ($todo->user_id === $userId || $isAdmin)) {
             return $todo;
         }

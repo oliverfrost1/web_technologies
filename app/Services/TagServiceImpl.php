@@ -32,7 +32,13 @@ class TagServiceImpl implements TagService
 
     public function getTagsAssociatedWithTodo($todoId)
     {
-        return $this->todoService->getAttachedTagsForTodoByTodoId($todoId);
+        $todo = $this->todoService->getTodoById($todoId);
+
+        if (! $todo) {
+            return [];
+        }
+
+        return $todo->tags;
     }
 
     public function getTagsNotAssociatedWithTodo($todoId)
