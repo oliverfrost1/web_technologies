@@ -104,12 +104,4 @@ class TodoServiceImpl implements TodoService
         return null;
     }
 
-    private function getTodosAssociatedWithTag($tagIds)
-    {
-        $todos = Todo::whereHas('tags', function ($query) use ($tagIds) {
-            $query->whereIn('tags.id', $tagIds);
-        })->get();
-
-        return $todos;
-    }
 }
