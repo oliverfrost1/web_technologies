@@ -1,21 +1,7 @@
-import React, { useCallback, useContext, useMemo, useState } from "react";
-import {
-    DragDropContext,
-    Draggable,
-    DropResult,
-    Droppable,
-} from "@hello-pangea/dnd";
+import React, { useCallback, useContext, useState } from "react";
+import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { KanbanBoardContext } from "./KanbanBoardProvider";
-import {
-    Alert,
-    Box,
-    BoxProps,
-    Fade,
-    Grid,
-    Typography,
-    useTheme,
-} from "@mui/material";
-import TodoElement from "./TodoElement";
+import { Alert, Fade, Grid } from "@mui/material";
 import { TodoStatus } from "../types/todoTypes";
 import { updateTodo } from "../api/KanbanApiEndpoints";
 import ErrorSnackbar from "./ErrorSnackbar";
