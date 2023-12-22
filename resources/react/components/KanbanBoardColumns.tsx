@@ -19,6 +19,7 @@ import TodoElement from "./TodoElement";
 import { TodoStatus } from "../types/todoTypes";
 import { updateTodo } from "../api/KanbanApiEndpoints";
 import ErrorSnackbar from "./ErrorSnackbar";
+import KanbanBoardColumn from "./KanbanBoardColumn";
 
 export default function KanbanBoardColumns() {
     const {
@@ -31,19 +32,8 @@ export default function KanbanBoardColumns() {
         refetch,
         fetchingTodoError,
     } = useContext(KanbanBoardContext);
-    const theme = useTheme();
-    const [error, setError] = useState<string | null>(null);
 
-    const kanbanColumnStyling: BoxProps["sx"] = useMemo(() => {
-        return {
-            minHeight: "100px",
-            padding: "5px",
-            border: "3px solid " + theme.palette.primary.main,
-            borderRadius: "5px",
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
-        };
-    }, [theme]);
+    const [error, setError] = useState<string | null>(null);
 
     const updateTodoInDatabase = useCallback(
         async (todoId: number, newStatus: TodoStatus) => {
@@ -123,97 +113,13 @@ export default function KanbanBoardColumns() {
             </Fade>
             <Grid container spacing={2} sx={{ height: "100%" }}>
                 <Grid item xs={4}>
-                    <Droppable droppableId="todo">
-                        {(provided) => (
-                            <Box
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                                sx={kanbanColumnStyling}
-                            >
-                                <Typography variant="h5">Todo</Typography>
-                                {todo.map((todo, index) => (
-                                    <Draggable
-                                        draggableId={todo.id.toString()}
-                                        index={index}
-                                        key={todo.id}
-                                    >
-                                        {(provided) => (
-                                            <Box
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                <TodoElement todo={todo} />
-                                            </Box>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </Box>
-                        )}
-                    </Droppable>
+                    <KanbanBoardColumn todoElements={todo} title="Todo" />
                 </Grid>
                 <Grid item xs={4}>
-                    <Droppable droppableId="doing">
-                        {(provided) => (
-                            <Box
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                                sx={kanbanColumnStyling}
-                            >
-                                <Typography variant="h5">Doing</Typography>
-                                {doing.map((todo, index) => (
-                                    <Draggable
-                                        draggableId={todo.id.toString()}
-                                        index={index}
-                                        key={todo.id}
-                                    >
-                                        {(provided) => (
-                                            <Box
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                <TodoElement todo={todo} />
-                                            </Box>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </Box>
-                        )}
-                    </Droppable>
+                    <KanbanBoardColumn todoElements={doing} title="Doing" />
                 </Grid>
                 <Grid item xs={4}>
-                    <Droppable droppableId="done">
-                        {(provided) => (
-                            <Box
-                                ref={provided.innerRef}
-                                {...provided.droppableProps}
-                                sx={kanbanColumnStyling}
-                            >
-                                <Typography variant="h5">Done</Typography>
-                                {done.map((todo, index) => (
-                                    <Draggable
-                                        draggableId={todo.id.toString()}
-                                        index={index}
-                                        key={todo.id}
-                                    >
-                                        {(provided) => (
-                                            <Box
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                <TodoElement todo={todo} />
-                                            </Box>
-                                        )}
-                                    </Draggable>
-                                ))}
-                                {provided.placeholder}
-                            </Box>
-                        )}
-                    </Droppable>
+                    <KanbanBoardColumn todoElements={done} title="Done" />
                 </Grid>
             </Grid>
         </DragDropContext>
