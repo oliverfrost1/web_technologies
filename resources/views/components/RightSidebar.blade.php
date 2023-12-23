@@ -4,7 +4,7 @@
     @if ($todo)
         <a href="{{ route('main') }}"><i class="fa-solid fa-circle-xmark icon-color"></i></a>
         <form class="sidebar-form" method="post" accept-charset="UTF-8"
-            action="{{ route('updateTodoFields', ['id' => $todo->id]) }}">
+            action="{{ route('updateTodo', ['id' => $todo->id]) }}">
             @csrf
             @method('PUT')
             <div class="sidebar-form-row">
@@ -36,7 +36,7 @@
                 <div class="tag-holder">
                     @foreach ($tags as $tag)
                         <form class="sidebar-form"
-                            action="{{ route('removeTagFromTodo', ['todoId' => $todo->id, 'tagId' => $tag->id]) }}"
+                            action="{{ route('detachTagFromTodo', ['todoId' => $todo->id, 'tagId' => $tag->id]) }}"
                             method="POST">
                             @csrf
                             @method('DELETE')
@@ -47,13 +47,17 @@
                         </form>
                     @endforeach
                 </div>
-                <form class="sidebar-form" id="add-tag-form" action="{{ route('addNewTag', ['id' => $todo->id]) }}"
-                    method="post">
+                <form class="sidebar-form" id="add-tag-form"
+                    action="{{ route('createOrAttachTagToTodo', ['id' => $todo->id]) }}" method="post">
                     @csrf
                     <input list="tag-choices" id="tagName" name="tagName" autocomplete="off" required />
                     <datalist id="tag-choices">
                         @foreach ($unselectedTags as $unselectedTag)
-                            <option value="{{ $unselectedTag->name }}"></option>
+                            <option value="{{ $unselectedTag->name }}">
+                                @if (auth()->user()->isAdmin())
+                                    UID: {{ $unselectedTag->user_id }}
+                                @endif
+                            </option>
                         @endforeach
                     </datalist>
                     <input type="hidden" name="todoid" value="{{ $todo->id }}">

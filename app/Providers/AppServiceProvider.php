@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Services\Contracts\TagService;
+use App\Services\Contracts\TodoService;
+use App\Services\TagServiceImpl;
+use App\Services\TodoServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(TagService::class, TagServiceImpl::class);
+        $this->app->bind(TodoService::class, TodoServiceImpl::class);
     }
 
     /**
