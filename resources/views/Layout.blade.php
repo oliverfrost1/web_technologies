@@ -11,10 +11,14 @@
 
 <body>
     @foreach (glob(resource_path('views/modals/*.blade.php')) as $file)
-        @include('modals.'.basename($file, '.blade.php'))
+    @include('modals.'.basename($file, '.blade.php'))
     @endforeach
-    <x-TopBar />
-    @yield('content')
+    <header>
+        <x-TopBar />
+    </header>
+    <main>
+        @yield('content')
+    </main>
 </body>
 
 </html>

@@ -1,45 +1,32 @@
-<div id="registerModal" class="modal">
+<section id="registerModal" class="modal">
     <div class="modal-content center-page">
         <span class="close">&times;</span>
         <h2>Register</h2>
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+        <form id="registerFormAjax" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="input-row-container">
                 <label for="name">Name</label>
-                <input type="text" name="name" value="{{ old('name') }} " class="text-input-container" required
-                    autofocus>
-                @error('name')
-                <span>{{ $message }}</span>
-                @enderror
+                <input type="text" name="name" class="text-input-container" autofocus>
             </div>
+            <div id="name-error" style="color: red;"></div>
             <div class="input-row-container">
                 <label for="email">Email Address</label>
-                <input type="email" name="email" value="{{ old('email') }}" class="text-input-container" required>
+                <input type="email" name="email" class="text-input-container">
             </div>
+            <div id="email-error" style="color: red;"></div>
             <div class="input-row-container">
                 <label for="password">Password</label>
-                <input type="password" name="password" class="text-input-container" required>
+                <input type="password" name="password" class="text-input-container">
             </div>
             <div class="input-row-container">
                 <label for="password_confirmation">Confirm Password</label>
-                <input type="password" name="password_confirmation" class="text-input-container" required>
+                <input type="password" name="password_confirmation" class="text-input-container">
             </div>
+            <div id="password-error" style="color: red;"></div>
             <div class="center-children-in-parent">
                 <button type="submit" class="todo-button">Register</button>
             </div>
-            <div class="error-message">
-                @error('name')
-                <span>Name error: {{ $message }}</span>
-                @enderror
-
-                @error('email')
-                <span>Email error: {{ $message }}</span>
-                @enderror
-
-                @error('password')
-                <span>Password error: {{ $message }}</span>
-                @enderror
-            </div>
         </form>
     </div>
-</div>
+</section>
+<script src="{{ asset('js/register.js') }}"></script>

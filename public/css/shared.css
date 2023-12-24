@@ -282,7 +282,8 @@ h4 {
   .modal-content {
     background-color: #555;
     margin: auto;
-    padding: 5px;
+    padding-top: 5px;
+    padding-bottom: 50px;
     border: 1px solid #888;
     width: 40%;
   }

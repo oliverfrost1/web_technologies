@@ -1,34 +1,32 @@
-var btn = document.getElementById("login-form");
-
-btn.onclick = function() {
+document.getElementById('LoginFormAjax').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    var all = $(this).serialize();
+    let formData = new FormData(this);
+    let csrf = this.querySelector('input[name="_token"]').value;
 
-    $.ajax({
-            url: $(this).attr('action'),
-            type: "POST",
-            data: all,
-            beforeSend: function() {
-                $(document).find('span.error-text').text('');
-            },
+    fetch('auth/login', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrf
+        },
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = '/';
+            } else {
+                displayLoginError(data.message);
+            }
+        })
+        .catch(error => {
+            displayLoginError('An error occurred.');
+        });
+});
 
-            success: function(data) {
-                if (data.status == 0) {
-                    $.each(data.error, function(prefix, val) {
-                        $('span.' + prefix + '_error').text(val[0]);
-                    });
-                }
-
-                if (data == 1) {
-                    window.location.replace(
-                        '{{route("dashboard.index")}}'
-                    );
-                } else if (data == 2) {
-                    $("#show_error").hide().html("Invalid login details ");
-                    }
-                }
-            })
-
-    });
-
+function displayLoginError(message) {
+    const errorElement = document.querySelector('#login-error');
+    if (errorElement) {
+        errorElement.textContent = message;
+    }
+}
