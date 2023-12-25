@@ -2,14 +2,18 @@ document.getElementById('LoginFormAjax').addEventListener('submit', function (e)
     e.preventDefault();
 
     let formData = new FormData(this);
-    let csrf = this.querySelector('input[name="_token"]').value;
 
     fetch('auth/login', {
         method: 'POST',
         headers: {
-            'X-CSRF-TOKEN': csrf
+            "Content-type": "application/json",
+            "Accept": "application/json"
         },
-        body: formData
+        body: JSON.stringify({
+            email: formData.get('email'),
+            password: formData.get('password'),
+            _token: formData.get('_token')
+        })
     })
         .then(response => response.json())
         .then(data => {
