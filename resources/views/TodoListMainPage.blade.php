@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     @error('createError')
-                        <p style="color:red;">{{ $message }}</p>
+                        <p class="error-message">{{ $message }}</p>
                     @enderror
                 </div>
             </form>

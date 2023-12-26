@@ -1,7 +1,7 @@
 @extends('Layout')
 
 @section('content')
-    <div class="center-page">
+    <section class="center-page">
         <h2>Profile Settings</h2>
         <h4>
             Profile created on: {{ Auth::user()->created_at->format('j F Y') }}
@@ -46,5 +46,5 @@
             <div class="feedback-message error-message">{{ $errors->first() }}</div>
         @endif
 
-    </div>
+    </section>
 @stop
