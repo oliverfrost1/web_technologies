@@ -7,11 +7,13 @@ import TodoElement from "./TodoElement";
 type Props = {
     todoElements: Todo[];
     title: string;
+    id: string;
 };
 
 export default function KanbanBoardColumn({
     todoElements,
     title,
+    id,
 }: Readonly<Props>) {
     const theme = useTheme();
 
@@ -24,7 +26,7 @@ export default function KanbanBoardColumn({
     }, [theme]);
 
     return (
-        <Droppable droppableId="done">
+        <Droppable droppableId={id}>
             {(provided) => (
                 <Box
                     ref={provided.innerRef}

@@ -97,15 +97,27 @@ export default function KanbanBoardColumns() {
             <Fade in={!!fetchingTodoError} mountOnEnter>
                 <Alert severity="error">{fetchingTodoError}</Alert>
             </Fade>
-            <Grid container spacing={2} sx={{ height: "100%" }}>
+            <Grid container spacing={2}>
                 <Grid item xs={4}>
-                    <KanbanBoardColumn todoElements={todo} title="Todo" />
+                    <KanbanBoardColumn
+                        todoElements={todo}
+                        title="Todo"
+                        id="todo"
+                    />
                 </Grid>
                 <Grid item xs={4}>
-                    <KanbanBoardColumn todoElements={doing} title="Doing" />
+                    <KanbanBoardColumn
+                        todoElements={doing}
+                        title="Doing"
+                        id="doing"
+                    />
                 </Grid>
                 <Grid item xs={4}>
-                    <KanbanBoardColumn todoElements={done} title="Done" />
+                    <KanbanBoardColumn
+                        todoElements={done}
+                        title="Done"
+                        id="done"
+                    />
                 </Grid>
             </Grid>
         </DragDropContext>
