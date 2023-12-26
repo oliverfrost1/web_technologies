@@ -2,7 +2,7 @@
 <aside class="sidebar-holder">
     <label class="sidebar-label" for="tags"><i class="fa-solid fa-filter"></i> Filters</label>
     <form method="get" action="{{ route('filter-todos') }}" accept-charset="UTF-8">
-        <input class="sidebar-button" type="submit"
+        <input id="hide-completed" class="sidebar-button" type="submit"
             value="{{ $isSorted ? 'Show Completed Todos' : 'Hide Completed Todos' }}">
     </form>
     <br />

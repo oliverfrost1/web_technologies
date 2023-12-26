@@ -7,7 +7,7 @@
             @csrf
             <div class="input-row-container">
                 <label for="name">Name</label>
-                <input type="text" name="name" value="{{ old('name') }} " class="text-input-container" required
+                <input id="name" type="text" name="name" value="{{ old('name') }} " class="text-input-container" required
                     autofocus>
                 @error('name')
                     <span>{{ $message }}</span>
@@ -15,18 +15,18 @@
             </div>
             <div class="input-row-container">
                 <label for="email">Email Address</label>
-                <input type="email" name="email" value="{{ old('email') }}" class="text-input-container" required>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" class="text-input-container" required>
             </div>
             <div class="input-row-container">
                 <label for="password">Password</label>
-                <input type="password" name="password" class="text-input-container" required>
+                <input id="password" type="password" name="password" class="text-input-container" required>
             </div>
             <div class="input-row-container">
                 <label for="password_confirmation">Confirm Password</label>
-                <input type="password" name="password_confirmation" class="text-input-container" required>
+                <input id="password-confirm" type="password" name="password_confirmation" class="text-input-container" required>
             </div>
             <div class="center-children-in-parent">
-                <button type="submit" class="todo-button">Register</button>
+                <button id="submit" type="submit" class="todo-button">Register</button>
             </div>
             <div class="error-message">
                 @error('name')

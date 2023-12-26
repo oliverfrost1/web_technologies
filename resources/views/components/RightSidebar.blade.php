@@ -47,7 +47,7 @@
                         </form>
                     @endforeach
                 </div>
-                <form class="sidebar-form" id="add-tag-form" action="{{ route('addNewTag', ['id' => $todo->id]) }}"
+                <form class="sidebar-form" id="dd-tag-form" action="{{ route('addNewTag', ['id' => $todo->id]) }}"
                     method="post">
                     @csrf
                     <input list="tag-choices" id="tagName" name="tagName" autocomplete="off" required />
