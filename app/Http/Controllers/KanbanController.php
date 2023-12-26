@@ -16,7 +16,16 @@ class KanbanController extends Controller
     {
         $newStatus = request()->status;
         $todo = Todo::find($id);
-        if(!$todo) {
+        $userId = auth()->user()->id;
+
+        // Validate user id
+        if ($todo->user_id !== $userId) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        if (!$todo) {
             return response()->json([
                 'message' => 'Todo not found'
             ], 404);
@@ -27,7 +36,7 @@ class KanbanController extends Controller
         ]);
 
         // Also update completed status
-        if(
+        if (
             $newStatus === 'todo' || $newStatus === 'doing'
         ) {
             $todo->update([
@@ -44,7 +53,7 @@ class KanbanController extends Controller
 
         $result = $todo->save();
 
-        if(!$result) {
+        if (!$result) {
             return response()->json([
                 'message' => 'Todo update failed'
             ], 500);
