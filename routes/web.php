@@ -8,9 +8,7 @@ use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
 // Authentication routes
-Route::get('auth/register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
 Route::post('auth/register', [RegisterController::class, 'register'])->name('register');
-Route::get('auth/login', [AuthController::class, 'show'])->name('login');
 Route::post('auth/login', [AuthController::class, 'authenticate'])->name('login');
 Route::post('auth/logout', [AuthController::class, 'logout'])->name('logout');
 

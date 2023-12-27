@@ -9,12 +9,7 @@ use Illuminate\Support\Facades\View;
 
 class AuthController extends Controller
 {
-    public function show()
-    {
-        return View::make('login');
-    }
-
-    public function authenticate(Request $request): RedirectResponse
+    public function authenticate(Request $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -22,14 +17,11 @@ class AuthController extends Controller
         ]);
 
         if (auth()->attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->route('main');
+            // print to console
+            return response()->json(['success' => true]);
         }
 
-        return back()->withErrors([
-            'credential' => 'The provided credentials do not match our records.',
-        ]);
+        return response()->json(['success' => false, 'message' => 'Invalid credentials'], 401);
     }
 
     public function logout(Request $request)

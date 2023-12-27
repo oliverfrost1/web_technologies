@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -11,22 +12,23 @@ use Illuminate\Support\Facades\View;
 
 class RegisterController extends Controller
 {
-    public function showRegistrationForm()
-    {
-        return View::make('register');
-    }
-
     public function register(Request $request)
     {
-        $this->validator($request->all())->validate();
+
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $messages = $validator->messages();
+            return response()->json(['success' => false, 'message' => $messages], 401);
+        }
 
         $user = $this->create($request->all());
 
-        // Log the user in
         auth()->login($user);
 
-        return redirect()->route('main');
+        return response()->json(['success' => true]);
     }
+
 
     protected function validator(array $data)
     {
