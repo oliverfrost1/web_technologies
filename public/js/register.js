@@ -13,6 +13,7 @@ document.getElementById('registerFormAjax').addEventListener('submit', function 
             name: formData.get('name'),
             email: formData.get('email'),
             password: formData.get('password'),
+            password_confirmation: formData.get('password_confirmation'),
             _token: formData.get('_token')
         })
     })

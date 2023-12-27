@@ -1,4 +1,4 @@
-<div class="topbar">
+<nav class="topbar">
     <div class="top-bar-left">
         <h1>
             <a href="{{ route('main') }}" class="button"> <i class="fa-solid fa-house-circle-check"></i> Todo List </a>
@@ -22,4 +22,4 @@
         @endauth
     </div>
     <script src="{{ asset('js/topbar.js') }}"></script>
-</div>
+</nav>

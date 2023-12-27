@@ -13,7 +13,7 @@
                 <label for="password">Password:</label>
                 <input type="password" name="password" required class="text-input-container">
             </div>
-            <div id="login-error" style="color: red;"></div>
+            <div id="login-error" class="error-message"></div>
             <div class="center-children-in-parent">
                 <button type="submit" class="todo-button">Login</button>
             </div>

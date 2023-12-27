@@ -36,8 +36,8 @@ body {
 }
 
 .todolist-holder {
-    min-width:400px;
-    max-width:400px;
+    min-width: 400px;
+    max-width: 400px;
 }
 
 .todo-adder-form-layout {
@@ -100,8 +100,6 @@ body {
     flex-wrap: nowrap;
     box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
 }
-
-
 
 .add-todo-date-picker {
     background-color: #f89100;
@@ -228,14 +226,15 @@ body {
     transition: 0.2s;
 }
 
-h2,h3,
+h2,
+h3,
 h4 {
     color: white;
 }
 
 .padding-top-and-bottom {
     padding-top: 4px;
-    padding-bottom:4px;
+    padding-bottom: 4px;
 }
 
 .feedback-message {
@@ -256,13 +255,20 @@ h4 {
     color: red;
 }
 
-.admin-page-table, .admin-page-table th, .admin-page-table td, .admin-page-table tr {
+.admin-page-table,
+.admin-page-table th,
+.admin-page-table td,
+.admin-page-table tr {
     border: 2px solid #555;
     border-collapse: collapse;
     border-radius: 10px;
     padding: 5px;
     color: white;
     background-color: #f89100;
+}
+
+.icon-color {
+    color: white;
 }
 
 .modal {
